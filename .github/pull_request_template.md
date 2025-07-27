@@ -6,12 +6,13 @@
 
 Selecione uma ou mais opções:
 
-- [ ] Bugfix (correção de um bug)  
+- [ ] Chore/Configuração (setup do projeto, ajustes técnicos, ambiente)  
+- [ ] Refatoração (melhorias internas sem mudar funcionalidades)  
 - [ ] Nova funcionalidade (feature)  
-- [ ] Refatoração (alteração no código que não corrige nem adiciona funcionalidades)  
+- [ ] Bugfix (correção de um bug)  
 - [ ] Documentação  
-- [ ] Chore/Configuração (tarefas de setup, ajustes técnicos, configs de ambiente, etc.)  
 - [ ] Outro (especifique abaixo)
+
 
 ## 📝 Observações
 
