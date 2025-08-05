@@ -1,68 +1,750 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+/* Reset e Estilos Globais */
+* {
+  box-sizing: border-box;
 }
 
 body {
-  margin: 0;
+  font-family: "Inter", sans-serif;
+  background-color: #f0f4f8;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
+  margin: 0;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Estrutura do Mockup */
+.phone-mockup {
+  width: 100%;
+  max-width: 400px;
+  height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  background-color: white;
+  border-radius: 2.5rem;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+.main-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.screen {
+  display: none;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+
+.screen.active {
+  display: flex;
+}
+
+/* Cabeçalho de Navegação */
+.header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #ff7f27;
+  color: white;
+}
+
+.header-nav.hidden {
+  display: none;
+}
+
+.header-back-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.header-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.header-spacer {
+  width: 2rem;
+}
+
+/* Navegação Inferior */
+.bottom-nav {
+  background-color: white;
+  border-top: 1px solid #e5e7eb;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.bottom-nav.hidden {
+  display: none;
+}
+
+.nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-icon {
+  color: #ccc;
+  font-size: 1.5rem;
+}
+
+.nav-icon.active {
+  color: #ff7f27;
+}
+
+.nav-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Componentes Comuns */
+.form-container {
+  margin-top: 1rem;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-input {
+  margin-top: 0.25rem;
+  padding: 0.75rem;
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #ff7f27;
+  box-shadow: 0 0 0 2px #ff7f27;
+}
+
+.form-link-right {
+  font-size: 0.875rem;
+  color: #ff7f27;
+  float: right;
+  margin-top: 0.5rem;
+}
+
+.main-button {
+  background-color: #ff7f27;
+  color: white;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.main-button:hover {
+  background-color: #e66f1e;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.divider-line {
+  flex-grow: 1;
+  border-color: #d1d5db;
+  border-width: 1px;
+}
+
+.divider-text {
+  margin: 0 1rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.google-button {
+  background-color: white;
+  color: #4b5563;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.google-button:hover {
+  background-color: #f9fafb;
+}
+
+.google-button i {
+  font-size: 1.125rem;
+  margin-right: 0.5rem;
+}
+
+.signup-text {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.signup-label {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.signup-link {
+  color: #ff7f27;
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-left: 0.25rem;
+}
+
+.features-list {
+  margin-top: 2rem;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.feature-item i {
+  color: #22c55e;
+  margin-right: 0.5rem;
+}
+
+.feature-text {
+  color: #4b5563;
+}
+
+/* Telas Específicas */
+/* Login/Signup Header */
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: white;
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+}
+
+.login-logo {
+  width: 5rem;
+  height: 5rem;
+  background-color: #ff7f27;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.login-logo i {
+  color: white;
+  font-size: 2.25rem;
+}
+
+.login-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  color: #1f2937;
+}
+
+.login-subtitle {
+  text-align: center;
+  margin-top: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+/* Tela de Cadastro de Compras */
+.cadastro-header {
+  background-color: white;
+  padding: 1.5rem;
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.cadastro-header .cadastro-logo {
+  width: 5rem;
+  height: 5rem;
+  background-color: #ff7f27;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cadastro-header .cadastro-logo i {
+  color: white;
+  font-size: 2.25rem;
+}
+
+.cadastro-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  color: #1f2937;
+  text-align: center;
+}
+
+.cadastro-subtitle {
+  text-align: center;
+  margin-top: 0.25rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.cadastro-buttons {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1rem;
+}
+
+.cadastro-camera-button {
+  background-color: #ff7f27;
+  color: white;
+  padding: 1rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.cadastro-camera-button:hover {
+  background-color: #e66f1e;
+}
+
+.cadastro-camera-button i {
+  font-size: 1.125rem;
+  margin-right: 0.5rem;
+}
+
+.cadastro-gallery-button {
+  background-color: #8b5cf6;
+  color: white;
+  padding: 1rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.cadastro-gallery-button:hover {
+  background-color: #7c44d9;
+}
+
+.cadastro-gallery-button i {
+  font-size: 1.125rem;
+  margin-right: 0.5rem;
+}
+
+.cadastro-ocr {
+  margin-top: 2rem;
+  padding: 0 1rem;
+}
+
+.cadastro-ocr-label {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.manual-cadastro-container {
+  padding: 1.5rem;
+}
+
+.manual-cadastro-button {
+  background-color: #22c55e;
+  color: white;
+  padding: 1rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.manual-cadastro-button:hover {
+  background-color: #1c9b4e;
+}
+
+.manual-cadastro-button i {
+  font-size: 1.125rem;
+  margin-right: 0.5rem;
+}
+
+/* Componentes de Relatórios e Listas */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.stat-card {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  color: white;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.stat-total-purchases {
+  background-color: #4b5563;
+}
+
+.stat-total-value {
+  background-color: #8b5cf6;
+}
+
+.stat-avg-ticket {
+  background-color: #2563eb;
+}
+
+.stat-month-spending {
+  background-color: #ec4899;
+}
+
+.stat-total-6-months {
+  background-color: #22c55e;
+}
+
+.stat-items-analyzed {
+  background-color: #3b82f6;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+}
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.search-container {
+  position: relative;
+  margin-top: 1.5rem;
+  padding: 0 1rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  outline: none;
+}
+
+.search-input:focus {
+  box-shadow: 0 0 0 2px #ff7f27;
+  border-color: #ff7f27;
+}
+
+.search-icon {
+  position: absolute;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+}
+
+.filter-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0 1rem;
+}
+
+.filter-select {
+  flex-grow: 1;
+}
+
+.purchase-list {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1rem;
+}
+
+.purchase-item {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.purchase-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.purchase-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.purchase-date {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.purchase-details {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.purchase-price {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.purchase-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.purchase-details-button {
+  background-color: #22c55e;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px; /* full-rounded */
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.purchase-details-button:hover {
+  background-color: #1c9b4e;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-button-edit {
+  background-color: #fcd34d;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.action-button-edit:hover {
+  background-color: #facc15;
+}
+
+.action-button-delete {
+  background-color: #ef4444;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.action-button-delete:hover {
+  background-color: #dc2626;
+}
+
+/* Abas de Relatórios */
+.report-tabs {
+  display: flex;
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin: 0 -1.5rem;
+  width: calc(100% + 3rem);
+}
+
+.report-tab-button {
+  width: 50%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: #6b7280;
+  font-weight: 700;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.report-tab-button.active {
+  background-color: #ff7f27;
+  color: white;
+}
+
+.report-filters {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.report-summary-card {
+  margin-top: 1.5rem;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.report-summary-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.report-summary-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #374151;
+}
+
+.report-summary-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.report-summary-item span:last-child {
+  font-weight: 600;
+}
+
+/* Componente de Select Customizado */
+.custom-select-container {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select {
+  display: block;
+  appearance: none;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  padding: 0.75rem 1rem;
+  padding-right: 2.5rem;
+  border-radius: 0.5rem;
+  line-height: 1.25;
+  outline: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.custom-select:focus {
+  background-color: white;
+  border-color: #6b7280;
+}
+
+.custom-select-icon {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  color: #374151;
 }
