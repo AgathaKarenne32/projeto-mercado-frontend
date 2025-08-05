@@ -1,5 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
+:root {
+  --color-primary: #ff7f27;
+  --color-secondary: #4b5563;
+  --color-accent: #8b5cf6;
+  --color-background: #f0f4f8;
+  --color-text: #1f2937;
+  --color-text-secondary: #6b7280;
+  --color-border: #d1d5db;
+}
+
 /* Reset e Estilos Globais */
 * {
   box-sizing: border-box;
