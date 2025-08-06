@@ -22,9 +22,9 @@ const App = () => {
     setShowHeader(screenName !== "login" && screenName !== "signup");
     setShowBottomNav(
       screenName === "cadastroCompras" ||
-        screenName === "listaCompras" ||
-        screenName === "relatoriosGeral" ||
-        screenName === "relatoriosItem",
+      screenName === "listaCompras" ||
+      screenName === "relatoriosGeral" ||
+      screenName === "relatoriosItem",
     );
     setActiveNav(navActive);
     if (screenName.includes("relatorios")) {
