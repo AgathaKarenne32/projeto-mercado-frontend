@@ -12,6 +12,8 @@
 
 /* Reset e Estilos Globais */
 * {
+  padding: 0;
+  margin: 0;
   box-sizing: border-box;
 }
 
@@ -27,13 +29,11 @@ body {
 
 /* Estrutura do Mockup */
 .phone-mockup {
-  width: 100%;
-  max-width: 400px;
-  height: 100vh;
+  width: 350px;
+  min-height: 520px;
   margin: 0 auto;
   position: relative;
   background-color: white;
-  border-radius: 2.5rem;
   box-shadow:
     0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -44,14 +44,13 @@ body {
 
 .main-content {
   flex-grow: 1;
-  overflow-y: auto;
-  padding: 1.5rem;
 }
 
 .screen {
-  display: none;
+  display: flex;
   flex-direction: column;
   padding: 1.5rem;
+  gap: .5rem;
 }
 
 .screen.active {
@@ -81,7 +80,6 @@ body {
 }
 
 .header-title {
-  font-size: 1.25rem;
   font-weight: 700;
   flex-grow: 1;
   text-align: center;
@@ -130,8 +128,7 @@ body {
 
 /* Componentes Comuns */
 .form-container {
-  margin-top: 1rem;
-  padding: 0 1rem;
+  margin-top: 0.2rem;
   width: 100%;
 }
 
@@ -142,8 +139,7 @@ body {
 }
 
 .form-input {
-  margin-top: 0.25rem;
-  padding: 0.75rem;
+  padding: 0.7rem 0.9rem;
   width: 100%;
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
@@ -227,7 +223,7 @@ body {
 
 .signup-text {
   text-align: center;
-  margin-top: 1.5rem;
+  margin-top: 0.3rem;
 }
 
 .signup-label {
@@ -243,15 +239,17 @@ body {
 }
 
 .features-list {
-  margin-top: 2rem;
-  padding: 0 1rem;
-  width: 100%;
+  margin-top: 1rem;
+}
+
+.features-list ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .feature-item {
-  display: flex;
-  align-items: center;
-  margin-top: 0.5rem;
+  list-style-type: none;
 }
 
 .feature-item i {
@@ -260,8 +258,11 @@ body {
 }
 
 .feature-text {
+  font-size: small;
   color: #4b5563;
 }
+
+
 
 /* Telas Específicas */
 /* Login/Signup Header */
@@ -269,16 +270,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  background-color: white;
-  border-bottom-left-radius: 1.5rem;
-  border-bottom-right-radius: 1.5rem;
+  gap: 0.5rem;
+  margin-top: 0.3rem
 }
 
 .login-logo {
-  width: 5rem;
-  height: 5rem;
+  width: 3.5rem;
+  height: 3.5rem;
   background-color: #ff7f27;
   border-radius: 0.75rem;
   display: flex;
@@ -291,21 +289,19 @@ body {
 
 .login-logo i {
   color: white;
-  font-size: 2.25rem;
+  font-size: 2rem;
 }
 
 .login-title {
-  font-size: 1.875rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  margin-top: 1.5rem;
   color: #1f2937;
 }
 
 .login-subtitle {
   text-align: center;
-  margin-top: 0.5rem;
   color: #6b7280;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
 }
 
 /* Tela de Cadastro de Compras */
@@ -539,7 +535,6 @@ body {
 .filter-container {
   display: flex;
   gap: 0.5rem;
-  margin-top: 1rem;
   padding: 0 1rem;
 }
 

@@ -97,6 +97,7 @@ const SignUpScreen = ({ onSignUpSuccess, onLoginClick }) => {
             </span>
           </li>
         </ul>
+
       </div>
     </div>
   );

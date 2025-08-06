@@ -58,6 +58,7 @@ const LoginScreen = ({ onLoginSuccess, onSignUpClick }) => {
       </div>
 
       <div className="features-list">
+
         <ul>
           <li className="feature-item">
             <i className="fas fa-check-circle"></i>
@@ -74,6 +75,7 @@ const LoginScreen = ({ onLoginSuccess, onSignUpClick }) => {
             </span>
           </li>
         </ul>
+
       </div>
     </div>
   );
