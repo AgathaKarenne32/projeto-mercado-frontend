@@ -1,7 +1,7 @@
 import React from "react";
-import StatCard from "../components/StatCard";
+import StatCard from "./StatCard";
 
-const ReportsGeneral = ({ onTabChange, activeTab }) => {
+const RelatoriosGeralScreen = ({ onTabChange, activeTab }) => {
     return (
         <div id="relatorios-geral-screen" className="screen active">
             <div className="report-tabs">
@@ -87,4 +87,4 @@ const ReportsGeneral = ({ onTabChange, activeTab }) => {
     );
 };
 
-export default ReportsGeneral;
+export default RelatoriosGeralScreen;

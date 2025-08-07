@@ -1,7 +1,7 @@
 import React from "react";
-import StatCard from "../components/StatCard";
+import StatCard from "./StatCard";
 
-const ReportsItem = ({ onTabChange, activeTab }) => {
+const RelatoriosItemScreen = ({ onTabChange, activeTab }) => {
     return (
         <div id="relatorios-item-screen" className="screen active">
             <div className="report-tabs">
@@ -77,4 +77,4 @@ const ReportsItem = ({ onTabChange, activeTab }) => {
     );
 };
 
-export default ReportsItem;
+export default RelatoriosItemScreen;

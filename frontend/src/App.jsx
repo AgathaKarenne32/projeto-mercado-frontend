@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
-import Header from "./components/Header";
+import Header from "./components/Header/Header.jsx";
 import BottomNav from "./components/BottomNav";
 
 const App = () => {
@@ -11,13 +11,14 @@ const App = () => {
   );
 
   return (
-    <div className="phone-mockup">
-      {showHeader && <Header />}
-      <main className="main-content">
+    <main>
+      {/* {showHeader && <Header />} */}
+      <Header />
+      <section className="main-content">
         <Outlet />
-      </main>
-      {showBottomNav && <BottomNav />}
-    </div>
+      </section>
+      {/* {showBottomNav && <BottomNav />} */}
+    </main>
   );
 };
 

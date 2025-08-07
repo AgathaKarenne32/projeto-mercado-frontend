@@ -1,7 +1,6 @@
 import React from "react";
-import StatCard from "../components/StatCard";
 
-const PurchaseList = () => {
+const Drafts = () => {
     return (
         <div>
             Hello World
@@ -9,4 +8,4 @@ const PurchaseList = () => {
     );
 };
 
-export default PurchaseList;
+export default Drafts;

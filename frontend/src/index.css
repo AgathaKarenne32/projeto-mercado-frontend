@@ -20,9 +20,9 @@
 body {
   font-family: "Inter", sans-serif;
   background-color: #f0f4f8;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
   min-height: 100vh;
   margin: 0;
 }
@@ -44,6 +44,7 @@ body {
 
 .main-content {
   flex-grow: 1;
+
 }
 
 .screen {
