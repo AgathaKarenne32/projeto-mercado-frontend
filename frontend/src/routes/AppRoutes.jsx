@@ -9,20 +9,19 @@ import Reports from "../pages/Reports";
 import Dashboard from "../pages/Dashboard";
 
 const AppRoutes = () => (
-    <Routes>
+  <Routes>
+    <Route path="/login" element={<Login />} />
+    <Route path="/signup" element={<SignUp />} />
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-
-        <Route element={<App />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/purchase" element={<PurchaseForm />} />
-            <Route path="/list" element={<PurchaseList />} />
-            <Route path="/drafts" element={<Drafts />} />
-            <Route path="/reports" element={<Reports />} />
-
-        </Route>
-    </Routes>
+    <Route element={<App />}>
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/purchase" element={<PurchaseForm />} />
+      <Route path="/list" element={<PurchaseList />} />
+      <Route path="/drafts" element={<Drafts />} />
+      <Route path="/reports" element={<Reports />} />
+      <Route path="/" element={<Login />} />
+    </Route>
+  </Routes>
 );
 
 export default AppRoutes;
