@@ -15,25 +15,25 @@ const Header = () => {
             <nav className="nav">
                 <ul className="nav-list">
                     <li>
-                        <NavLink to="/dashboard" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
+                        <NavLink to="/" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
                             <i className="fas fa-chart-line"></i>
                             Dashboard
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/purchase" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
+                        <NavLink to="/compras" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
                             <i className="fas fa-shopping-cart"></i>
                             Compras
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/drafts" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
+                        <NavLink to="/rascunhos" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
                             <i className='fas fa-pencil-alt'></i>
                             Rascunhos
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/reports" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
+                        <NavLink to="/relatorios" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
                             <i className="fas fa-file-alt"></i>
                             Relatórios
                         </NavLink>
