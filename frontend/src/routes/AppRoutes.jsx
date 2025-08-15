@@ -8,6 +8,7 @@ import Reports from "../pages/Reports";
 import Dashboard from "../pages/Dashboard";
 
 const AppRoutes = () => (
+
     <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
