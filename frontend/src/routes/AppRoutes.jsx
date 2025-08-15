@@ -2,14 +2,13 @@ import { Routes, Route } from "react-router-dom";
 import App from "../App";
 import Login from "../pages/Login";
 import SignUp from "../pages/Signup";
-import Purchase from '../pages/Purchase'
+import Purchase from '../pages/Purchase/Purchase'
 import Drafts from "../pages/Drafts";
 import Reports from "../pages/Reports";
 import Dashboard from "../pages/Dashboard";
 
 const AppRoutes = () => (
     <Routes>
-
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
 
@@ -18,7 +17,6 @@ const AppRoutes = () => (
             <Route path="/compras" element={<Purchase />} />
             <Route path="/rascunhos" element={<Drafts />} />
             <Route path="/relatorios" element={<Reports />} />
-
         </Route>
     </Routes>
 );

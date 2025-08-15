@@ -19,18 +19,17 @@
 
 .modal-toggle {
     width: 100%;
-    background-color: #309C30;
+    background-color: var(--btn-success);
     border: none;
-    border-radius: .2rem;
-    height: 3rem;
-    padding: 1rem;
+    border-radius: .4rem;
+    padding: .8rem;
     font-weight: bold;
     color: white;
     cursor: pointer;
 }
 
 .modal-toggle:hover {
-    background-color: rgb(34, 145, 12);
+    background-color: var(--btn-success-hover);
 }
 
 .section-title p {
@@ -46,7 +45,6 @@
     .section-title {
         text-align: start;
     }
-
 
     .modal-toggle {
         width: auto;

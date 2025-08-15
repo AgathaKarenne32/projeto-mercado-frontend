@@ -8,6 +8,11 @@
   --color-text: #1f2937;
   --color-text-secondary: #6b7280;
   --color-border: #d1d5db;
+
+  --btn-success: #22c55e;
+  --btn-success-hover: #16a34a;
+  --btn-danger: #ef4444;
+  --btn-danger-hover: #b91c1c;
 }
 
 /* Reset e Estilos Globais */
