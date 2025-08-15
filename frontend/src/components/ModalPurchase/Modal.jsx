@@ -1,6 +1,19 @@
+import { useState } from 'react';
 import './Modal.css'
+import { isRouteErrorResponse } from 'react-router-dom';
 
 const Modal = ({ toggleModal }) => {
+    const [items, setItems] = useState([
+        { name: "", quantity: 1, price: "", total: "" }
+    ]);
+
+    const addItem = () => {
+        setItems([...items, { name: "", quantity: 1, price: "", total: "" }]);
+    };
+
+    const removeItem = (index) => {
+        setItems(items.filter((_, i) => i !== index));
+    };
     return (
         <section className="modal-container" role="dialog" aria-modal="true">
             <form className="modal-form">
@@ -34,44 +47,56 @@ const Modal = ({ toggleModal }) => {
                     </div>
                 </fieldset>
 
-                <fieldset className="modal-fieldset-itens">
-                    <div className="form-group">
-                        <label htmlFor="item-name">Nome do item</label>
-                        <input id="item-name" type="text" />
-                    </div>
+                <div className="add-item-container">
+                    <button type="button" className="btn-add-item" onClick={addItem}>
+                        <i className="fas fa-plus"></i> Adicionar Item
+                    </button>
+                </div>
 
-                    <div className="form-group">
-                        <label htmlFor="item-quantity">Quantidade</label>
-                        <input id="item-quantity" type="number" min="1" />
-                    </div>
+                <div className="items-list">
+                    {items.map((_, index) => (
+                        <fieldset key={index} className="modal-fieldset-itens">
+                            <div className="form-group">
+                                <label>Nome do item</label>
+                                <input type="text" />
+                            </div>
 
-                    <div className="form-group">
-                        <label htmlFor="item-price">Preço Unitário</label>
-                        <div class="item-price">
-                            <span>R$</span>
-                            <input type="number"
-                                min="0.01"
-                                max="99999.99"
-                                step="0.01"
-                                placeholder="0,00" />
+                            <div className="form-group">
+                                <label>Quantidade</label>
+                                <input type="number" min="1" />
+                            </div>
 
-                        </div>
+                            <div className="form-group">
+                                <label>Preço Unitário</label>
+                                <div className="item-price">
+                                    <span>R$</span>
+                                    <input type="number" step="0.01" />
+                                </div>
+                            </div>
 
-                    </div>
+                            <div className="form-group">
+                                <label>Total</label>
+                                <div className="item-price">
+                                    <span>R$</span>
+                                    <input type="number" step="0.01" />
+                                </div>
+                            </div>
+                            {
+                                items.length > 1 && (
+                                    <button
+                                        type="button"
+                                        className="btn-remove-item"
+                                        onClick={() => removeItem(index)}
+                                    >
+                                        <i className="fas fa-trash"></i>
+                                    </button>
+                                )
+                            }
 
-                    <div className="form-group">
-                        <label>Total</label>
-                        <div className="item-price">
-                            <span>R$</span>
-                            <input type="number"
-                                min="0.01"
-                                max="99999.99"
-                                step="0.01"
-                                placeholder="0,00" />
 
-                        </div>
-                    </div>
-                </fieldset>
+                        </fieldset>
+                    ))}
+                </div>
 
                 <fieldset className="modal-fieldset-total">
                     <label>Total Geral</label>
