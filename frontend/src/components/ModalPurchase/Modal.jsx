@@ -129,3 +129,12 @@ const Modal = ({ toggleModal }) => {
 }
 
 export default Modal
+=======
+const Modal = () => {
+    return (
+        <div>Ola</div>
+    )
+}
+
+export default Modal
+>>>>>>> 6845eb81f1190e0270f41a0e95dcd6da25078468
