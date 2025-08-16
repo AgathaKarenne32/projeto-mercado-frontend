@@ -3,7 +3,7 @@ import App from "../App";
 import Login from "../pages/Login";
 import SignUp from "../pages/Signup";
 import PurchaseForm from "../components/PurchaseForm";
-import PurchaseList from "../components/PurchaseList";
+import PurchaseList from "../components/PurchaseList/PurchaseList";
 import Drafts from "../pages/Drafts";
 import Reports from "../pages/Reports";
 import Dashboard from "../pages/Dashboard";

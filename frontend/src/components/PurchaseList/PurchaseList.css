@@ -1,0 +1,32 @@
+.purchase-list-container {
+  padding: 3rem 4rem;
+  background-color: var(--color-panel-background);
+  margin: 1rem 12rem;
+  border-radius: 0.5rem;
+}
+
+.purchase-list-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.purchase-list-subtitle {
+  margin-top: 1rem;
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.purchase-list-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.purchase-list-table th {
+  background-color: var(--color-primary);
+  font-weight: 800;
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+  padding: 0.5rem 0;
+}
