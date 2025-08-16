@@ -2,6 +2,9 @@ import { useState } from "react";
 import "./Modal.css";
 
 const Modal = ({ toggleModal }) => {
+  const [today, setToday] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [items, setItems] = useState([
     { name: "", quantity: 1, price: "", total: "" },
   ]);
@@ -67,7 +70,7 @@ const Modal = ({ toggleModal }) => {
         <fieldset className="modal-fieldset">
           <div className="form-group">
             <label htmlFor="purchase-date">Data da Compra</label>
-            <input id="purchase-date" type="date" />
+            <input id="purchase-date" type="date" value={today} onChange={(e) => setToday(e.target.value)} />
             <span className="form-hint">
               Selecione quando a compra foi realizada
             </span>
