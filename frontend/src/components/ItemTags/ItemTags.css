@@ -1,0 +1,23 @@
+.item-tags-container {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.item-tag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.item-tag-green {
+  background-color: #22c55e;
+}
+
+.item-tag-gray {
+  background-color: #d1d5db;
+  color: #333;
+}

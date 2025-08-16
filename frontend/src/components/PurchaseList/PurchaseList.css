@@ -1,8 +1,12 @@
 .purchase-list-container {
-  padding: 3rem 4rem;
+  padding-top: 3rem;
   background-color: var(--color-panel-background);
-  margin: 1rem 12rem;
+  margin: 1rem;
   border-radius: 0.5rem;
+}
+
+.purchase-list-header {
+  margin: 0 4rem;
 }
 
 .purchase-list-title {
@@ -17,10 +21,17 @@
   color: var(--color-text-secondary);
 }
 
+.purchase-list-table-wrapper {
+  overflow-x: auto;
+  margin: 0 4rem;
+}
+
 .purchase-list-table {
   border-collapse: collapse;
   width: 100%;
   margin-top: 2rem;
+  text-align: left;
+  overflow-x: auto;
 }
 
 .purchase-list-table th {
@@ -29,4 +40,11 @@
   font-size: 0.75rem;
   color: var(--color-text-tertiary);
   padding: 0.5rem 0;
+  padding-left: 1rem;
 }
+
+.purchase-list-footer {
+  height: 4rem;
+  border-top: 1px solid var(--color-border);
+}
+
