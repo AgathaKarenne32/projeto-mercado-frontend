@@ -273,6 +273,10 @@ body {
   }
   .dash-hero h1 {
     font-size: 26px;
+    text-align: center;
+  }
+  .stat-card {
+    text-align: left;
   }
 }
 
@@ -297,7 +301,7 @@ body {
   }
 
   .dash-hero {
-    text-align: left;
+    text-align: center;
     padding: 10px 0 6px;
   }
   .dash-hero h1 {
@@ -308,7 +312,6 @@ body {
   .dash-hero p {
     font-size: 13px;
     line-height: 1.35;
-    max-width: 36ch;
     color: #5b6472;
     margin: 0;
   }
