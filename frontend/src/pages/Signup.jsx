@@ -71,19 +71,6 @@ const SignUp = ({ onSignUpSuccess, onLoginClick }) => {
                     </button>
                 </div>
 
-                <div className="divider">
-                    <hr className="divider-line" />
-                    <span className="divider-text">ou</span>
-                    <hr className="divider-line" />
-                </div>
-
-                <div className="form-container">
-                    <button className="google-button">
-                        <i className="fab fa-google"></i>
-                        Cadastrar com Google
-                    </button>
-                </div>
-
                 <div className="signup-text">
                     <span className="signup-label">Já tem uma conta?</span>
                     <Link
