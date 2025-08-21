@@ -5,10 +5,13 @@ import SignUp from "../pages/Signup";
 import Purchase from '../pages/Purchase/Purchase'
 import Drafts from "../pages/Drafts";
 import Reports from "../pages/Reports";
-import Dashboard from "../pages/Dashboard";
+
 import ForgotPassword from "../pages/ForgotPassword";
 import VerifyCode from "../pages/VerifyCode";
 import NewPassword from "../pages/NewPassword";
+
+import Dashboard from "../pages/Dashboard/dashboard";
+
 
 const AppRoutes = () => (
 
