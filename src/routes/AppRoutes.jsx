@@ -6,6 +6,7 @@ import Purchase from '../pages/Purchase/Purchase'
 import Drafts from "../pages/Drafts";
 import Reports from "../pages/Reports";
 import Dashboard from "../pages/Dashboard/dashboard";
+import MyReports from "../pages/MyReport";
 
 const AppRoutes = () => (
 
@@ -17,6 +18,7 @@ const AppRoutes = () => (
             <Route path="/" element={<Dashboard />} />
             <Route path="/compras" element={<Purchase />} />
             <Route path="/rascunhos" element={<Drafts />} />
+            <Route path="/meus-relatorios" element={<MyReports />} />
             <Route path="/relatorios" element={<Reports />} />
         </Route>
     </Routes>
