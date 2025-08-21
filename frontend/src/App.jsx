@@ -4,7 +4,7 @@ import Header from "./components/Header-Mobile/header-mobile";
 const App = () => {
   const location = useLocation();
 
-  const showHeader = !["/", "/signup"].includes(location.pathname);
+  const showHeader = !["/login", "/signup"].includes(location.pathname);
   const showBottomNav = [
     "/purchase",
     "/list",
@@ -14,11 +14,11 @@ const App = () => {
 
   return (
     <main>
-      <Header />
+      {showHeader && <Header />}
       <section className="main-content">
         <Outlet />
       </section>
-
+      {showBottomNav}
     </main>
   );
 };

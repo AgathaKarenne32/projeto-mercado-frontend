@@ -68,13 +68,32 @@ const Header = () => {
               Relatórios
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/perfil"
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              <i className="fas fa-user"></i>
+              Perfil
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              <button className="nav-item login-button">
+                <i className="fas fa-sign-out-alt"></i>
+                Logout
+              </button>
+            </NavLink>
+          </li>
         </ul>
       </nav>
-
-      <button className="login-button">
-        <i className="fas fa-sign-out-alt"></i>
-        Logout
-      </button>
     </header>
   );
 };
