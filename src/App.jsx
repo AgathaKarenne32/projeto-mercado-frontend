@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
-import Header from "./components/Header/Header";
+import Header from "./components/Header-Mobile/header-mobile";
 
 const App = () => {
   const location = useLocation();

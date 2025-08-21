@@ -5,7 +5,7 @@ import SignUp from "../pages/Signup";
 import Purchase from '../pages/Purchase/Purchase'
 import Drafts from "../pages/Drafts";
 import Reports from "../pages/Reports";
-import Dashboard from "../pages/Dashboard";
+import Dashboard from "../pages/Dashboard/dashboard";
 
 const AppRoutes = () => (
 
