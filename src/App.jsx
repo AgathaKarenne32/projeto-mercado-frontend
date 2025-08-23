@@ -1,6 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
-import Header from "./components/Header-Mobile/header-mobile.jsx";
-import BottomNav from "./components/BottomNav";
+import Header from "./components/Header-Mobile/header-mobile";
 
 const App = () => {
   const location = useLocation();
@@ -15,11 +14,11 @@ const App = () => {
 
   return (
     <main>
-      {showHeader && <Header />}
+      <Header />
       <section className="main-content">
         <Outlet />
       </section>
-      {showBottomNav && <BottomNav />}
+
     </main>
   );
 };
