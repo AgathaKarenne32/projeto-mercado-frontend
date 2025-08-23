@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../../components/ModalPurchase/Modal";
-import PurchaseList from "../../components/PurchaseList/Desktop";
+import PurchaseListDesktop from "../../components/PurchaseList/Desktop";
+import PurchaseListMobile from "../../components/PurchaseList/Mobile";
 
 import "./Purchase.css";
 
@@ -10,6 +11,18 @@ const Purchase = () => {
   const toggleModal = () => {
     setModal(!modal);
   };
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 769);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <main>
@@ -25,7 +38,8 @@ const Purchase = () => {
 
         {modal && <Modal toggleModal={toggleModal} />}
       </section>
-      <PurchaseList />
+
+      {isMobile ? <PurchaseListMobile /> : <PurchaseListDesktop />}
     </main>
   );
 };
