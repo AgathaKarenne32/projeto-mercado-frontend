@@ -1,32 +1,32 @@
-.purchase-list-container {
+.container {
   padding-top: 3rem;
   background-color: var(--color-panel-background);
   margin: 1rem;
   border-radius: 0.5rem;
 }
 
-.purchase-list-header {
+.header {
   margin: 0 4rem;
 }
 
-.purchase-list-title {
+.title {
   font-size: 1.125rem;
   font-weight: 700;
 }
 
-.purchase-list-subtitle {
+.subtitle {
   margin-top: 1rem;
   font-weight: 400;
   font-size: 0.875rem;
   color: var(--color-text-secondary);
 }
 
-.purchase-list-table-wrapper {
+.tableWrapper {
   overflow-x: auto;
   margin: 0 4rem;
 }
 
-.purchase-list-table {
+.table {
   border-collapse: collapse;
   width: 100%;
   margin-top: 2rem;
@@ -34,7 +34,7 @@
   overflow-x: auto;
 }
 
-.purchase-list-table th {
+.table th {
   background-color: var(--color-primary);
   font-weight: 800;
   font-size: 0.75rem;
@@ -43,8 +43,7 @@
   padding-left: 1rem;
 }
 
-.purchase-list-footer {
+.footer {
   height: 4rem;
   border-top: 1px solid var(--color-border);
 }
-

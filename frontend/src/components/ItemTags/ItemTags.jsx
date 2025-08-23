@@ -1,4 +1,4 @@
-import "./ItemTags.css";
+import styles from "./ItemTags.module.css";
 
 function ItemTags({ items }) {
   const maxVisible = 2;
@@ -6,14 +6,14 @@ function ItemTags({ items }) {
   const hiddenCount = items.length - visibleItems.length;
 
   return (
-    <div className="item-tags-container">
+    <div className={styles.container}>
       {visibleItems.map((item, idx) => (
-        <span key={idx} className="item-tag item-tag-green">
+        <span key={idx} className={`${styles.tag} ${styles.greenTag}`}>
           {item}
         </span>
       ))}
 
-      {hiddenCount > 0 && <span className="item-tag item-tag-gray">+{hiddenCount}</span>}
+      {hiddenCount > 0 && <span className={`${styles.tag} ${styles.grayTag}`}>+{hiddenCount}</span>}
     </div>
   );
 }

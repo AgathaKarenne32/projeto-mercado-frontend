@@ -1,34 +1,35 @@
-import PurchaseItem from "../PurchaseItem/PurchaseItem";
-import "./PurchaseList.css";
+import PurchaseItem from "../PurchaseItem/Desktop";
+
+import styles from "./Desktop.module.css";
 
 const purchases = [
   {
     date: "14/07/2024",
     market: "Supermercado Extra",
     items: ["Arroz 1kg", "Feijão 1kg", "Alface"],
-    totalPrice: 49.90,
+    totalPrice: 49.9,
   },
 
   {
     date: "15/07/2024",
     market: "Supermercado Brasileiro",
     items: ["Macarrão", "Molho de Tomate", "Queijo"],
-    totalPrice: 55.60,
+    totalPrice: 55.6,
   },
 ];
 
-const PurchaseList = () => {
+function PurchaseList() {
   return (
-    <div className="purchase-list-container">
-      <header className="purchase-list-header">
-        <h1 className="purchase-list-title">Lista de Compras</h1>
-        <p className="purchase-list-subtitle">
+    <div className={styles.container}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Lista de Compras</h1>
+        <p className={styles.subtitle}>
           {purchases.length} {purchases.length === 1 ? "compra encontrada" : "compras encontradas"}
         </p>
       </header>
 
-      <div className="purchase-list-table-wrapper">
-        <table className="purchase-list-table">
+      <div className={styles.tableWrapper}>
+        <table className={styles.table}>
           <thead>
             <tr>
               <th>DATA</th>
@@ -52,11 +53,9 @@ const PurchaseList = () => {
         </table>
       </div>
 
-      <footer className="purchase-list-footer">
-
-      </footer>
+      <footer className={styles.footer}></footer>
     </div>
   );
-};
+}
 
 export default PurchaseList;
