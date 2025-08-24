@@ -12,7 +12,7 @@ import { usePurchase } from "../../contexts/Purchase/PurchaseContext";
 function PurchaseItem({ id, date, market, items, total }) {
   const { dispatch } = usePurchase();
 
-  const formattedDate = formatLocalDate(date);
+  const formattedDate = formatLocalDate(date, "short");
   const formattedMoney = formatMoney(total);
 
   const qtdItems = items.length;
@@ -26,7 +26,7 @@ function PurchaseItem({ id, date, market, items, total }) {
 
       <div className={styles.info}>
         <time dateTime={date}>{formattedDate}</time>
-        <span>Alimentação • {qtdItems === 1 ? "1 item" : `${qtdItems} itens`}</span>
+        <span>{qtdItems === 1 ? "1 item" : `${qtdItems} itens`}</span>
       </div>
 
       <footer className={styles.footer}>
