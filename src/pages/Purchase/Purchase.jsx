@@ -4,6 +4,7 @@ import PurchaseListDesktop from "../../components/PurchaseList/Desktop";
 import PurchaseListMobile from "../../components/PurchaseList/Mobile";
 
 import "./Purchase.css";
+import { PurchaseProvider } from "../../contexts/Purchase/PurchaseContext";
 
 const Purchase = () => {
   const [modal, setModal] = useState(false);
@@ -26,20 +27,22 @@ const Purchase = () => {
 
   return (
     <main>
-      <section className="section-header">
-        <header className="section-title">
-          <h1>Gestão de Compras</h1>
-          <p>Controle todas as suas compras e gastos em um só lugar</p>
-        </header>
+      <PurchaseProvider>
+        <section className="section-header">
+          <header className="section-title">
+            <h1>Gestão de Compras</h1>
+            <p>Controle todas as suas compras e gastos em um só lugar</p>
+          </header>
 
-        <button className="modal-toggle" onClick={toggleModal}>
-          Adicionar Compra
-        </button>
+          <button className="modal-toggle" onClick={toggleModal}>
+            Adicionar Compra
+          </button>
 
-        {modal && <Modal toggleModal={toggleModal} />}
-      </section>
+          {modal && <Modal toggleModal={toggleModal} />}
+        </section>
 
-      {isMobile ? <PurchaseListMobile /> : <PurchaseListDesktop />}
+        {isMobile ? <PurchaseListMobile /> : <PurchaseListDesktop />}
+      </PurchaseProvider>
     </main>
   );
 };

@@ -1,30 +1,17 @@
+import { usePurchase } from "../../contexts/Purchase/PurchaseContext";
 import PurchaseItem from "../PurchaseItem/Desktop";
 
 import styles from "./Desktop.module.css";
 
-const purchases = [
-  {
-    date: "14/07/2024",
-    market: "Supermercado Extra",
-    items: ["Arroz 1kg", "Feijão 1kg", "Alface"],
-    totalPrice: 49.9,
-  },
-
-  {
-    date: "15/07/2024",
-    market: "Supermercado Brasileiro",
-    items: ["Macarrão", "Molho de Tomate", "Queijo"],
-    totalPrice: 55.6,
-  },
-];
-
 function PurchaseList() {
+  const { state } = usePurchase();
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
         <h1 className={styles.title}>Lista de Compras</h1>
         <p className={styles.subtitle}>
-          {purchases.length} {purchases.length === 1 ? "compra encontrada" : "compras encontradas"}
+          {state.length} {state.length === 1 ? "compra encontrada" : "compras encontradas"}
         </p>
       </header>
 
@@ -40,13 +27,14 @@ function PurchaseList() {
             </tr>
           </thead>
           <tbody>
-            {purchases.map((purchase, idx) => (
+            {state.map((purchase) => (
               <PurchaseItem
-                key={idx}
+                key={purchase.id}
+                id={purchase.id}
                 date={purchase.date}
                 market={purchase.market}
                 items={purchase.items}
-                totalPrice={purchase.totalPrice}
+                total={purchase.total}
               />
             ))}
           </tbody>

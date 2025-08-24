@@ -9,7 +9,7 @@ function ItemTags({ items }) {
     <div className={styles.container}>
       {visibleItems.map((item, idx) => (
         <span key={idx} className={`${styles.tag} ${styles.greenTag}`}>
-          {item}
+          {item.name}
         </span>
       ))}
 

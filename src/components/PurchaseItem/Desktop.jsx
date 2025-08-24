@@ -6,23 +6,24 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import ItemTags from "../ItemTags/ItemTags";
 import ActionButton from "../ActionButton/ActionButton";
+import formatLocalDate from "../../utils/formatDate";
+import formatMoney from "../../utils/formatMoney";
+import { usePurchase } from "../../contexts/Purchase/PurchaseContext";
 
 import styles from "./Desktop.module.css";
 
-function PurchaseItem({ date, market, items, totalPrice }) {
-  const fmt = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+function PurchaseItem({ id, date, market, items, total }) {
+  const { dispatch } = usePurchase();
+
+  const formattedDate = formatLocalDate(date);
+  const formattedMoney = formatMoney(total);
 
   return (
     <tr className={styles.row}>
       <td className={styles.date}>
         <div className={styles.cell}>
           <CalendarTodayIcon sx={{ fontSize: 12 }} />
-          <p>{date}</p>
+          <time dateTime={date}>{formattedDate}</time>
         </div>
       </td>
 
@@ -37,13 +38,18 @@ function PurchaseItem({ date, market, items, totalPrice }) {
         <ItemTags items={items} />
       </td>
 
-      <td className={styles.price}>{fmt.format(totalPrice)}</td>
+      <td className={styles.price}>{formattedMoney}</td>
 
       <td>
         <div className={styles.actions}>
           <ActionButton Icon={VisibilityIcon} iconColor="#fff" bgColor="#2196F3" />
           <ActionButton Icon={EditIcon} iconColor="#fff" bgColor="#FDA212" />
-          <ActionButton Icon={DeleteIcon} iconColor="#fff" bgColor="#DD2E48" />
+          <ActionButton
+            Icon={DeleteIcon}
+            iconColor="#fff"
+            bgColor="#DD2E48"
+            handleClick={() => dispatch({ type: "DELETE_PURCHASE", payload: id })}
+          />
         </div>
       </td>
     </tr>

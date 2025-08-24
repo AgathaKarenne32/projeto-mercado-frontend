@@ -3,20 +3,30 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import ActionButton from "../ActionButton/ActionButton";
+import formatMoney from "../../utils/formatMoney";
+import formatLocalDate from "../../utils/formatDate";
 
 import styles from "./Mobile.module.css";
+import { usePurchase } from "../../contexts/Purchase/PurchaseContext";
 
-function PurchaseItem() {
+function PurchaseItem({ id, date, market, items, total }) {
+  const { dispatch } = usePurchase();
+
+  const formattedDate = formatLocalDate(date);
+  const formattedMoney = formatMoney(total);
+
+  const qtdItems = items.length;
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <p>Supermercado Central</p>
-        <p>R$ 127,50</p>
+        <p>{market}</p>
+        <p>{formattedMoney}</p>
       </header>
 
       <div className={styles.info}>
-        <time dateTime="">15 Jan 2025 • 14:30</time>
-        <span>Alimentação • 12 itens</span>
+        <time dateTime={date}>{formattedDate}</time>
+        <span>Alimentação • {qtdItems === 1 ? "1 item" : `${qtdItems} itens`}</span>
       </div>
 
       <footer className={styles.footer}>
@@ -27,7 +37,12 @@ function PurchaseItem() {
 
         <div className={styles.actions}>
           <ActionButton Icon={EditIcon} iconColor="#fff" bgColor="#fda212" />
-          <ActionButton Icon={DeleteIcon} iconColor="#fff" bgColor="#DD2E48" />
+          <ActionButton
+            Icon={DeleteIcon}
+            iconColor="#fff"
+            bgColor="#DD2E48"
+            handleClick={() => dispatch({ type: "DELETE_PURCHASE", payload: id })}
+          />
         </div>
       </footer>
     </div>
