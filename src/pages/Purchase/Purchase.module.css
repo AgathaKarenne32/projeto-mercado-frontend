@@ -1,0 +1,123 @@
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  margin: 1.2rem;
+  gap: 0.5rem;
+}
+
+.header {
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+}
+
+.subtitle {
+  color: rgb(92, 89, 89);
+}
+
+.btnAddPurchase {
+  width: 100%;
+  background-color: var(--btn-success);
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.8rem;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+.btnAddPurchase:hover {
+  background-color: var(--btn-success-hover);
+}
+
+.cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 2.2rem;
+  overflow-x: auto;
+}
+
+.statCardWrapper {
+  display: flex;
+  color: #fff;
+  border-radius: 8px;
+  width: 7.1875rem;
+  padding: 0.5rem;
+  align-items: center;
+}
+
+.statCard {
+  box-shadow: none;
+  text-align: start;
+  padding: 0;
+}
+
+.statCard h1 {
+  font-size: 0.6875rem;
+}
+
+.statCard p {
+  white-space: nowrap;
+  font-size: 0.6875rem;
+}
+
+.lastStatCard {
+  display: none;
+}
+
+@media screen and (min-width: 769px) {
+  .intro {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .header {
+    text-align: start;
+  }
+
+  .btnAddPurchase {
+    width: auto;
+  }
+
+  .statCardWrapper {
+    justify-content: space-between;
+    align-items: end;
+    width: 20.625rem;
+    padding: 0.75rem 3rem 2.5rem 1.5rem;
+  }
+
+  .statCard h1 {
+    font-size: 1rem;
+  }
+
+  .statCard p {
+    font-size: 1.5rem;
+  }
+
+  .statCardIcon {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 480px) and (max-width: 769px) {
+  .lastStatCard {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .lastStatCard {
+    display: flex;
+  }
+}
