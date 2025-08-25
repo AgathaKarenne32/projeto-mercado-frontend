@@ -1,0 +1,33 @@
+.row td {
+  padding: 1.5rem 0 1.5rem 1rem;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.date {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+}
+
+.market {
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+}
+
+.price {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
