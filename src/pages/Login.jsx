@@ -4,7 +4,7 @@ const Login = () => {
 
     const handleLoginGoogle = () => {
         const redirectUri = 'http://localhost:5173/auth/callback';
-        const googleUrl = `http://api-backend:8080/oauth2/authorize/google?redirect_uri=${encodeURIComponent(redirectUri)}`;
+        const googleUrl = `http://localhost:8080/oauth2/authorize/google?redirect_uri=${encodeURIComponent(redirectUri)}`;
         window.location.href = googleUrl;
     }
 
