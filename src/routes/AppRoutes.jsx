@@ -12,6 +12,7 @@ import NewPassword from "../pages/NewPassword";
 
 import Dashboard from "../pages/Dashboard/dashboard";
 import MyReports from "../pages/MyReport";
+import GoogleAuth from "../pages/GoogleAuth";
 
 
 const AppRoutes = () => (
@@ -22,9 +23,10 @@ const AppRoutes = () => (
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-code" element={<VerifyCode />} />
         <Route path="/reset-password" element={<NewPassword />} />
+        <Route path="/auth/callback" element={<GoogleAuth />} />
 
         <Route element={<App />}>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/compras" element={<Purchase />} />
             <Route path="/rascunhos" element={<Drafts />} />
             <Route path="/meus-relatorios" element={<MyReports />} />

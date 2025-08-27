@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
 
 const Login = () => {
+
+    const handleLoginGoogle = () => {
+        const redirectUri = 'http://localhost:5173/auth/callback';
+        const googleUrl = `http://api-backend:8080/oauth2/authorize/google?redirect_uri=${encodeURIComponent(redirectUri)}`;
+        window.location.href = googleUrl;
+    }
+
     return (
         <section id="login-screen" className="screen active phone-mockup">
             <div className="main-content">
@@ -53,7 +60,7 @@ const Login = () => {
                 </div>
 
                 <div className="form-container">
-                    <button className="google-button">
+                    <button className="google-button" onClick={handleLoginGoogle}>
                         <i className="fab fa-google"></i>
                         Entrar com Google
                     </button>
