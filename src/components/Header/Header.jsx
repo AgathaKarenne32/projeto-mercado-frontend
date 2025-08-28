@@ -15,7 +15,7 @@ const Header = () => {
             <nav className="nav">
                 <ul className="nav-list">
                     <li>
-                        <NavLink to="/" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
+                        <NavLink to="/dashboard" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
                             <i className="fas fa-chart-line"></i>
                             Dashboard
                         </NavLink>

@@ -26,7 +26,7 @@ const Header = () => {
         <ul className="nav-list">
           <li>
             <NavLink
-              to="/"
+              to="/dashboard"
               className={({ isActive }) =>
                 isActive ? "nav-item active" : "nav-item"
               }
