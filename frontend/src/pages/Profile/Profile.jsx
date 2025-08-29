@@ -126,116 +126,120 @@ export default function Profile() {
           </div>
         </section>
 
-        {/* INFORMAÇÕES PESSOAIS */}
-        <section className="panel">
-          <div className="panel-header">
-            <h2>Informações Pessoais</h2>
-            {!editing ? (
-              <button
-                className="btn btn-green"
-                onClick={() => setEditing(true)}
-              >
-                ✎ Editar Perfil
-              </button>
-            ) : null}
-          </div>
-
-          <form className="form-grid" onSubmit={onSaveProfile}>
-            <div className="form-field">
-              <label htmlFor="name">Nome Completo</label>
-              <input
-                id="name"
-                type="text"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                disabled={!editing || saving}
-                placeholder="Seu nome"
-              />
-              {errors.name && <small className="error">{errors.name}</small>}
-            </div>
-
-            <div className="form-field">
-              <label htmlFor="email">E-mail</label>
-              <input
-                id="email"
-                type="email"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                disabled={!editing || saving}
-                placeholder="voce@email.com"
-              />
-              {errors.email && <small className="error">{errors.email}</small>}
-            </div>
-
-            {editing && (
-              <div className="form-actions">
-                <button
-                  className="btn"
-                  type="button"
-                  onClick={onCancelEdit}
-                  disabled={saving}
-                >
-                  Cancelar
-                </button>
+        <div className="profile-main">
+          {/* INFORMAÇÕES PESSOAIS */}
+          <section className="panel">
+            <div className="panel-header">
+              <h2>Informações Pessoais</h2>
+              {!editing ? (
                 <button
                   className="btn btn-green"
-                  type="submit"
-                  disabled={saving}
+                  onClick={() => setEditing(true)}
                 >
-                  {saving ? "Salvando..." : "Salvar Alterações"}
+                  ✎ Editar Perfil
+                </button>
+              ) : null}
+            </div>
+
+            <form className="form-grid" onSubmit={onSaveProfile}>
+              <div className="form-field">
+                <label htmlFor="name">Nome Completo</label>
+                <input
+                  id="name"
+                  type="text"
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  disabled={!editing || saving}
+                  placeholder="Seu nome"
+                />
+                {errors.name && <small className="error">{errors.name}</small>}
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="email">E-mail</label>
+                <input
+                  id="email"
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  disabled={!editing || saving}
+                  placeholder="voce@email.com"
+                />
+                {errors.email && (
+                  <small className="error">{errors.email}</small>
+                )}
+              </div>
+
+              {editing && (
+                <div className="form-actions">
+                  <button
+                    className="btn"
+                    type="button"
+                    onClick={onCancelEdit}
+                    disabled={saving}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    className="btn btn-green"
+                    type="submit"
+                    disabled={saving}
+                  >
+                    {saving ? "Salvando..." : "Salvar Alterações"}
+                  </button>
+                </div>
+              )}
+            </form>
+          </section>
+
+          {/* ALTERAR SENHA */}
+          <section className="panel">
+            <h2>Alterar Senha</h2>
+
+            <form className="form-grid" onSubmit={onChangePassword}>
+              <div className="form-field">
+                <label htmlFor="current">Senha Atual</label>
+                <input
+                  id="current"
+                  type="password"
+                  value={pwd.current}
+                  onChange={(e) => setPwd({ ...pwd, current: e.target.value })}
+                  placeholder="Digite sua senha atual"
+                />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="next">Nova Senha</label>
+                <input
+                  id="next"
+                  type="password"
+                  value={pwd.next}
+                  onChange={(e) => setPwd({ ...pwd, next: e.target.value })}
+                  placeholder="Digite a nova senha (min. 6 caracteres)"
+                />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="confirm">Confirmar nova senha</label>
+                <input
+                  id="confirm"
+                  type="password"
+                  value={pwd.confirm}
+                  onChange={(e) => setPwd({ ...pwd, confirm: e.target.value })}
+                  placeholder="Confirme a nova senha"
+                />
+              </div>
+
+              {pwdErr && <small className="error">{pwdErr}</small>}
+
+              <div className="form-actions">
+                <button className="btn btn-green" disabled={pwdSaving}>
+                  {pwdSaving ? "Alterando..." : "Alterar Senha"}
                 </button>
               </div>
-            )}
-          </form>
-        </section>
-
-        {/* ALTERAR SENHA */}
-        <section className="panel">
-          <h2>Alterar Senha</h2>
-
-          <form className="form-grid" onSubmit={onChangePassword}>
-            <div className="form-field">
-              <label htmlFor="current">Senha Atual</label>
-              <input
-                id="current"
-                type="password"
-                value={pwd.current}
-                onChange={(e) => setPwd({ ...pwd, current: e.target.value })}
-                placeholder="Digite sua senha atual"
-              />
-            </div>
-
-            <div className="form-field">
-              <label htmlFor="next">Nova Senha</label>
-              <input
-                id="next"
-                type="password"
-                value={pwd.next}
-                onChange={(e) => setPwd({ ...pwd, next: e.target.value })}
-                placeholder="Digite a nova senha (min. 6 caracteres)"
-              />
-            </div>
-
-            <div className="form-field">
-              <label htmlFor="confirm">Confirmar nova senha</label>
-              <input
-                id="confirm"
-                type="password"
-                value={pwd.confirm}
-                onChange={(e) => setPwd({ ...pwd, confirm: e.target.value })}
-                placeholder="Confirme a nova senha"
-              />
-            </div>
-
-            {pwdErr && <small className="error">{pwdErr}</small>}
-
-            <div className="form-actions">
-              <button className="btn btn-green" disabled={pwdSaving}>
-                {pwdSaving ? "Alterando..." : "Alterar Senha"}
-              </button>
-            </div>
-          </form>
-        </section>
+            </form>
+          </section>
+        </div>
       </main>
     </div>
   );

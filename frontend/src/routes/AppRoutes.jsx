@@ -20,8 +20,6 @@ const AppRoutes = () => (
       <Route path="/relatorios" element={<Reports />} />
       <Route path="/reports" element={<Reports />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/purchase" element={<Purchase />} />
-      <Route path="/drafts" element={<Drafts />} />
       <Route path="/perfil" element={<Profile />} />
     </Route>
   </Routes>
