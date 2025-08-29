@@ -97,6 +97,28 @@ export default function Header() {
               Relatórios
             </NavLink>
           </li>
+          <li className="hidden">
+            <NavLink
+              to="/perfil"
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              <i className="fas fa-user"></i>
+              Perfil
+            </NavLink>
+          </li>
+          <li className="hidden">
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              <i className="fas fa-sign-out"></i>
+              Log-out
+            </NavLink>
+          </li>
         </ul>
       </nav>
 

@@ -81,6 +81,10 @@
   font-size: 16px;
 }
 
+.hidden {
+  display: none;
+}
+
 .login-button {
   padding: 8px 16px;
   background-color: #6b7280;
@@ -140,6 +144,10 @@
     border-bottom: 1px solid #f3f4f6;
   }
 
+  .nav-item.hidden-link {
+    display: block;
+  }
+
   .nav-item.active {
     border-left: 4px solid #10b981;
     background-color: #f3f4f6;
@@ -167,6 +175,9 @@
     width: 100%;
   }
   .menu-toggle {
+    display: block;
+  }
+  .hidden {
     display: block;
   }
 }
