@@ -88,11 +88,7 @@ export default function Header() {
 
           <li>
             <NavLink
-<<<<<<< HEAD
-              to="/relatorios"
-=======
               to="/meus-relatorios"
->>>>>>> develop
               className={({ isActive }) =>
                 isActive ? "nav-item active" : "nav-item"
               }
