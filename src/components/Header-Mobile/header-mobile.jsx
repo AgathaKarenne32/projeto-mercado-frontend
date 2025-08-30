@@ -1,13 +1,39 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./header-mobile.css";
+import UserMenu from "../userMenu/userMenu";
+import { getMe } from "../../services/userService";
 
-const Header = () => {
+export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-  const handleMenuToggle = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  function handleMenuToggle() {
+    setIsMenuOpen((v) => !v);
+  }
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const me = await getMe();
+        if (alive) setUser(me);
+      } catch {
+        // Se preferir, redirecione não autenticado:
+        // navigate("/login");
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [navigate]);
+
+  function handleLogout() {
+    // Sua lógica de logout real:
+    localStorage.removeItem("token");
+    navigate("/login");
+  }
 
   return (
     <header className="header">
@@ -35,6 +61,7 @@ const Header = () => {
               Dashboard
             </NavLink>
           </li>
+
           <li>
             <NavLink
               to="/compras"
@@ -46,6 +73,7 @@ const Header = () => {
               Compras
             </NavLink>
           </li>
+
           <li>
             <NavLink
               to="/rascunhos"
@@ -57,9 +85,14 @@ const Header = () => {
               Rascunhos
             </NavLink>
           </li>
+
           <li>
             <NavLink
+<<<<<<< HEAD
+              to="/relatorios"
+=======
               to="/meus-relatorios"
+>>>>>>> develop
               className={({ isActive }) =>
                 isActive ? "nav-item active" : "nav-item"
               }
@@ -79,15 +112,34 @@ const Header = () => {
               Relatórios Gerais
             </NavLink>
           </li>
+          <li className="hidden">
+            <NavLink
+              to="/perfil"
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              <i className="fas fa-user"></i>
+              Perfil
+            </NavLink>
+          </li>
+          <li className="hidden">
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              <i className="fas fa-sign-out"></i>
+              Log-out
+            </NavLink>
+          </li>
         </ul>
       </nav>
 
-      <button className="login-button">
-        <i className="fas fa-sign-out-alt"></i>
-        Logout
-      </button>
+      <div className="header-right">
+        {user && <UserMenu user={user} onSignOut={handleLogout} />}
+      </div>
     </header>
   );
-};
-
-export default Header;
+}

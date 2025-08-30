@@ -273,10 +273,13 @@ body {
   }
   .dash-hero h1 {
     font-size: 26px;
+<<<<<<< HEAD
+=======
     text-align: center;
   }
   .stat-card {
     text-align: left;
+>>>>>>> develop
   }
 }
 
@@ -301,7 +304,11 @@ body {
   }
 
   .dash-hero {
+<<<<<<< HEAD
+    text-align: left;
+=======
     text-align: center;
+>>>>>>> develop
     padding: 10px 0 6px;
   }
   .dash-hero h1 {
@@ -312,6 +319,10 @@ body {
   .dash-hero p {
     font-size: 13px;
     line-height: 1.35;
+<<<<<<< HEAD
+    max-width: 36ch;
+=======
+>>>>>>> develop
     color: #5b6472;
     margin: 0;
   }
@@ -338,7 +349,11 @@ body {
     font-size: 11px;
     margin-top: 6px;
   }
+<<<<<<< HEAD
+  .stat-card{
+=======
   .stat-card {
+>>>>>>> develop
     text-align: left;
   }
   .actions-grid {
