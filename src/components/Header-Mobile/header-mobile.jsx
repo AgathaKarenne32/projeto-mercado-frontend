@@ -88,13 +88,28 @@ export default function Header() {
 
           <li>
             <NavLink
+<<<<<<< HEAD
               to="/relatorios"
+=======
+              to="/meus-relatorios"
+>>>>>>> develop
               className={({ isActive }) =>
                 isActive ? "nav-item active" : "nav-item"
               }
             >
               <i className="fas fa-file-alt"></i>
-              Relatórios
+              Meus Relatórios
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/relatorios"
+              className={({ isActive }) =>
+                isActive ? "nav-item active" : "nav-item"
+              }
+            >
+              <i class="fa-solid fa-users"></i>
+              Relatórios Gerais
             </NavLink>
           </li>
           <li className="hidden">
