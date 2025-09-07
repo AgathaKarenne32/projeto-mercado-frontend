@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { api } from '../services/api';
 import { toast } from 'react-toastify'
 
 const SignUp = () => {
+    const navigate = useNavigate()
+
     const {
         register,
         handleSubmit,
@@ -19,6 +21,7 @@ const SignUp = () => {
             await api.post("/auth/register", userData);
             reset();
             toast.success("Usuário criado com sucesso!")
+            navigate("/login")
         } catch (err) {
             toast.error("Erro ao cadastrar usuario")
             console.log("Erro ao cadastrar")
@@ -26,14 +29,9 @@ const SignUp = () => {
 
     };
 
-    const onSubmit = (data) => {
-        const { confirmPassword, ...userData } = data;
-        saveUser(userData);
-    };
-
     return (
         <section id="signup-screen" className="screen active phone-mockup">
-            <form className="main-content" onSubmit={handleSubmit(onSubmit)}>
+            <form className="main-content" onSubmit={handleSubmit(saveUser)}>
                 <div className="login-header">
                     <div className="login-logo">
                         <i className="fas fa-user-plus"></i>
@@ -51,7 +49,7 @@ const SignUp = () => {
                         {...register("username", { required: "Nome é obrigatório" })}
                         className="form-input"
                     />
-                    {errors.name && <span>{errors.name.message}</span>}
+                    {errors.username && <span className="form-error">{errors.username.message}</span>}
                 </div>
 
                 <div className="form-container">
@@ -62,14 +60,14 @@ const SignUp = () => {
                         placeholder="Digite seu e-mail"
                         className="form-input"
                         {...register("email", {
-                            required: "Email é obrigatório",
+                            required: "E-mail é obrigatório",
                             pattern: {
                                 value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
                                 message: "Email inválido"
                             }
                         })}
                     />
-                    {errors.email && <span>{errors.email.message}</span>}
+                    {errors.email && <span className="form-error">{errors.email.message}</span>}
                 </div>
 
                 <div className="form-container">
@@ -81,7 +79,7 @@ const SignUp = () => {
                         className="form-input"
                         {...register("password", { required: "Senha obrigatória" })}
                     />
-                    {errors.password && <span>{errors.password.message}</span>}
+                    {errors.password && <span className="form-error">{errors.password.message}</span>}
                 </div>
 
                 <div className="form-container">
@@ -96,7 +94,7 @@ const SignUp = () => {
                             validate: value => value === password || "As senhas não coincidem"
                         })}
                     />
-                    {errors.confirmPassword && <span>{errors.confirmPassword.message}</span>}
+                    {errors.confirmPassword && <span className="form-error">{errors.confirmPassword.message}</span>}
                 </div>
 
                 <div className="form-container">

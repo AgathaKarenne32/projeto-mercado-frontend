@@ -1,26 +1,21 @@
 import { useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const GoogleAuth = () => {
     const [searchParams] = useSearchParams();
-    const navigate = useNavigate();
+    const { login } = useAuth();
 
     useEffect(() => {
         const accessToken = searchParams.get("accessToken");
         const refreshToken = searchParams.get("refreshToken");
 
         if (accessToken && refreshToken) {
-
-            localStorage.setItem("accessToken", accessToken);
-            localStorage.setItem("refreshToken", refreshToken);
-
-
-            navigate("/dashboard");
+            login({ token: accessToken, refreshToken });
         } else {
-
-            navigate("/login");
+            window.location.href = "/login";
         }
-    }, [searchParams, navigate]);
+    }, [searchParams]);
 
     return <p>Processando login via Google...</p>;
 };

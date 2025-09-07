@@ -104,7 +104,7 @@ export default function Header() {
                 isActive ? "nav-item active" : "nav-item"
               }
             >
-              <i class="fa-solid fa-users"></i>
+              <i className="fa-solid fa-users"></i>
               Relatórios Gerais
             </NavLink>
           </li>
