@@ -3,11 +3,14 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "./header-mobile.css";
 import UserMenu from "../userMenu/userMenu";
 import { getMe } from "../../services/userService";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
+  const { logout } = useAuth()
 
   function handleMenuToggle() {
     setIsMenuOpen((v) => !v);
@@ -30,9 +33,7 @@ export default function Header() {
   }, [navigate]);
 
   function handleLogout() {
-    // Sua lógica de logout real:
-    localStorage.removeItem("token");
-    navigate("/login");
+    logout();
   }
 
   return (
@@ -104,7 +105,7 @@ export default function Header() {
                 isActive ? "nav-item active" : "nav-item"
               }
             >
-              <i class="fa-solid fa-users"></i>
+              <i className="fa-solid fa-users"></i>
               Relatórios Gerais
             </NavLink>
           </li>
@@ -120,15 +121,15 @@ export default function Header() {
             </NavLink>
           </li>
           <li className="hidden">
-            <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                isActive ? "nav-item active" : "nav-item"
-              }
+            <button
+              className="logout-button"
+              onClick={() => {
+                handleLogout();
+              }}
             >
               <i className="fas fa-sign-out"></i>
-              Log-out
-            </NavLink>
+              Sair
+            </button>
           </li>
         </ul>
       </nav>

@@ -174,10 +174,24 @@
     justify-content: flex-start;
     width: 100%;
   }
+
   .menu-toggle {
     display: block;
   }
+
   .hidden {
     display: block;
   }
+}
+
+.logout-button {
+  all: unset;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #6b7280;
+  padding: 16px 24px;
+  border-bottom: 1px solid #f3f4f6;
+  width: 100%;
 }
