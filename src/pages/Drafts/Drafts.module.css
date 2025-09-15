@@ -1,0 +1,102 @@
+.headerSection {
+    padding: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.headerContent {
+    max-width: 600px;
+}
+
+
+.title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #7f8c8d;
+    margin-bottom: 1.5rem;
+}
+
+
+.buttonGroup {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.buttonDraft {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    background-color: var(--btn-success);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buttonRule {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    background-color: #e07a25;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #2980b9;
+}
+
+
+.emptySection {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    background-color: #fdfdfd;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.icon {
+    font-size: 2rem;
+    color: #34495e;
+    margin-bottom: 1rem;
+}
+
+
+.emptyTitle {
+    font-size: 1.1rem;
+    color: #34495e;
+    margin-bottom: 0.5rem;
+}
+
+.emptyText {
+    font-size: 0.95rem;
+    color: #7f8c8d;
+}
+
+@media screen and (min-width: 768px) {
+    .title {
+        text-align: start;
+    }
+
+    .emptySection {
+        padding: 6rem;
+    }
+}
