@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "./header-mobile.css";
 import UserMenu from "../userMenu/userMenu";
 import { getMe } from "../../services/userService";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

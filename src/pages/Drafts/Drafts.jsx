@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Drafts.module.css";
+import UnitPriceComparatorModal from "../../components/UnitPriceComparatorModal/UnitPriceComparatorModal";
 
 const Drafts = () => {
+  const [showModalUnitCompare, setShowModalUnitCompare] = useState(false)
+
   return (
     <main>
       <header className={styles.headerSection} role="banner">
@@ -13,7 +16,7 @@ const Drafts = () => {
         </div>
 
         <div className={styles.buttonGroup}>
-          <button className={styles.buttonRule}>Regra de 3</button>
+          <button className={styles.buttonUnitCompare} onClick={() => setShowModalUnitCompare(prev => !prev)}>Comparação Unitária</button>
           <button className={styles.buttonDraft}>Novo Rascunho</button>
         </div>
       </header>
@@ -26,6 +29,12 @@ const Drafts = () => {
           Crie um novo rascunho para começar a organizar suas compras
         </p>
       </section>
+
+      {
+        showModalUnitCompare && (
+          <UnitPriceComparatorModal setShowModalUnitCompare={setShowModalUnitCompare} />
+        )
+      }
     </main>
   );
 };
