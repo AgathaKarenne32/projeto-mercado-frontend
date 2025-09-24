@@ -1,10 +1,11 @@
 .section-header {
+  --page-horizontal-padding: 6rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
-  margin: 1.2rem;
+  padding: 1rem var(--page-horizontal-padding);
+  margin: 1.2rem 0;
   gap: .5rem;
 
 }

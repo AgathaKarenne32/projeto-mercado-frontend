@@ -1,9 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./Drafts.module.css";
 import UnitPriceComparatorModal from "../../components/UnitPriceComparatorModal/UnitPriceComparatorModal";
+import DraftModal from "../../components/Drafts/DraftModal";
+import { DraftItem } from "../../components/Drafts/DrafItem";
+import { useModal } from "../../contexts/ModalContext";
 
 const Drafts = () => {
-  const [showModalUnitCompare, setShowModalUnitCompare] = useState(false)
+  const {
+    isDraftModalOpen,
+    isUnitCompareModalOpen,
+    openUnitCompareModal,
+  } = useModal();
+
+
+  const handleUnitCompareClick = () => {
+    if (typeof openUnitCompareModal === "function") {
+      openUnitCompareModal();
+    }
+  };
 
   return (
     <main>
@@ -16,25 +30,23 @@ const Drafts = () => {
         </div>
 
         <div className={styles.buttonGroup}>
-          <button className={styles.buttonUnitCompare} onClick={() => setShowModalUnitCompare(prev => !prev)}>Comparação Unitária</button>
-          <button className={styles.buttonDraft}>Novo Rascunho</button>
+          <button
+            className={styles.buttonUnitCompare}
+            onClick={handleUnitCompareClick}
+            type="button"
+          >
+            Comparação Unitária
+          </button>
         </div>
       </header>
 
-      <section className={styles.emptySection}>
-        <i className={`fa-solid fa-basket-shopping ${styles.icon}`}></i>
-        <h3 className={styles.emptyTitle}>Nenhum rascunho encontrado</h3>
-        <p className={styles.emptyText}>Você ainda não possui rascunhos salvos.</p>
-        <p className={styles.emptyText}>
-          Crie um novo rascunho para começar a organizar suas compras
-        </p>
-      </section>
+      <DraftItem />
 
-      {
-        showModalUnitCompare && (
-          <UnitPriceComparatorModal setShowModalUnitCompare={setShowModalUnitCompare} />
-        )
-      }
+
+      {isUnitCompareModalOpen && <UnitPriceComparatorModal />}
+      {isDraftModalOpen && <DraftModal />}
+
+
     </main>
   );
 };

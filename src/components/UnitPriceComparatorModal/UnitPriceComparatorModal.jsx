@@ -2,9 +2,13 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./UnitPriceComparatorModal.module.css";
 
-const UnitPriceComparatorModal = ({ setShowModalUnitCompare }) => {
+import { useModal } from "../../contexts/ModalContext";
+
+const UnitPriceComparatorModal = () => {
     const [unit, setUnit] = useState("g");
     const [result, setResult] = useState(null);
+
+    const { closeUnitCompareModal, closeUnitModal } = useModal();
 
     const {
         register,
@@ -69,7 +73,14 @@ const UnitPriceComparatorModal = ({ setShowModalUnitCompare }) => {
                 <button
                     type="button"
                     className={styles.closeButton}
-                    onClick={() => setShowModalUnitCompare(false)}
+                    onClick={() => {
+                        // prefer the compare-specific alias, fallback to generic
+                        if (typeof closeUnitCompareModal === "function") {
+                            closeUnitCompareModal();
+                        } else if (typeof closeUnitModal === "function") {
+                            closeUnitModal();
+                        }
+                    }}
                     aria-label="Fechar modal"
                 >
                     ×
@@ -109,6 +120,7 @@ const UnitPriceComparatorModal = ({ setShowModalUnitCompare }) => {
                             <input
                                 id="quantityA"
                                 type="number"
+                                placeholder="500"
                                 className={styles.textInput}
                                 {...register("quantityA", {
                                     required: "campo obrigatório *",
@@ -124,6 +136,7 @@ const UnitPriceComparatorModal = ({ setShowModalUnitCompare }) => {
                             <input
                                 id="priceA"
                                 type="text"
+                                placeholder="R$ 0,00"
                                 className={styles.textInput}
                                 {...register("priceA", {
                                     required: "campo obrigatório *",
@@ -143,6 +156,7 @@ const UnitPriceComparatorModal = ({ setShowModalUnitCompare }) => {
                             <input
                                 id="quantityB"
                                 type="number"
+                                placeholder="300"
                                 className={styles.textInput}
                                 {...register("quantityB", {
                                     required: "campo obrigatório *",
@@ -158,6 +172,7 @@ const UnitPriceComparatorModal = ({ setShowModalUnitCompare }) => {
                             <input
                                 id="priceB"
                                 type="text"
+                                placeholder="R$ 0,00"
                                 className={styles.textInput}
                                 {...register("priceB", {
                                     required: "campo obrigatório *",
