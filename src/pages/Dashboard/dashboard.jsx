@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import StatCard from "../../components/StatCard";
 import "./dashboard.css";
 
@@ -10,9 +11,7 @@ export default function Dashboard() {
         <section className="dash-hero">
           <h1>Sistema de Gestão de Compras Pessoais</h1>
           <p>
-            Controle total dos seus gastos com análise inteligente de compras,
-            relatórios detalhados e integração com OCR para automação da entrada
-            de dados.
+            Controle total dos seus gastos com análise inteligente de compras, relatórios detalhados e integração com leitura de QR Code para automação da entrada de dados.
           </p>
         </section>
 
@@ -45,7 +44,7 @@ export default function Dashboard() {
             <div className="action-icon">🧾</div>
             <h3>Gerenciar Compras</h3>
             <p>Registre suas compras manualmente ou pelo QRCode.</p>
-            <button className="btn btn-primary">Adicionar Compra</button>
+            <Link to='/compras' className="btn btn-primary">Adicionar Compra</Link>
           </article>
 
           <article className="action-card">
@@ -62,10 +61,10 @@ export default function Dashboard() {
             <div className="action-icon">📊</div>
             <h3>Relatórios e Análises</h3>
             <p>
-              Visualize relatórios detalhados dos seus gastos e padrões de
-              compra.
+              Analise seus gastos com profundidade e acompanhe os padrões de consumo dos usuários para decisões mais inteligentes.
             </p>
-            <button className="btn btn-outline">Ver Relatórios</button>
+            <Link to="/meus-relatorios" className="btn btn-outline">Meus Relatórios</Link>
+            <Link to="/relatorios" className="btn btn-outline">Relatórios Gerais</Link>
           </article>
         </section>
 
