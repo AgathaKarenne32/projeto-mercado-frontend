@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { api } from "../../services/api";
 import { toast } from "react-toastify";
 import { useModal } from "../../contexts/ModalContext";
@@ -8,15 +8,24 @@ const DraftsTable = ({
     savedRascunhos = [],
     refresh = () => { },
     formatDate = (d) => d,
-    loading = false
+    loading = false,
 }) => {
-    const [preview, setPreview] = useState(null); // estado para modal de visualização
+    const [preview, setPreview] = useState(null);
     const { openDraftModal } = useModal();
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [expanded, setExpanded] = useState(null);
+
     const rascunhos = Array.isArray(savedRascunhos) ? savedRascunhos : [];
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     const currencyFormatter = new Intl.NumberFormat("pt-BR", {
         style: "currency",
-        currency: "BRL"
+        currency: "BRL",
     });
 
     const extractNumber = (val) => {
@@ -37,9 +46,24 @@ const DraftsTable = ({
         return 0;
     };
 
+    const parseItems = (conteudo) => {
+        try {
+            if (typeof conteudo === "string") {
+                const parsed = JSON.parse(conteudo);
+                return Array.isArray(parsed) ? parsed : parsed.items || [];
+            } else if (Array.isArray(conteudo)) {
+                return conteudo;
+            } else {
+                return conteudo?.items || [];
+            }
+        } catch {
+            return [];
+        }
+    };
+
     return (
         <div className={styles.tableContainer}>
-
+            {/* CONTROLES */}
             <div className={styles.controls}>
                 <button className={styles.btnCreate} onClick={() => openDraftModal()} type="button">
                     Criar Rascunho
@@ -47,14 +71,91 @@ const DraftsTable = ({
                 <button className={styles.btnRefresh} onClick={refresh} type="button">
                     {loading ? "Carregando..." : "Atualizar lista"}
                 </button>
-
+                <div className={styles.meta}>{rascunhos.length} rascunho(s) encontrados</div>
             </div>
 
-
+            {/* LISTAGEM */}
             <div className={styles.tableWrap}>
                 {rascunhos.length === 0 ? (
                     <div className={styles.empty}>Nenhum rascunho salvo encontrado.</div>
+                ) : isMobile ? (
+                    // ==== MOBILE: Cards expansíveis ====
+                    <div className={styles.mobileList}>
+                        {rascunhos.map((r) => {
+                            const items = parseItems(r.conteudo);
+                            const totalQty = items.reduce((acc, it) => acc + extractQty(it), 0);
+                            const totalPrice = items.reduce(
+                                (acc, it) => acc + extractNumber(it.price) * extractQty(it),
+                                0
+                            );
+                            const isOpen = expanded === r.id;
+
+                            return (
+                                <div key={r.id} className={styles.mobileCard}>
+                                    <div className={styles.mobileHeader}>
+                                        <div>
+                                            <strong>{r.mercado}</strong>
+                                            <div className={styles.mobileMeta}>
+                                                {totalQty} itens • {currencyFormatter.format(totalPrice)}
+                                            </div>
+                                        </div>
+                                        <button
+                                            className={styles.btnExpand}
+                                            onClick={() => setExpanded(isOpen ? null : r.id)}
+                                        >
+                                            {isOpen ? "Fechar" : "Expandir"}
+                                        </button>
+                                    </div>
+
+                                    {isOpen && (
+                                        <div className={styles.mobileBody}>
+                                            <div className={styles.productList}>
+                                                {items.map((it, i) => (
+                                                    <div key={i} className={styles.productChip}>
+                                                        {it.product || it.name || it.produto || "item"} •{" "}
+                                                        {extractQty(it)} un. •{" "}
+                                                        {currencyFormatter.format(extractNumber(it.price))}
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            <div className={styles.actions}>
+                                                <button
+                                                    className={styles.btnView}
+                                                    onClick={() => setPreview({ ...r, items })}
+                                                >
+                                                    Visualizar
+                                                </button>
+                                                <button
+                                                    className={styles.btnDelete}
+                                                    onClick={async () => {
+                                                        const ok = window.confirm("Confirma exclusão do rascunho?");
+                                                        if (!ok) return;
+                                                        try {
+                                                            const delRes = await api.delete(`/api/rascunhos/${r.id}`);
+                                                            if (delRes && (delRes.status === 200 || delRes.status === 204)) {
+                                                                toast.success("Rascunho excluído");
+                                                                refresh();
+                                                            } else {
+                                                                toast.error("Erro ao excluir rascunho");
+                                                            }
+                                                        } catch (err) {
+                                                            console.error("Erro ao excluir rascunho", err);
+                                                            toast.error("Não foi possível excluir o rascunho");
+                                                        }
+                                                    }}
+                                                >
+                                                    Excluir
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
                 ) : (
+                    // ==== DESKTOP: Tabela ====
                     <table className={styles.table}>
                         <thead>
                             <tr>
@@ -68,20 +169,7 @@ const DraftsTable = ({
                         </thead>
                         <tbody>
                             {rascunhos.map((r) => {
-                                let items = [];
-                                try {
-                                    if (typeof r.conteudo === "string") {
-                                        const parsed = JSON.parse(r.conteudo);
-                                        items = Array.isArray(parsed) ? parsed : parsed.items || [];
-                                    } else if (Array.isArray(r.conteudo)) {
-                                        items = r.conteudo;
-                                    } else {
-                                        items = r.conteudo?.items || [];
-                                    }
-                                } catch {
-                                    items = [];
-                                }
-
+                                const items = parseItems(r.conteudo);
                                 const totalQty = items.reduce((acc, it) => acc + extractQty(it), 0);
                                 const totalPrice = items.reduce(
                                     (acc, it) => acc + extractNumber(it.price) * extractQty(it),
@@ -90,10 +178,8 @@ const DraftsTable = ({
 
                                 return (
                                     <tr key={r.id}>
-                                        <td data-label="Mercado">{r.mercado}</td>
-
-
-                                        <td data-label="Produtos">
+                                        <td>{r.mercado}</td>
+                                        <td>
                                             <div className={styles.productList}>
                                                 {items.slice(0, 3).map((it, i) => (
                                                     <span key={i} className={styles.productChip}>
@@ -105,17 +191,14 @@ const DraftsTable = ({
                                                 )}
                                             </div>
                                         </td>
-
-                                        <td data-label="Qtd. Total">{totalQty}</td>
-                                        <td data-label="Total (R$)">{currencyFormatter.format(totalPrice)}</td>
-                                        <td data-label="Criado">{formatDate(r.createdAt || r.CREATED_AT || r.created_at || "")}</td>
-
-                                        <td data-label="Ações">
+                                        <td>{totalQty}</td>
+                                        <td>{currencyFormatter.format(totalPrice)}</td>
+                                        <td>{formatDate(r.createdAt || r.CREATED_AT || r.created_at || "")}</td>
+                                        <td>
                                             <div className={styles.actions}>
                                                 <button
                                                     className={styles.btnView}
                                                     onClick={() => setPreview({ ...r, items })}
-                                                    type="button"
                                                 >
                                                     Visualizar
                                                 </button>
@@ -150,7 +233,7 @@ const DraftsTable = ({
                 )}
             </div>
 
-
+            {/* MODAL VISUALIZAÇÃO */}
             {preview && (
                 <div className={styles.modalOverlay} onClick={() => setPreview(null)}>
                     <div className={styles.modalBox} onClick={(e) => e.stopPropagation()}>
@@ -160,7 +243,6 @@ const DraftsTable = ({
                                 ✕
                             </button>
                         </div>
-
                         <div className={styles.modalBody}>
                             <div className={styles.productsGrid}>
                                 {preview.items.map((it, i) => (
@@ -173,8 +255,6 @@ const DraftsTable = ({
                                     </div>
                                 ))}
                             </div>
-
-                            {/* Total geral */}
                             <div className={styles.totalPreview}>
                                 <strong>Total geral:</strong>{" "}
                                 {currencyFormatter.format(
