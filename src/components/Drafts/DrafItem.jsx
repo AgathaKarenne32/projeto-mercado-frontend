@@ -1,14 +1,11 @@
 import { useState } from "react";
-import { api } from "../../services/api";
-import { toast } from "react-toastify";
 import { useDraft } from "../../contexts/DraftContext";
 import { useModal } from "../../contexts/ModalContext";
 import styles from "./DraftItem.module.css";
 
 export const DraftItem = ({ hasSavedRascunhos = false }) => {
-    const { draftItems, market, removeItem, clearDraft } = useDraft();
+    const { draftItems, market, removeItem, clearDraft, handleSaveDraft, isSaving } = useDraft();
     const { openDraftModal } = useModal();
-    const [isSaving, setIsSaving] = useState(false);
     const [showSavedMessage, setShowSavedMessage] = useState(false);
 
     const isEmpty = !draftItems || draftItems.length === 0;
@@ -17,41 +14,12 @@ export const DraftItem = ({ hasSavedRascunhos = false }) => {
 
     const handleRemoveItem = (id) => removeItem(id);
 
-    const handleSaveDraft = async () => {
-        if (!market || market.trim() === "") {
-            toast.error("Informe o mercado antes de salvar");
-            return;
-        }
-
-        if (!draftItems || draftItems.length === 0) {
-            toast.info("Não há rascunhos para salvar");
-            return;
-        }
-
-        const conteudo = JSON.stringify(draftItems);
-        const mercado = market;
-
-        setIsSaving(true);
-        try {
-
-            const res = await api.post("/api/rascunhos", { mercado, conteudo });
-            if (res && res.status >= 200 && res.status < 300) {
-                clearDraft();
-                setShowSavedMessage(true);
-                toast.success("Rascunho salvo no servidor com sucesso");
-                window.dispatchEvent(new CustomEvent("rascunhos:updated"));
-            } else {
-                toast.error(`Erro ao salvar rascunho: ${res ? res.status : "sem resposta"}`);
-            }
-        } catch (err) {
-            console.error("Falha ao salvar rascunho:", err);
-            const errMsg = err?.response?.data ? JSON.stringify(err.response.data) : err.message;
-            toast.error(`Não foi possível salvar: ${errMsg}`);
-        } finally {
-            setIsSaving(false);
+    const handleSaveDraftWithFeedback = async () => {
+        const success = await handleSaveDraft();
+        if (success) {
+            setShowSavedMessage(true);
         }
     };
-
 
     const handleCreateNewDraft = () => {
         clearDraft();
@@ -73,24 +41,21 @@ export const DraftItem = ({ hasSavedRascunhos = false }) => {
                 </section>
             ) : (
                 <section className={styles.itensContainer}>
-
                     {!isEmpty && !showSavedMessage && (
                         <div className={styles.actions}>
                             <button className={styles.btnAddItem} onClick={handleCreateDraft} type="button">
                                 + Adicionar item
                             </button>
-
                             <button
                                 className={styles.btnSaveDraft}
                                 type="button"
-                                onClick={handleSaveDraft}
+                                onClick={handleSaveDraftWithFeedback}
                                 disabled={isSaving}
                             >
                                 {isSaving ? "Salvando..." : "Salvar rascunho"}
                             </button>
                         </div>
                     )}
-
 
                     {!isEmpty && draftItems.map((item) => (
                         <article key={item.id} className={styles.itemCard}>
@@ -99,7 +64,6 @@ export const DraftItem = ({ hasSavedRascunhos = false }) => {
                                 <div className={styles.infoCard}>
                                     <p><strong>Quantidade:</strong> {item.quantity}</p>
                                     <p><strong>Preço:</strong> R$ {item.price}</p>
-
                                 </div>
                             </div>
 
