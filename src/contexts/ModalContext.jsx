@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useState } from "react";
 
 const ModalContext = createContext();
@@ -7,18 +6,29 @@ export const ModalProvider = ({ children }) => {
     const [isDraftModalOpen, setIsDraftModalOpen] = useState(false);
     const [isUnitModalOpen, setIsUnitModalOpen] = useState(false);
 
+    const openDraftModal = () => setIsDraftModalOpen(true);
+    const closeDraftModal = () => setIsDraftModalOpen(false);
+
+    const openUnitModal = () => setIsUnitModalOpen(true);
+    const closeUnitModal = () => setIsUnitModalOpen(false);
+
     return (
         <ModalContext.Provider
             value={{
+                // Draft Modal
                 isDraftModalOpen,
-                openDraftModal: () => setIsDraftModalOpen(true),
-                closeDraftModal: () => setIsDraftModalOpen(false),
+                openDraftModal,
+                closeDraftModal,
+
+                // Unit Modal (com nomes consistentes)
                 isUnitModalOpen,
-                openUnitModal: () => setIsUnitModalOpen(true),
-                closeUnitModal: () => setIsUnitModalOpen(false),
+                openUnitModal,
+                closeUnitModal,
+
+                // Aliases para compatibilidade
                 isUnitCompareModalOpen: isUnitModalOpen,
-                openUnitCompareModal: () => setIsUnitModalOpen(true),
-                closeUnitCompareModal: () => setIsUnitModalOpen(false),
+                openUnitCompareModal: openUnitModal,
+                closeUnitCompareModal: closeUnitModal,
             }}
         >
             {children}
@@ -26,4 +36,10 @@ export const ModalProvider = ({ children }) => {
     );
 };
 
-export const useModal = () => useContext(ModalContext);
+export const useModal = () => {
+    const context = useContext(ModalContext);
+    if (!context) {
+        throw new Error("useModal must be used within a ModalProvider");
+    }
+    return context;
+};

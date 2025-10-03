@@ -3,7 +3,7 @@ import styles from "./Drafts.module.css";
 import UnitPriceComparatorModal from "../../components/UnitPriceComparatorModal/UnitPriceComparatorModal";
 import DraftModal from "../../components/Drafts/DraftModal";
 import { DraftItem } from "../../components/Drafts/DrafItem";
-import DraftsTable from "../../components/Drafts/DraftsTable";
+import DraftsTable from "../../components/Drafts/Table/DraftsTable";
 import { useModal } from "../../contexts/ModalContext";
 import formatLocalDate from "../../utils/formatDate";
 import { useDraft } from "../../contexts/DraftContext";
