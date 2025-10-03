@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { api } from "../../services/api";
-import { toast } from "react-toastify";
 import { useModal } from "../../contexts/ModalContext";
+import { useDraft } from "../../contexts/DraftContext";
 import styles from "./DraftsTable.module.css";
 
 const DraftsTable = ({
@@ -12,6 +11,7 @@ const DraftsTable = ({
 }) => {
     const [preview, setPreview] = useState(null);
     const { openDraftModal } = useModal();
+    const { handleDeleteDraft } = useDraft();
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [expanded, setExpanded] = useState(null);
 
@@ -58,6 +58,13 @@ const DraftsTable = ({
             }
         } catch {
             return [];
+        }
+    };
+
+    const handleDelete = async (id) => {
+        const success = await handleDeleteDraft(id);
+        if (success) {
+            refresh();
         }
     };
 
@@ -128,22 +135,7 @@ const DraftsTable = ({
                                                 </button>
                                                 <button
                                                     className={styles.btnDelete}
-                                                    onClick={async () => {
-                                                        const ok = window.confirm("Confirma exclusão do rascunho?");
-                                                        if (!ok) return;
-                                                        try {
-                                                            const delRes = await api.delete(`/api/rascunhos/${r.id}`);
-                                                            if (delRes && (delRes.status === 200 || delRes.status === 204)) {
-                                                                toast.success("Rascunho excluído");
-                                                                refresh();
-                                                            } else {
-                                                                toast.error("Erro ao excluir rascunho");
-                                                            }
-                                                        } catch (err) {
-                                                            console.error("Erro ao excluir rascunho", err);
-                                                            toast.error("Não foi possível excluir o rascunho");
-                                                        }
-                                                    }}
+                                                    onClick={() => handleDelete(r.id)}
                                                 >
                                                     Excluir
                                                 </button>
@@ -204,22 +196,7 @@ const DraftsTable = ({
                                                 </button>
                                                 <button
                                                     className={styles.btnDelete}
-                                                    onClick={async () => {
-                                                        const ok = window.confirm("Confirma exclusão do rascunho?");
-                                                        if (!ok) return;
-                                                        try {
-                                                            const delRes = await api.delete(`/api/rascunhos/${r.id}`);
-                                                            if (delRes && (delRes.status === 200 || delRes.status === 204)) {
-                                                                toast.success("Rascunho excluído");
-                                                                refresh();
-                                                            } else {
-                                                                toast.error("Erro ao excluir rascunho");
-                                                            }
-                                                        } catch (err) {
-                                                            console.error("Erro ao excluir rascunho", err);
-                                                            toast.error("Não foi possível excluir o rascunho");
-                                                        }
-                                                    }}
+                                                    onClick={() => handleDelete(r.id)}
                                                 >
                                                     Excluir
                                                 </button>

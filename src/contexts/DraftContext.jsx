@@ -120,6 +120,27 @@ export const DraftProvider = ({ children }) => {
         }
     };
 
+    const handleDeleteDraft = async (id) => {
+        const ok = window.confirm("Confirma exclusão do rascunho?");
+        if (!ok) return false;
+
+        try {
+            const delRes = await api.delete(`/api/rascunhos/${id}`);
+            if (delRes && (delRes.status === 200 || delRes.status === 204)) {
+                toast.success("Rascunho excluído");
+                window.dispatchEvent(new CustomEvent("rascunhos:updated"));
+                return true;
+            } else {
+                toast.error("Erro ao excluir rascunho");
+                return false;
+            }
+        } catch (err) {
+            console.error("Erro ao excluir rascunho", err);
+            toast.error("Não foi possível excluir o rascunho");
+            return false;
+        }
+    };
+
     return (
         <DraftContext.Provider value={{
             draftItems,
@@ -130,6 +151,7 @@ export const DraftProvider = ({ children }) => {
             clearItems,
             clearDraft,
             handleSaveDraft,
+            handleDeleteDraft,
             isSaving,
             savedRascunhos,
             loadingSaved,
