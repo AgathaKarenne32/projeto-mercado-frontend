@@ -171,7 +171,7 @@ const DraftModal = () => {
                 {currentStep === 1 && (
                     <>
                         <header className={styles.modalHeader}>
-                            <h1 className={styles.modalTitle}>Selecione o Mercado</h1>
+                            <h1 className={styles.modalTitle}>Mercado</h1>
                             <p className={styles.modalDescription}>
                                 Informe em qual mercado você está fazendo compras.
                             </p>
