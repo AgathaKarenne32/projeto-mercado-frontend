@@ -26,6 +26,7 @@ const Login = () => {
       const { token, refreshTokenId } = response.data;
       login({ token, refreshToken: refreshTokenId });
       reset();
+      console.log(response.data)
       toast.success("Usuário logado com sucesso!");
     } catch (err) {
       toast.error("Erro ao logar usuário");
