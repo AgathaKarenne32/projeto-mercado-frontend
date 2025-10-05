@@ -2,6 +2,7 @@
 
 :root {
   --color-primary: #ff7f27;
+  --color-primary-hover: #ee7524fd;
   --color-secondary: #4b5563;
   --color-accent: #8b5cf6;
   --color-background: #f0f4f8;
@@ -10,11 +11,17 @@
   --color-text-tertiary: #fff;
   --color-border: #d1d5db;
   --color-panel-background: #fff;
-
   --btn-success: #22c55e;
   --btn-success-hover: #16a34a;
   --btn-danger: #ef4444;
   --btn-danger-hover: #b91c1c;
+  --border: #cad0db;
+  --bg: #ffffff;
+  --overlay: rgba(0, 0, 0, 0.5);
+  --text: #1f2937;
+  --muted: #6b7280;
+  --radius: 0.5rem;
+  --transition: 0.3s ease;
 }
 
 * {

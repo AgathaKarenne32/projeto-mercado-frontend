@@ -1,0 +1,195 @@
+.draftList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.itensContainer {
+    width: 90%;
+    margin: 0 auto;
+    background-color: transparent;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.itemCard {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(16, 24, 40, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.itemCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(16, 24, 40, 0.1);
+}
+
+.itemProduct {
+    width: 100%;
+
+}
+
+.titleProduct {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ff6b00;
+    margin-bottom: 0.25rem;
+}
+
+.infoCard {
+
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.95rem;
+    color: #4b5563;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btnAddItem {
+    padding: 0.6rem 1rem;
+    background: transparent;
+    color: #0f172a;
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.btnAddItem:hover {
+    background-color: rgba(6, 95, 70, 0.05);
+    transform: translateY(-1px);
+}
+
+.btnSaveDraft {
+    padding: 0.6rem 1rem;
+    background-color: #057e37d7;
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.btnSaveDraft:hover {
+    background-color: #057e37;
+    transform: translateY(-1px);
+}
+
+/* Novo botão de excluir igual ao .btnDelete */
+.btnDeleteItem {
+    background: #ff4d4f;
+    border: none;
+    color: white;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.btnDeleteItem:hover {
+    background-color: #dc2626;
+    transform: translateY(-1px);
+}
+
+.emptySection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    gap: 1rem;
+    width: 100%;
+    max-width: 600px;
+    min-height: 50vh;
+}
+
+.icon {
+    font-size: 48px;
+    color: #9ca3af;
+    margin-bottom: 1rem;
+}
+
+.emptyTitle {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #374151;
+}
+
+.emptyText {
+    font-size: 0.95rem;
+    color: #4b5563;
+}
+
+.btnCreateDraft {
+    padding: 0.65rem 1rem;
+    font-size: 0.95rem;
+    background-color: #057e37d7;
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.btnCreateDraft:hover {
+    background-color: #057e37;
+    transform: translateY(-2px);
+}
+
+.btnTrash {
+
+    background-color: #dc2626;
+    color: white;
+    padding: .3rem;
+    border: none;
+    border-radius: .2rem;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .itensContainer {
+        width: 95%;
+        gap: 1rem;
+    }
+
+    .infoCard {
+        font-size: medium;
+        justify-content: space-between;
+    }
+
+    .actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .itemCard {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .btnTrash {
+        width: 100%;
+        padding: .5rem;
+    }
+}
