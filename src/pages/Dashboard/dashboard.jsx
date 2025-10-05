@@ -49,12 +49,12 @@ export default function Dashboard() {
 
           <article className="action-card">
             <div className="action-icon">📐</div>
-            <h3>Regra de 3</h3>
+            <h3>Comparação Unitária</h3>
             <p>
-              Compare preços por quantidade com a Regra de 3 e descubra qual
+              Compare preços por quantidade com a Comparação unitária e descubra qual
               produto realmente compensa.
             </p>
-            <button className="btn btn-outline">Regra de 3</button>
+            <button className="btn btn-outline">Comparação Unitária</button>
           </article>
 
           <article className="action-card">
@@ -81,7 +81,7 @@ export default function Dashboard() {
           <div className="feature-row">
             <div className="feature-icon">📐</div>
             <div>
-              <h4>Regra de 3</h4>
+              <h4>Comparação Unitária</h4>
               <p>
                 Compare produtos de tamanhos e preços diferentes e ache o melhor
                 custo-benefício.

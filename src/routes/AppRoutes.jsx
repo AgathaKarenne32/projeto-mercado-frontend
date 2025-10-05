@@ -5,7 +5,7 @@ import SignUp from "../pages/Signup";
 import Profile from "../pages/Profile/Profile";
 
 import Purchase from '../pages/Purchase/Purchase'
-import Drafts from "../pages/Drafts";
+import Drafts from "../pages/Drafts/Drafts";
 import Reports from "../pages/Reports";
 
 import ForgotPassword from "../pages/ForgotPassword";

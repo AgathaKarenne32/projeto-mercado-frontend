@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { api } from "../services/api";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 const Login = () => {
   const {
@@ -26,6 +26,7 @@ const Login = () => {
       const { token, refreshTokenId } = response.data;
       login({ token, refreshToken: refreshTokenId });
       reset();
+      console.log(response.data)
       toast.success("Usuário logado com sucesso!");
     } catch (err) {
       toast.error("Erro ao logar usuário");

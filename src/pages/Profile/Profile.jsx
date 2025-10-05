@@ -112,7 +112,7 @@ export default function Profile() {
         {/* HERO */}
         <section className="profile-hero">
           <h1>Perfil do Usuário</h1>
-          <p>Gerencie suas informações pessoais e configurações de segurança</p>
+          <p>Altere sua senha</p>
         </section>
 
         {/* CARD DO USUÁRIO */}
@@ -127,72 +127,6 @@ export default function Profile() {
         </section>
 
         <div className="profile-main">
-          {/* INFORMAÇÕES PESSOAIS */}
-          <section className="panel">
-            <div className="panel-header">
-              <h2>Informações Pessoais</h2>
-              {!editing ? (
-                <button
-                  className="btn btn-green"
-                  onClick={() => setEditing(true)}
-                >
-                  ✎ Editar Perfil
-                </button>
-              ) : null}
-            </div>
-
-            <form className="form-grid" onSubmit={onSaveProfile}>
-              <div className="form-field">
-                <label htmlFor="name">Nome Completo</label>
-                <input
-                  id="name"
-                  type="text"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  disabled={!editing || saving}
-                  placeholder="Seu nome"
-                />
-                {errors.name && <small className="error">{errors.name}</small>}
-              </div>
-
-              <div className="form-field">
-                <label htmlFor="email">E-mail</label>
-                <input
-                  id="email"
-                  type="email"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  disabled={!editing || saving}
-                  placeholder="voce@email.com"
-                />
-                {errors.email && (
-                  <small className="error">{errors.email}</small>
-                )}
-              </div>
-
-              {editing && (
-                <div className="form-actions">
-                  <button
-                    className="btn"
-                    type="button"
-                    onClick={onCancelEdit}
-                    disabled={saving}
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    className="btn btn-green"
-                    type="submit"
-                    disabled={saving}
-                  >
-                    {saving ? "Salvando..." : "Salvar Alterações"}
-                  </button>
-                </div>
-              )}
-            </form>
-          </section>
-
-          {/* ALTERAR SENHA */}
           <section className="panel">
             <h2>Alterar Senha</h2>
 
