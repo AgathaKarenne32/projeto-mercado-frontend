@@ -8,7 +8,7 @@ import ItemTags from "../ItemTags/ItemTags";
 import ActionButton from "../ActionButton/ActionButton";
 import formatLocalDate from "../../utils/formatDate";
 import formatMoney from "../../utils/formatMoney";
-import { usePurchase } from "../../contexts/Purchase/PurchaseContext";
+import { usePurchase } from "../../context/PurchaseContext/PurchaseContext";
 
 import styles from "./Desktop.module.css";
 

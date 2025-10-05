@@ -3,7 +3,7 @@ import React from "react";
 const StatCard = ({ label, value, className }) => {
   return (
     <div className={`stat-card ${className}`}>
-      <p className="stat-label">{label}</p>
+      <h1 className="stat-label">{label}</h1>
       <p className="stat-value">{value}</p>
     </div>
   );
