@@ -10,159 +10,153 @@ export const DraftProvider = ({ children }) => {
         return stored ? JSON.parse(stored) : [];
     });
 
-    const [market, setMarket] = useState(() => {
-        const stored = localStorage.getItem("currentMarket");
-        return stored || "";
-    });
-
+    const [market, setMarket] = useState(() => localStorage.getItem("currentMarket") || "");
     const [isSaving, setIsSaving] = useState(false);
-    const [savedRascunhos, setSavedRascunhos] = useState([]);
+    const [savedDrafts, setSavedDrafts] = useState([]);
     const [loadingSaved, setLoadingSaved] = useState(false);
 
+    // Verifica se há token válido
+    const hasToken = () => {
+        const token = localStorage.getItem("accessToken") || localStorage.getItem("token");
+        return Boolean(token);
+    };
+
+    // Salva draftItems e market no localStorage
     useEffect(() => {
         localStorage.setItem("draftItems", JSON.stringify(draftItems));
-        if (draftItems.length === 0) {
-            localStorage.removeItem("currentMarket");
-        }
+        if (draftItems.length === 0) localStorage.removeItem("currentMarket");
     }, [draftItems]);
 
     useEffect(() => {
         if (market && draftItems.length > 0) {
             localStorage.setItem("currentMarket", market);
-        } else if (!market) {
+        } else {
             localStorage.removeItem("currentMarket");
         }
     }, [market, draftItems]);
 
-    const fetchRascunhos = async () => {
+    // Busca rascunhos do servidor, só se estiver logado
+    const fetchDrafts = async () => {
+        if (!hasToken()) return;
+
         setLoadingSaved(true);
         try {
             const res = await api.get("/api/rascunhos");
-            if (res && res.status === 200) {
-                setSavedRascunhos(Array.isArray(res.data) ? res.data : []);
-            } else {
-                toast.error("Erro ao buscar rascunhos salvos");
-            }
+            setSavedDrafts(Array.isArray(res.data) ? res.data : []);
         } catch (err) {
-            console.error("Erro ao buscar rascunhos:", err);
-            const msg = err && err.response && err.response.data ? JSON.stringify(err.response.data) : err.message || String(err);
-            toast.error(`Não foi possível carregar rascunhos: ${msg}`);
+            console.error("Error fetching drafts:", err);
+            toast.error("Failed to load drafts");
         } finally {
             setLoadingSaved(false);
         }
     };
 
+    // Carrega rascunhos ao montar o contexto, só se tiver token
     useEffect(() => {
-        fetchRascunhos();
+        if (hasToken()) fetchDrafts();
     }, []);
 
-    useEffect(() => {
-        const handler = () => fetchRascunhos();
-        window.addEventListener('rascunhos:updated', handler);
-        return () => window.removeEventListener('rascunhos:updated', handler);
-    }, []);
-
+    // Adiciona item ao rascunho local
     const addItem = (item) => {
-        const newItem = {
-            ...item,
-            id: Date.now(),
-            timestamp: new Date().toISOString()
-        };
+        const newItem = { ...item, id: Date.now(), timestamp: new Date().toISOString() };
         setDraftItems((prev) => [...prev, newItem]);
     };
 
+    // Remove item do rascunho local
     const removeItem = (id) => {
-        setDraftItems((prev) => prev.filter(item => item.id !== id));
+        setDraftItems((prev) => prev.filter((item) => item.id !== id));
     };
 
-    const clearItems = () => {
-        setDraftItems([]);
-    };
-
+    // Limpa rascunho e market
     const clearDraft = () => {
         setDraftItems([]);
         setMarket("");
     };
 
-    const handleSaveDraft = async () => {
-        if (!market || market.trim() === "") {
-            toast.error("Informe o mercado antes de salvar");
+    // Salva rascunhos no servidor
+    const saveDrafts = async () => {
+        if (!hasToken()) {
+            toast.error("You must be logged in to save drafts.");
             return false;
         }
 
-        if (!draftItems || draftItems.length === 0) {
-            toast.info("Não há rascunhos para salvar");
+        if (!market.trim()) {
+            toast.error("Please provide a market before saving.");
             return false;
         }
 
-        const conteudo = JSON.stringify(draftItems);
-        const mercado = market;
+        if (draftItems.length === 0) {
+            toast.info("No drafts to save.");
+            return false;
+        }
 
         setIsSaving(true);
         try {
-            const res = await api.post("/api/rascunhos", { mercado, conteudo });
-            if (res && res.status >= 200 && res.status < 300) {
+            const res = await api.post("/api/rascunhos", {
+                mercado: market,
+                conteudo: JSON.stringify(draftItems),
+            });
+
+            if (res.status >= 200 && res.status < 300) {
                 clearDraft();
-                toast.success("Rascunho salvo no servidor com sucesso");
-                window.dispatchEvent(new CustomEvent("rascunhos:updated"));
+                toast.success("Draft saved successfully.");
+                fetchDrafts();
                 return true;
             } else {
-                toast.error(`Erro ao salvar rascunho: ${res ? res.status : "sem resposta"}`);
+                toast.error("Error saving draft.");
                 return false;
             }
         } catch (err) {
-            console.error("Falha ao salvar rascunho:", err);
-            const errMsg = err?.response?.data ? JSON.stringify(err.response.data) : err.message;
-            toast.error(`Não foi possível salvar: ${errMsg}`);
+            console.error("Error saving draft:", err);
+            toast.error("Failed to save draft.");
             return false;
         } finally {
             setIsSaving(false);
         }
     };
 
-    const handleDeleteDraft = async (id) => {
-        const ok = window.confirm("Confirma exclusão do rascunho?");
-        if (!ok) return false;
+    // Deleta rascunho do servidor
+    const deleteDraft = async (id) => {
+        if (!hasToken()) {
+            toast.error("You must be logged in to delete drafts.");
+            return false;
+        }
+
+        const confirmDelete = window.confirm("Are you sure you want to delete this draft?");
+        if (!confirmDelete) return false;
 
         try {
-            const delRes = await api.delete(`/api/rascunhos/${id}`);
-            if (delRes && (delRes.status === 200 || delRes.status === 204)) {
-                toast.success("Rascunho excluído");
-                window.dispatchEvent(new CustomEvent("rascunhos:updated"));
-                return true;
-            } else {
-                toast.error("Erro ao excluir rascunho");
-                return false;
-            }
+            await api.delete(`/api/rascunhos/${id}`);
+            toast.success("Draft deleted successfully.");
+            fetchDrafts();
+            return true;
         } catch (err) {
-            console.error("Erro ao excluir rascunho", err);
-            toast.error("Não foi possível excluir o rascunho");
+            console.error("Error deleting draft:", err);
+            toast.error("Failed to delete draft.");
             return false;
         }
     };
 
     return (
-        <DraftContext.Provider value={{
-            draftItems,
-            market,
-            setMarket,
-            addItem,
-            removeItem,
-            clearItems,
-            clearDraft,
-            handleSaveDraft,
-            handleDeleteDraft,
-            isSaving,
-            savedRascunhos,
-            loadingSaved,
-            fetchRascunhos
-        }}>
+        <DraftContext.Provider
+            value={{
+                draftItems,
+                market,
+                setMarket,
+                addItem,
+                removeItem,
+                clearDraft,
+                saveDrafts,
+                deleteDraft,
+                isSaving,
+                savedDrafts,
+                loadingSaved,
+                fetchDrafts,
+            }}
+        >
             {children}
         </DraftContext.Provider>
     );
 };
 
-export const useDraft = () => {
-    const context = useContext(DraftContext);
-    return context;
-};
+export const useDraft = () => useContext(DraftContext);

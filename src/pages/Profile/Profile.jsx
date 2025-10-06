@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { getMe, updateProfile } from "../../services/userService";
-import { api } from '../../services/api'
+import React, { useMemo, useState } from "react";
+import { api } from "../../services/api";
+import { useAuth } from "../../contexts/AuthContext";
 import "./Profile.css";
 
 function initialsFromName(name) {
-  return name
+  return (name || "U")
     .trim()
     .split(/\s+/)
     .slice(0, 2)
@@ -13,56 +13,16 @@ function initialsFromName(name) {
 }
 
 export default function Profile() {
-  const [user, setUser] = useState(null);
-  const [editing, setEditing] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "" });
-  const [errors, setErrors] = useState({});
+  const { authData } = useAuth();
+  const user = authData?.user;
+
   const [pwd, setPwd] = useState({ current: "", next: "", confirm: "" });
   const [pwdErr, setPwdErr] = useState("");
   const [pwdSaving, setPwdSaving] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      const me = await getMe();
-      setUser(me);
-      setForm({ name: me.name, email: me.email });
-    })();
-  }, []);
+  const initials = useMemo(() => initialsFromName(user?.username || "U"), [user?.username]);
 
-  const initials = useMemo(() => initialsFromName(form.name || "U"), [form.name]);
-
-  function validateProfile(f) {
-    const e = {};
-    if (!f.name?.trim()) e.name = "Informe seu nome completo.";
-    if (!f.email?.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) e.email = "E-mail inválido.";
-    return e;
-  }
-
-  async function onSaveProfile(e) {
-    e.preventDefault();
-    const val = validateProfile(form);
-    setErrors(val);
-    if (Object.keys(val).length > 0) return;
-
-    try {
-      setSaving(true);
-      const updated = await updateProfile(form);
-      setUser(updated);
-      setEditing(false);
-    } catch (err) {
-      alert("Falha ao atualizar perfil. Tente novamente.");
-      console.log(err);
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  function onCancelEdit() {
-    setForm({ name: user.name, email: user.email });
-    setErrors({});
-    setEditing(false);
-  }
+  if (!user) return <div className="profile-loading">Carregando…</div>;
 
   async function onChangePassword(e) {
     e.preventDefault();
@@ -93,8 +53,6 @@ export default function Profile() {
     }
   }
 
-  if (!user) return <div className="profile-loading">Carregando…</div>;
-
   return (
     <div className="dash-shell">
       <main className="profile-container">
@@ -108,7 +66,7 @@ export default function Profile() {
             {initials}
           </div>
           <div className="user-ident">
-            <strong className="user-name">{user.name}</strong>
+            <strong className="user-name">{user.username}</strong>
             <div className="user-email">{user.email}</div>
           </div>
         </section>

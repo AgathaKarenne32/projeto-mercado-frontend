@@ -16,7 +16,7 @@ export default function UserMenu({ user, onSignOut }) {
   const btnRef = useRef(null);
   const menuRef = useRef(null);
 
-  const initials = useMemo(() => initialsFromName(user?.name), [user?.name]);
+  const initials = useMemo(() => initialsFromName(user?.username), [user?.username]);
 
   useEffect(() => {
     function onDocClick(e) {
@@ -82,7 +82,7 @@ export default function UserMenu({ user, onSignOut }) {
               {initials}
             </span>
             <div className="ud-ident">
-              <strong className="ud-name">{user?.name}</strong>
+              <strong className="ud-name">{user?.username}</strong>
               <span className="ud-email">{user?.email}</span>
             </div>
           </div>
