@@ -1,9 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import {
-  getMe,
-  updateProfile,
-  changePassword,
-} from "../../services/userService";
+import { getMe, updateProfile } from "../../services/userService";
+import { api } from '../../services/api'
 import "./Profile.css";
 
 function initialsFromName(name) {
@@ -19,17 +16,12 @@ export default function Profile() {
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
-
-  // form de dados pessoais
   const [form, setForm] = useState({ name: "", email: "" });
-  const [errors, setErrors] = useState({}); // { name: "msg", email: "msg" }
-
-  // form de senha
+  const [errors, setErrors] = useState({});
   const [pwd, setPwd] = useState({ current: "", next: "", confirm: "" });
   const [pwdErr, setPwdErr] = useState("");
   const [pwdSaving, setPwdSaving] = useState(false);
 
-  // carrega usuário
   useEffect(() => {
     (async () => {
       const me = await getMe();
@@ -38,17 +30,12 @@ export default function Profile() {
     })();
   }, []);
 
-  const initials = useMemo(
-    () => initialsFromName(form.name || "U"),
-    [form.name],
-  );
+  const initials = useMemo(() => initialsFromName(form.name || "U"), [form.name]);
 
-  // validações simples (sem libs)
   function validateProfile(f) {
     const e = {};
     if (!f.name?.trim()) e.name = "Informe seu nome completo.";
-    if (!f.email?.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/))
-      e.email = "E-mail inválido.";
+    if (!f.email?.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) e.email = "E-mail inválido.";
     return e;
   }
 
@@ -72,7 +59,6 @@ export default function Profile() {
   }
 
   function onCancelEdit() {
-    // volta o formulário para os dados do usuário carregado
     setForm({ name: user.name, email: user.email });
     setErrors({});
     setEditing(false);
@@ -93,11 +79,15 @@ export default function Profile() {
 
     try {
       setPwdSaving(true);
-      await changePassword({ current: pwd.current, next: pwd.next });
+      await api.post("/api/user/change-password", {
+        currentPassword: pwd.current,
+        newPassword: pwd.next,
+        confirmNewPassword: pwd.confirm,
+      });
       setPwd({ current: "", next: "", confirm: "" });
       alert("Senha alterada com sucesso!");
     } catch (err) {
-      setPwdErr(err.message || "Erro ao alterar senha.");
+      setPwdErr(err.response?.data?.message || "Erro ao alterar senha.");
     } finally {
       setPwdSaving(false);
     }
@@ -107,15 +97,12 @@ export default function Profile() {
 
   return (
     <div className="dash-shell">
-      {/* o Header já vem do seu Layout (Outlet). Só conteúdo daqui pra baixo */}
       <main className="profile-container">
-        {/* HERO */}
         <section className="profile-hero">
           <h1>Perfil do Usuário</h1>
-          <p>Altere sua senha</p>
+          <p>Alterar senha</p>
         </section>
 
-        {/* CARD DO USUÁRIO */}
         <section className="profile-card">
           <div className="avatar" aria-hidden>
             {initials}
@@ -129,7 +116,6 @@ export default function Profile() {
         <div className="profile-main">
           <section className="panel">
             <h2>Alterar Senha</h2>
-
             <form className="form-grid" onSubmit={onChangePassword}>
               <div className="form-field">
                 <label htmlFor="current">Senha Atual</label>
