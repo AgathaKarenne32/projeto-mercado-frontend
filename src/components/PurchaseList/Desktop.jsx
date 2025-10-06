@@ -1,4 +1,4 @@
-import { usePurchase } from "../../contexts/Purchase/PurchaseContext";
+import { usePurchase } from "../../context/PurchaseContext/PurchaseContext";
 import PurchaseItem from "../PurchaseItem/Desktop";
 
 import styles from "./Desktop.module.css";
@@ -7,7 +7,7 @@ function PurchaseList() {
   const { state } = usePurchase();
 
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       <header className={styles.header}>
         <h1 className={styles.title}>Lista de Compras</h1>
         <p className={styles.subtitle}>
@@ -42,7 +42,7 @@ function PurchaseList() {
       </div>
 
       <footer className={styles.footer}></footer>
-    </div>
+    </section>
   );
 }
 

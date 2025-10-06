@@ -1,4 +1,4 @@
-import { usePurchase } from "../../contexts/Purchase/PurchaseContext";
+import { usePurchase } from "../../context/PurchaseContext/PurchaseContext";
 
 import PurchaseItem from "../PurchaseItem/Mobile";
 
@@ -8,7 +8,7 @@ function PurchaseList() {
   const { state } = usePurchase();
 
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       {state.map((purchase) => (
         <PurchaseItem
           key={purchase.id}
@@ -19,7 +19,7 @@ function PurchaseList() {
           total={purchase.total}
         />
       ))}
-    </div>
+    </section>
   );
 }
 

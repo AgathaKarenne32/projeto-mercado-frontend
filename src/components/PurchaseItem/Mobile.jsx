@@ -7,7 +7,7 @@ import formatMoney from "../../utils/formatMoney";
 import formatLocalDate from "../../utils/formatDate";
 
 import styles from "./Mobile.module.css";
-import { usePurchase } from "../../contexts/Purchase/PurchaseContext";
+import { usePurchase } from "../../context/PurchaseContext/PurchaseContext";
 
 function PurchaseItem({ id, date, market, items, total }) {
   const { dispatch } = usePurchase();
