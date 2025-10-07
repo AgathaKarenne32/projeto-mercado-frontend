@@ -30,7 +30,7 @@ function PurchaseItem({ id, date, market, items, total }) {
       <td className={styles.market}>
         <div className={styles.cell}>
           <AddCircleIcon sx={{ fontSize: 16 }} />
-          <p>{market}</p>
+          <p>{market.name}</p>
         </div>
       </td>
 

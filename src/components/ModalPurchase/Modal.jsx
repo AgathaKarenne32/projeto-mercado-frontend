@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { usePurchase } from "../../context/PurchaseContext/PurchaseContext";
 
+import Select from "react-select";
+import { getAllCatalogByMarketId, getAllMarkets } from "../../services/nfceService";
+import { SelectItem } from "../modal/ModalSelectItem/SelectItem";
+
 import "./Modal.css";
+import { SelectMarket } from "../modal/ModalSelectMarket/SelectMarket";
 
 const Modal = ({ toggleModal }) => {
   const { dispatch } = usePurchase();
@@ -27,10 +32,22 @@ const Modal = ({ toggleModal }) => {
   };
 
   const verificaValor = (index, event) => {
-    const { name, value } = event.target;
+    let name, value, code = null;
+    if (event.type != null && event.type == "item-name") {
+      name = event.name;
+      value = event.value;
+      code = event.code;
+    } else {
+      name = event.target.name;
+      value = event.target.value;
+    }
+
     const newItems = [...items];
 
     newItems[index][name] = value;
+    if (code != null) {
+      newItems[index]["code"] = code;
+    }
 
     const quantity = parseFloat(newItems[index].quantity);
     const price = parseFloat(newItems[index].price);
@@ -40,6 +57,7 @@ const Modal = ({ toggleModal }) => {
     } else {
       newItems[index].total = "";
     }
+
 
     setItems(newItems);
     calculaValorTotal(newItems);
@@ -59,15 +77,64 @@ const Modal = ({ toggleModal }) => {
     const purchase = {
       id: uuidv4(),
       date: date,
-      market,
+      market: selectedMarket,
       items,
       total: purchaseTotal,
     };
+
+    console.log(purchase)
 
     dispatch({ type: "ADD_PURCHASE", payload: purchase });
 
     toggleModal();
   };
+
+  const [marketRequest, setMarketRequest] = useState([]);
+  const [selectedMarket, setSelectedMarket] = useState(null);
+  const [catalogList, setCatalogList] = useState([]);
+
+  useEffect(() => {
+    const marketsRequest = getAllMarkets()
+      .then(
+        resp => {
+          let listaMercadosFormatado =
+            resp.data.data.map(market => ({
+              id: market.id,
+              name: market.name
+            }));
+
+          console.log(listaMercadosFormatado);
+          setMarketRequest(
+            listaMercadosFormatado
+          )
+        }
+      );
+
+  }, []);
+
+  useEffect(() => {
+    console.log(marketRequest)
+  }, [marketRequest])
+
+  useEffect(() => {
+    console.log("selectedMarket")
+    console.log(selectedMarket)
+    if (selectedMarket != null && selectedMarket.id != null) {
+      getAllCatalogByMarketId(selectedMarket.id).then(
+        resp => {
+          console.log(resp.data.data);
+          setCatalogList(resp.data.data);
+        }
+      )
+    } else {
+        setCatalogList(null)
+    }
+  }, [selectedMarket])
+
+  const onChangeData = (data) => {
+
+  }
+
 
   return (
     <section className="modal-container" role="dialog" aria-modal="true">
@@ -90,13 +157,13 @@ const Modal = ({ toggleModal }) => {
 
           <div className="form-group">
             <label htmlFor="market-name">Mercado</label>
-            <input
-              id="market-name"
-              type="text"
-              placeholder="Ex: Carrefour"
-              value={market}
-              onChange={(e) => setMarket(e.target.value)}
+            <SelectMarket id="market-name" className="market-select" classNamePrefix={"select"}
+              options={
+                marketRequest.map(market => ({ value: market.id, label: market.name }))
+              }
+              onChange={setSelectedMarket}
             />
+
             <span className="form-hint">Ex: Supermercado Extra, Carrefour</span>
           </div>
         </fieldset>
@@ -112,7 +179,8 @@ const Modal = ({ toggleModal }) => {
             <fieldset key={index} className="modal-fieldset-itens">
               <div className="form-group">
                 <label>Nome do item</label>
-                <input type="text" name="name" value={item.name} onChange={(e) => verificaValor(index, e)} />
+                <SelectItem name={"name"} catalogList={catalogList} onChangeData={(e) => verificaValor(index, e)} marketId={selectedMarket ? selectedMarket.value : -1} />
+
               </div>
 
               <div className="form-group">
