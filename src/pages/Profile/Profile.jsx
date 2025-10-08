@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { api } from "../../services/api";
 import { useAuth } from "../../contexts/AuthContext";
-import "./Profile.css";
+import styles from "./Profile.module.css";
 import { toast } from "react-toastify";
 
 function initialsFromName(name) {
@@ -51,68 +51,64 @@ export default function Profile() {
   }
 
   return (
-    <div className="dash-shell">
-      <main className="profile-container">
-        <section className="profile-hero">
-          <h1>Perfil do Usuário</h1>
-          <p>Alterar senha</p>
-        </section>
-
-        <section className="profile-card">
-          <div className="avatar" aria-hidden>
-            {initials}
-          </div>
-          <div className="user-ident">
-            <strong className="user-name">{user?.username}</strong>
-            <div className="user-email">{user?.email}</div>
-          </div>
-        </section>
-
-        <div className="profile-main">
-          <section className="panel">
-            <h2>Alterar Senha</h2>
-            <form className="form-grid" onSubmit={onChangePassword}>
-              <div className="form-field">
-                <label htmlFor="current">Senha Atual</label>
-                <input
-                  id="current"
-                  type="password"
-                  value={pwd.current}
-                  onChange={(e) => setPwd({ ...pwd, current: e.target.value })}
-                  placeholder="Digite sua senha atual"
-                />
-              </div>
-
-              <div className="form-field">
-                <label htmlFor="next">Nova Senha</label>
-                <input
-                  id="next"
-                  type="password"
-                  value={pwd.next}
-                  onChange={(e) => setPwd({ ...pwd, next: e.target.value })}
-                  placeholder="Digite a nova senha (min. 6 caracteres)"
-                />
-              </div>
-
-              <div className="form-field">
-                <label htmlFor="confirm">Confirmar nova senha</label>
-                <input
-                  id="confirm"
-                  type="password"
-                  value={pwd.confirm}
-                  onChange={(e) => setPwd({ ...pwd, confirm: e.target.value })}
-                  placeholder="Confirme a nova senha"
-                />
-              </div>
-
-              <div className="form-actions">
-                <button className="btn btn-green" disabled={pwdSaving}>
-                  {pwdSaving ? "Alterando..." : "Alterar Senha"}
-                </button>
-              </div>
-            </form>
-          </section>
+    <div className={styles.profileWrapper}>
+      <aside className={styles.profileCard}>
+        <div className={styles.avatar}>{initials}</div>
+        <div className={styles.userInfo}>
+          <strong className={styles.userName}>{user?.username}</strong>
+          <span className={styles.userEmail}>{user?.email}</span>
         </div>
+      </aside>
+
+      <main className={styles.profileMain}>
+        <section className={styles.profileHeader}>
+          <h1>Perfil do Usuário</h1>
+          <p>Gerencie suas informações e altere a senha</p>
+        </section>
+
+        <section className={styles.panel}>
+          <h2>Alterar Senha</h2>
+          <form className={styles.form} onSubmit={onChangePassword}>
+            <div className={styles.formField}>
+              <label htmlFor="current">Senha Atual</label>
+              <input
+                id="current"
+                type="password"
+                value={pwd.current}
+                onChange={(e) => setPwd({ ...pwd, current: e.target.value })}
+                placeholder="Digite sua senha atual"
+              />
+            </div>
+
+            <div className={styles.formField}>
+              <label htmlFor="next">Nova Senha</label>
+              <input
+                id="next"
+                type="password"
+                value={pwd.next}
+                onChange={(e) => setPwd({ ...pwd, next: e.target.value })}
+                placeholder="Nova senha (min. 6 caracteres)"
+              />
+            </div>
+
+            <div className={styles.formField}>
+              <label htmlFor="confirm">Confirmar Nova Senha</label>
+              <input
+                id="confirm"
+                type="password"
+                value={pwd.confirm}
+                onChange={(e) => setPwd({ ...pwd, confirm: e.target.value })}
+                placeholder="Confirme a nova senha"
+              />
+            </div>
+
+            <div className={styles.formActions}>
+              <button className={styles.btnGreen} disabled={pwdSaving}>
+                {pwdSaving ? "Alterando..." : "Alterar Senha"}
+              </button>
+            </div>
+          </form>
+        </section>
       </main>
     </div>
   );
