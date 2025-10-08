@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--color-background);
+    text-align: center;
+    padding: 20px;
+}
+
+.message {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: var(--color-text);
+}
+
+.button {
+    background-color: var(--btn-success);
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color var(--transition);
+}
+
+.button:hover {
+    background-color: var(--btn-success-hover);
+}
+
+.iconSuccess {
+    font-size: 3rem;
+    color: var(--btn-success);
+    margin-bottom: 1rem;
+}

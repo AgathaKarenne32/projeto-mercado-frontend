@@ -16,7 +16,7 @@ export default function UserMenu({ user, onSignOut }) {
   const btnRef = useRef(null);
   const menuRef = useRef(null);
 
-  const initials = useMemo(() => initialsFromName(user?.name), [user?.name]);
+  const initials = useMemo(() => initialsFromName(user?.username), [user?.username]);
 
   useEffect(() => {
     function onDocClick(e) {
@@ -58,7 +58,7 @@ export default function UserMenu({ user, onSignOut }) {
         <span className="avatar-sm" aria-hidden>
           {initials}
         </span>
-        <span className="user-short">{user?.name?.split(" ")[0]}</span>
+        <span className="user-short">{user?.username?.split(" ")[0]}</span>
         <svg
           className={`chev ${open ? "rot" : ""}`}
           width="16"
@@ -82,7 +82,7 @@ export default function UserMenu({ user, onSignOut }) {
               {initials}
             </span>
             <div className="ud-ident">
-              <strong className="ud-name">{user?.name}</strong>
+              <strong className="ud-name">{user?.username}</strong>
               <span className="ud-email">{user?.email}</span>
             </div>
           </div>

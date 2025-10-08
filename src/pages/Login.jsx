@@ -1,21 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { api } from "../services/api";
 import { useAuth } from "../contexts/AuthContext";
+import { useEffect } from "react";
 
 const Login = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors }
-  } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { authData, login } = useAuth();
+  const navigate = useNavigate();
 
-  const { login } = useAuth()
+
+  useEffect(() => {
+    if (authData && authData.accessToken) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [authData, navigate]);
 
   const handleLoginGoogle = () => {
-    const redirectUri = 'http://localhost:5173/auth/callback';
+    const redirectUri = "http://localhost:5173/auth/callback";
     const googleUrl = `http://localhost:8080/oauth2/authorize/google?redirect_uri=${encodeURIComponent(redirectUri)}`;
     window.location.href = googleUrl;
   };
@@ -23,14 +26,12 @@ const Login = () => {
   const handleLogin = async (userData) => {
     try {
       const response = await api.post("/auth/login", userData);
-      const { token, refreshTokenId } = response.data;
-      login({ token, refreshToken: refreshTokenId });
+      login(response.data);
       reset();
-      console.log(response.data)
       toast.success("Usuário logado com sucesso!");
     } catch (err) {
       toast.error("Erro ao logar usuário");
-      console.error("Erro ao logar", err);
+      console.error("Erro ao logar:", err);
     }
   };
 
@@ -53,10 +54,7 @@ const Login = () => {
             placeholder="Digite seu e-mail"
             {...register("email", {
               required: "E-mail é obrigatório",
-              pattern: {
-                value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                message: "E-mail inválido"
-              }
+              pattern: { value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/, message: "E-mail inválido" }
             })}
             className="form-input"
           />
@@ -78,21 +76,17 @@ const Login = () => {
 
         <div className="form-container">
           <button type="submit" id="login-button" className="main-button">
-            <i className="fas fa-sign-in-alt"></i>
-            Entrar
+            <i className="fas fa-sign-in-alt"></i> Entrar
           </button>
         </div>
 
         <div className="divider">
-          <hr className="divider-line" />
-          <span className="divider-text">ou</span>
-          <hr className="divider-line" />
+          <hr className="divider-line" /><span className="divider-text">ou</span><hr className="divider-line" />
         </div>
 
         <div className="form-container">
           <button type="button" className="google-button" onClick={handleLoginGoogle}>
-            <i className="fab fa-google"></i>
-            Entrar com Google
+            <i className="fab fa-google"></i> Entrar com Google
           </button>
         </div>
 
@@ -103,18 +97,9 @@ const Login = () => {
 
         <div className="features-list">
           <ul>
-            <li className="feature-item">
-              <i className="fas fa-check-circle"></i>
-              <span className="feature-text">Controle seus gastos mensais</span>
-            </li>
-            <li className="feature-item">
-              <i className="fas fa-check-circle"></i>
-              <span className="feature-text">Organize suas compras automaticamente</span>
-            </li>
-            <li className="feature-item">
-              <i className="fas fa-check-circle"></i>
-              <span className="feature-text">Relatórios detalhados e personalizados</span>
-            </li>
+            <li className="feature-item"><i className="fas fa-check-circle"></i><span className="feature-text">Controle seus gastos mensais</span></li>
+            <li className="feature-item"><i className="fas fa-check-circle"></i><span className="feature-text">Organize suas compras automaticamente</span></li>
+            <li className="feature-item"><i className="fas fa-check-circle"></i><span className="feature-text">Relatórios detalhados e personalizados</span></li>
           </ul>
         </div>
       </form>

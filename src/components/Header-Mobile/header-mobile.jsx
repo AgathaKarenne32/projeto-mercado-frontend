@@ -1,40 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./header-mobile.css";
 import UserMenu from "../userMenu/userMenu";
-import { getMe } from "../../services/userService";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState(null);
+  const { authData, logout } = useAuth();
   const navigate = useNavigate();
-
-  const { logout } = useAuth()
-
-  function handleMenuToggle() {
-    setIsMenuOpen((v) => !v);
-  }
-
-  useEffect(() => {
-    let alive = true;
-    (async () => {
-      try {
-        const me = await getMe();
-        if (alive) setUser(me);
-      } catch {
-        // Se preferir, redirecione não autenticado:
-        // navigate("/login");
-      }
-    })();
-    return () => {
-      alive = false;
-    };
-  }, [navigate]);
 
   function handleLogout() {
     logout();
   }
+
+  function handleMenuToggle() {
+    setIsMenuOpen((prev) => !prev);
+  }
+
+  const user = authData?.user || null;
 
   return (
     <header className="header">
@@ -62,7 +45,6 @@ export default function Header() {
               Dashboard
             </NavLink>
           </li>
-
           <li>
             <NavLink
               to="/compras"
@@ -74,7 +56,6 @@ export default function Header() {
               Compras
             </NavLink>
           </li>
-
           <li>
             <NavLink
               to="/rascunhos"
@@ -86,7 +67,6 @@ export default function Header() {
               Rascunhos
             </NavLink>
           </li>
-
           <li>
             <NavLink
               to="/meus-relatorios"
@@ -121,12 +101,7 @@ export default function Header() {
             </NavLink>
           </li>
           <li className="hidden">
-            <button
-              className="logout-button"
-              onClick={() => {
-                handleLogout();
-              }}
-            >
+            <button className="logout-button" onClick={handleLogout}>
               <i className="fas fa-sign-out"></i>
               Sair
             </button>
