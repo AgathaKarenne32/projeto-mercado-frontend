@@ -12,6 +12,7 @@ import NewPassword from "../pages/NewPassword";
 import Dashboard from "../pages/Dashboard/dashboard";
 import MyReports from "../pages/MyReport";
 import GoogleAuth from "../pages/GoogleAuth";
+import ConfirmRegistration from "../pages/ConfirmRegistration/ConfirmRegistration"
 
 import PrivateRoute from "../components/PrivateRoute";
 
@@ -25,6 +26,7 @@ const AppRoutes = () => (
     <Route path="/verify-code" element={<VerifyCode />} />
     <Route path="/reset-password" element={<NewPassword />} />
     <Route path="/auth/callback" element={<GoogleAuth />} />
+    <Route path="/auth/confirm-registration" element={<ConfirmRegistration />} />
 
 
     <Route element={<PrivateRoute />}>
