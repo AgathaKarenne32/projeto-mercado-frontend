@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { api } from "../../services/api";
 import { useAuth } from "../../contexts/AuthContext";
 import "./Profile.css";
+import { toast } from "react-toastify";
 
 function initialsFromName(name) {
   return (name || "U")
@@ -17,37 +18,33 @@ export default function Profile() {
   const user = authData?.user;
 
   const [pwd, setPwd] = useState({ current: "", next: "", confirm: "" });
-  const [pwdErr, setPwdErr] = useState("");
   const [pwdSaving, setPwdSaving] = useState(false);
 
   const initials = useMemo(() => initialsFromName(user?.username || "U"), [user?.username]);
 
-  if (!user) return <div className="profile-loading">Carregando…</div>;
-
   async function onChangePassword(e) {
     e.preventDefault();
-    setPwdErr("");
 
     if (pwd.next.length < 6) {
-      setPwdErr("A nova senha deve ter pelo menos 6 caracteres.");
+      toast.error("A nova senha deve ter pelo menos 6 caracteres.");
       return;
     }
     if (pwd.next !== pwd.confirm) {
-      setPwdErr("As senhas não conferem.");
+      toast.error("As senhas não conferem.");
       return;
     }
 
     try {
       setPwdSaving(true);
-      await api.post("/api/user/change-password", {
+      await api.put("/api/user/change-password", {
         currentPassword: pwd.current,
         newPassword: pwd.next,
         confirmNewPassword: pwd.confirm,
       });
       setPwd({ current: "", next: "", confirm: "" });
-      alert("Senha alterada com sucesso!");
+      toast.success("Senha alterada com sucesso!");
     } catch (err) {
-      setPwdErr(err.response?.data?.message || "Erro ao alterar senha.");
+      toast.error(err.response?.data?.message || "Erro ao alterar senha.");
     } finally {
       setPwdSaving(false);
     }
@@ -66,8 +63,8 @@ export default function Profile() {
             {initials}
           </div>
           <div className="user-ident">
-            <strong className="user-name">{user.username}</strong>
-            <div className="user-email">{user.email}</div>
+            <strong className="user-name">{user?.username}</strong>
+            <div className="user-email">{user?.email}</div>
           </div>
         </section>
 
@@ -107,8 +104,6 @@ export default function Profile() {
                   placeholder="Confirme a nova senha"
                 />
               </div>
-
-              {pwdErr && <small className="error">{pwdErr}</small>}
 
               <div className="form-actions">
                 <button className="btn btn-green" disabled={pwdSaving}>
