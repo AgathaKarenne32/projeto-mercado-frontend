@@ -58,7 +58,7 @@ export default function UserMenu({ user, onSignOut }) {
         <span className="avatar-sm" aria-hidden>
           {initials}
         </span>
-        <span className="user-short">{user?.name?.split(" ")[0]}</span>
+        <span className="user-short">{user?.username?.split(" ")[0]}</span>
         <svg
           className={`chev ${open ? "rot" : ""}`}
           width="16"
