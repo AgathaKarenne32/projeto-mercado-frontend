@@ -7,7 +7,7 @@ export const api = axios.create({
 
 let isRefreshing = false;
 let queue = [];
-let isRedirecting = false; // 🚨 evita redirecionamentos múltiplos
+let isRedirecting = false;
 
 const processQueue = (error, newToken) => {
     queue.forEach(({ resolve, reject }) =>
@@ -20,7 +20,7 @@ api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("accessToken");
 
-        // 🚫 Evita tentar enviar Authorization na rota de refresh
+
         if (config.url.includes("/auth/refresh-token")) return config;
 
         if (token) config.headers.Authorization = `Bearer ${token}`;
@@ -34,7 +34,7 @@ api.interceptors.response.use(
     async (error) => {
         const original = error.config;
 
-        // 🚫 Evita loop: se o erro for no refresh-token, não tenta novamente
+
         if (
             original.url.includes("/auth/refresh-token") ||
             original.url.includes("/auth/login")
@@ -66,7 +66,7 @@ api.interceptors.response.use(
                     refreshToken: storedRefreshToken,
                 });
 
-                // 🧠 Detecta formato do backend
+
                 const newAccessToken = data.accessToken || data.token;
                 const newRefreshToken = data.refreshToken || data.refreshTokenId;
 
@@ -74,7 +74,7 @@ api.interceptors.response.use(
                     throw new Error("Invalid refresh token response");
                 }
 
-                // 💾 Atualiza tokens
+
                 localStorage.setItem("accessToken", newAccessToken);
                 localStorage.setItem("refreshToken", newRefreshToken);
 
@@ -86,7 +86,7 @@ api.interceptors.response.use(
             } catch (err) {
                 processQueue(err, null);
 
-                // 🚨 Evita loop infinito: só redireciona uma vez
+
                 if (!isRedirecting) {
                     isRedirecting = true;
                     localStorage.clear();
