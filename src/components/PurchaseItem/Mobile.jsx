@@ -41,7 +41,7 @@ function PurchaseItem({ id, date, market, items, total }) {
             Icon={DeleteIcon}
             iconColor="#fff"
             bgColor="#DD2E48"
-            handleClick={() => dispatch({ type: "DELETE_PURCHASE", payload: id })}
+            handleClick={() => deleteItem(id)}
           />
         </div>
       </footer>

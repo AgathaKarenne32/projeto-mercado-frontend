@@ -89,6 +89,10 @@
     width: 100%;
 }
 
+button[disabled] {
+    filter: saturate(60%);
+}
+
 label {
     font-size: 0.875rem;
     font-weight: 500;

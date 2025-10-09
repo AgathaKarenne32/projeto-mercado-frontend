@@ -3,8 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { usePurchase } from "../../context/PurchaseContext/PurchaseContext";
 
-import Select from "react-select";
-import { getAllCatalogByMarketId, getAllMarkets } from "../../services/nfceService";
+import { getAllCatalogByMarketId, getAllMarkets, registerManualPurchase } from "../../services/nfceService";
 import { SelectItem } from "../modal/ModalSelectItem/SelectItem";
 
 import "./Modal.css";
@@ -20,6 +19,7 @@ const Modal = ({ toggleModal }) => {
   const [items, setItems] = useState([{ name: "", quantity: 1, price: "", total: "" }]);
   const [market, setMarket] = useState("");
   const [purchaseTotal, setCompraTotal] = useState(0);
+  const [isSendingRequest, setIsSendingRequest] = useState(false);
 
   const addItem = () => {
     setItems([...items, { name: "", quantity: 1, price: "", total: "" }]);
@@ -74,23 +74,65 @@ const Modal = ({ toggleModal }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    //old version (0.0.1-snapshot):
     const purchase = {
-      id: uuidv4(),
+      store: selectedMarket.name,
+      cnpj: selectedMarket.cnpj,
+      address: {
+        city: "",
+        state: "",
+      },
       date: date,
-      market: selectedMarket,
-      items,
-      total: purchaseTotal,
-    };
+      accessKey: "",
+      totalPrice: purchaseTotal,
+      products: items,
+    }
+    // new version:
+    /**
+     * @todo ADICIONAR ISSO QND O BACKEND ESTIVER NA VERSÃO 0.1.0
+     */
+    // const purchase = {
+    //   supermarket: {
+    //     id: selectedMarket.id,
+    //     store: selectedMarket.name,
+    //     cnpj: selectedMarket.cnpj,
+    //     city: "",
+    //     state: "",
+    //   },
+    //   accessKey: "", //TODO adicionar chave de acesso aqui quando for consultar. Chave de acesso é o ID da compra,
+    //   date: date,
+    //   totalPrice: purchaseTotal,
+    //   products: items
+    // };
 
     console.log(purchase)
 
-    dispatch({ type: "ADD_PURCHASE", payload: purchase });
-
-    toggleModal();
+    setIsSendingRequest(true)
+    registerManualPurchase(purchase).then(resp => {
+      setIsSendingRequest(false)
+      /**
+       * @todo Na versão 0.1.0 estará retornando a versão completa ao mandar via post. Precisa pegar a versão completa no resp.data.data e enviar no payload
+       * dispatch({ type: "ADD_PURCHASE", payload: resp.data.data});
+       */
+      // Versão atual 0.0.1
+      dispatch({ type: "ADD_PURCHASE", payload: purchase });
+       
+      toggleModal()
+    })
   };
 
   const [marketRequest, setMarketRequest] = useState([]);
-  const [selectedMarket, setSelectedMarket] = useState(null);
+
+  /**
+   * Represents a selected market
+   * @typedef Market 
+   * @property {Market.id} selected market id
+   * @property {Market.name} selected market name
+   * @property {Market.cnpj} selected market cnpj 
+   *  
+   */
+
+  const [selectedMarket, setSelectedMarket] = useState(/** @type {Market} */null);
   const [catalogList, setCatalogList] = useState([]);
 
   useEffect(() => {
@@ -100,7 +142,8 @@ const Modal = ({ toggleModal }) => {
           let listaMercadosFormatado =
             resp.data.data.map(market => ({
               id: market.id,
-              name: market.name
+              name: market.name,
+              cnpj: market.cnpj
             }));
 
           console.log(listaMercadosFormatado);
@@ -127,13 +170,9 @@ const Modal = ({ toggleModal }) => {
         }
       )
     } else {
-        setCatalogList(null)
+      setCatalogList(null)
     }
   }, [selectedMarket])
-
-  const onChangeData = (data) => {
-
-  }
 
 
   return (
@@ -151,25 +190,24 @@ const Modal = ({ toggleModal }) => {
         <fieldset className="modal-fieldset">
           <div className="form-group">
             <label htmlFor="purchase-date">Data da Compra</label>
-            <input id="purchase-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+            <input id="purchase-date" type="date" value={date} disabled={isSendingRequest} onChange={(e) => setDate(e.target.value)} />
             <span className="form-hint">Selecione quando a compra foi realizada</span>
           </div>
 
           <div className="form-group">
             <label htmlFor="market-name">Mercado</label>
-            <SelectMarket id="market-name" className="market-select" classNamePrefix={"select"}
+            <SelectMarket id="market-name" className="market-select" classNamePrefix={"select"} disabled={isSendingRequest}
               options={
-                marketRequest.map(market => ({ value: market.id, label: market.name }))
+                marketRequest.map(market => ({ value: market.id, label: market.name, cnpj: market.cnpj }))
               }
               onChange={setSelectedMarket}
             />
 
-            <span className="form-hint">Ex: Supermercado Extra, Carrefour</span>
           </div>
         </fieldset>
 
         <div className="add-item-container">
-          <button type="button" className="btn-add-item" onClick={addItem}>
+          <button type="button" className="btn-add-item" onClick={addItem} disabled={isSendingRequest}>
             <i className="fas fa-plus"></i> Adicionar Item
           </button>
         </div>
@@ -179,8 +217,12 @@ const Modal = ({ toggleModal }) => {
             <fieldset key={index} className="modal-fieldset-itens">
               <div className="form-group">
                 <label>Nome do item</label>
-                <SelectItem name={"name"} catalogList={catalogList} onChangeData={(e) => verificaValor(index, e)} marketId={selectedMarket ? selectedMarket.value : -1} />
-
+                <SelectItem name={"name"}
+                  catalogList={catalogList}
+                  disabled={isSendingRequest}
+                  onChangeData={(e) => verificaValor(index, e)}
+                  marketId={selectedMarket ? selectedMarket.value : -1}
+                />
               </div>
 
               <div className="form-group">
@@ -191,6 +233,7 @@ const Modal = ({ toggleModal }) => {
                   name="quantity"
                   value={item.quantity}
                   onChange={(e) => verificaValor(index, e)}
+                  disabled={isSendingRequest}
                 />
               </div>
 
@@ -204,6 +247,7 @@ const Modal = ({ toggleModal }) => {
                     name="price"
                     value={item.price}
                     onChange={(e) => verificaValor(index, e)}
+                    disabled={isSendingRequest}
                   />
                 </div>
               </div>
@@ -216,7 +260,7 @@ const Modal = ({ toggleModal }) => {
                 </div>
               </div>
               {items.length > 1 && (
-                <button type="button" className="btn-remove-item" onClick={() => removeItem(index)}>
+                <button type="button" className="btn-remove-item" onClick={() => removeItem(index)} disabled={isSendingRequest}>
                   <i className="fas fa-trash"></i>
                 </button>
               )}
@@ -233,11 +277,18 @@ const Modal = ({ toggleModal }) => {
         </fieldset>
 
         <footer className="form-actions">
-          <button type="button" className="btn btn-cancel" onClick={toggleModal}>
+          <button type="button" className="btn btn-cancel" onClick={toggleModal} disabled={isSendingRequest}>
             Cancelar
           </button>
-          <button type="submit" className="btn btn-save" onClick={handleSubmit}>
-            Salvar Compra
+          <button type="submit" className="btn btn-save" onClick={handleSubmit} disabled={isSendingRequest}>
+            {isSendingRequest ?
+              (
+                <>
+                  <i class="fa-solid fa-spinner fa-spin"></i> <span>Salvando</span>
+                  </>
+              ) : ("Salvar compra")
+            }
+
           </button>
         </footer>
       </form>

@@ -9,14 +9,15 @@ function PurchaseList() {
 
   return (
     <section className={styles.container}>
+      {console.log(state)}
       {state.map((purchase) => (
         <PurchaseItem
-          key={purchase.id}
-          id={purchase.id}
+          key={purchase.accessKey}
+          id={purchase.accessKey}
           date={purchase.date}
-          market={purchase.market}
-          items={purchase.items}
-          total={purchase.total}
+          market={purchase.store}
+          items={purchase.products}
+          total={purchase.totalPrice}
         />
       ))}
     </section>

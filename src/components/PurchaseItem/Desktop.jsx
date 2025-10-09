@@ -13,7 +13,7 @@ import { usePurchase } from "../../context/PurchaseContext/PurchaseContext";
 import styles from "./Desktop.module.css";
 
 function PurchaseItem({ id, date, market, items, total }) {
-  const { dispatch } = usePurchase();
+  const { dispatch, deleteItem } = usePurchase();
 
   const formattedDate = formatLocalDate(date);
   const formattedMoney = formatMoney(total);
@@ -48,7 +48,7 @@ function PurchaseItem({ id, date, market, items, total }) {
             Icon={DeleteIcon}
             iconColor="#fff"
             bgColor="#DD2E48"
-            handleClick={() => dispatch({ type: "DELETE_PURCHASE", payload: id })}
+            handleClick={() => deleteItem(id)}
           />
         </div>
       </td>

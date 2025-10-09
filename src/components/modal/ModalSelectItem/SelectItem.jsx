@@ -3,7 +3,7 @@ import Select from "react-select";
 import { getAllCatalogByMarketId } from "../../../services/nfceService";
 import "./SelectItem.css"
 
-export const SelectItem = ({ name, marketId, onNoneBelow, onChangeData, catalogList }) => {
+export const SelectItem = ({ name, marketId, disabled, onChangeData, catalogList }) => {
 
     const [isLoading, setIsloading] = useState(false)
 
@@ -119,11 +119,12 @@ export const SelectItem = ({ name, marketId, onNoneBelow, onChangeData, catalogL
                     isLoading={isLoading}
                     value={value}
                     placeholder={"Selecione..."}
+                    isDisabled={disabled}
 
                 />
             ) : <></>}
 
-            {canShowInput() ? (<input type="text" name={name} onChange={(e) => setCustomInputName(e.target.value)} />) : null}
+            {canShowInput() ? (<input type="text" name={name} onChange={(e) => setCustomInputName(e.target.value)} disabled={disabled}/>) : null}
         </>
     )
 }
