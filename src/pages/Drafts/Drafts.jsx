@@ -17,20 +17,16 @@ const Drafts = () => {
 
   const {
     draftItems = [],
-    savedRascunhos,
+    savedDrafts,
     loadingSaved,
-    fetchDrafts
+    fetchDrafts,
   } = useDraft();
 
   const handleUnitCompareClick = () => {
     openUnitCompareModal();
   };
 
-  useEffect(() => {
-    fetchDrafts();
-  }, []);
-
-  const hasSavedRascunhos = savedRascunhos && savedRascunhos.length > 0;
+  const hasSavedDrafts = savedDrafts && savedDrafts.length > 0;
   const hasDraftItems = draftItems && draftItems.length > 0;
 
   return (
@@ -54,12 +50,12 @@ const Drafts = () => {
         </div>
       </header>
 
-      <DraftItem hasSavedRascunhos={hasSavedRascunhos} />
+      <DraftItem hasSavedRascunhos={hasSavedDrafts} />
 
-      {hasSavedRascunhos && !hasDraftItems && (
+      {hasSavedDrafts && !hasDraftItems && (
         <section style={{ padding: "1.5rem 0" }}>
           <DraftsTable
-            savedRascunhos={savedRascunhos}
+            savedRascunhos={savedDrafts}
             refresh={fetchDrafts}
             formatDate={formatLocalDate}
             loading={loadingSaved}

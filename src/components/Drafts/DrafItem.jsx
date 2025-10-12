@@ -4,7 +4,7 @@ import { useModal } from "../../contexts/ModalContext";
 import styles from "./DraftItem.module.css";
 
 export const DraftItem = ({ hasSavedRascunhos = false }) => {
-    const { draftItems, market, removeItem, clearDraft, handleSaveDraft, isSaving } = useDraft();
+    const { draftItems, market, removeItem, clearDraft, saveDrafts, isSaving } = useDraft();
     const { openDraftModal } = useModal();
     const [showSavedMessage, setShowSavedMessage] = useState(false);
 
@@ -14,8 +14,8 @@ export const DraftItem = ({ hasSavedRascunhos = false }) => {
 
     const handleRemoveItem = (id) => removeItem(id);
 
-    const handleSaveDraftWithFeedback = async () => {
-        const success = await handleSaveDraft();
+    const handleSaveDraft = async () => {
+        const success = await saveDrafts();
         if (success) {
             setShowSavedMessage(true);
         }
@@ -49,7 +49,7 @@ export const DraftItem = ({ hasSavedRascunhos = false }) => {
                             <button
                                 className={styles.btnSaveDraft}
                                 type="button"
-                                onClick={handleSaveDraftWithFeedback}
+                                onClick={handleSaveDraft}
                                 disabled={isSaving}
                             >
                                 {isSaving ? "Salvando..." : "Salvar rascunho"}

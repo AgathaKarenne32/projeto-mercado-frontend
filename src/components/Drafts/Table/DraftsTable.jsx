@@ -19,7 +19,7 @@ const DraftsTable = ({
     const [expanded, setExpanded] = useState(null);
 
     const { openDraftModal } = useModal();
-    const { handleDeleteDraft } = useDraft();
+    const { deleteDraft } = useDraft();
     const { currencyFormatter, parseItems, extractQty, extractNumber } = useTableUtils();
 
     const rascunhos = Array.isArray(savedRascunhos) ? savedRascunhos : [];
@@ -31,7 +31,7 @@ const DraftsTable = ({
     }, []);
 
     const handleDelete = async (id) => {
-        const success = await handleDeleteDraft(id);
+        const success = await deleteDraft(id);
         if (success) refresh();
     };
 
