@@ -20,13 +20,13 @@ export const DraftProvider = ({ children }) => {
     return Boolean(token);
   };
 
-  // Sincroniza os rascunhos com o localStorage
+
   useEffect(() => {
     localStorage.setItem("draftItems", JSON.stringify(draftItems));
     if (draftItems.length === 0) localStorage.removeItem("currentMarket");
   }, [draftItems]);
 
-  // Sincroniza o mercado atual com o localStorage
+
   useEffect(() => {
     if (market && draftItems.length > 0) {
       localStorage.setItem("currentMarket", market);
@@ -35,14 +35,17 @@ export const DraftProvider = ({ children }) => {
     }
   }, [market, draftItems]);
 
-  // Buscar rascunhos salvos do banco
+  
   const fetchDrafts = async () => {
     if (!hasToken()) return;
     setLoadingSaved(true);
 
     try {
       const res = await api.get("/api/rascunhos");
+      console.log(res)
       setSavedDrafts(Array.isArray(res.data) ? res.data : []);
+
+
     } catch (err) {
       console.error("Erro ao buscar rascunhos:", err);
       toast.error("Falha ao carregar rascunhos.");
@@ -51,14 +54,39 @@ export const DraftProvider = ({ children }) => {
     }
   };
 
-  // ✅ O useEffect automático foi removido
-  // Agora quem quiser carregar os rascunhos chama fetchDrafts() manualmente
-
-  // Funções locais
   const addItem = (item) => {
     const newItem = { ...item, id: Date.now(), timestamp: new Date().toISOString() };
     setDraftItems((prev) => [...prev, newItem]);
   };
+
+
+const updateDraft = async (id, updatedData) => {
+  if (!hasToken()) {
+    toast.error("Você precisa estar logado para editar rascunhos.");
+    return false;
+  }
+
+  try {
+    const res = await api.put(`/api/rascunhos/${id}`, {
+      mercado: updatedData.mercado,
+      conteudo: JSON.stringify(updatedData.conteudo),
+    });
+
+    if (res.status >= 200 && res.status < 300) {
+      toast.success("Rascunho atualizado com sucesso!");
+      await fetchDrafts();
+      return true;
+    } else {
+      toast.error("Erro ao atualizar o rascunho.");
+      return false;
+    }
+  } catch (err) {
+    console.error("Erro ao atualizar rascunho:", err);
+    toast.error("Falha ao atualizar o rascunho.");
+    return false;
+  }
+};
+
 
   const removeItem = (id) => {
     setDraftItems((prev) => prev.filter((item) => item.id !== id));
@@ -69,7 +97,7 @@ export const DraftProvider = ({ children }) => {
     setMarket("");
   };
 
-  // Salvar rascunhos
+  
   const saveDrafts = async () => {
     if (!hasToken()) {
       toast.error("Você precisa estar logado para salvar rascunhos.");
@@ -111,7 +139,7 @@ export const DraftProvider = ({ children }) => {
     }
   };
 
-  // Excluir rascunho com confirmação via toast
+  
   const deleteDraft = async (id) => {
     if (!hasToken()) {
       toast.error("Você precisa estar logado para excluir rascunhos.");
@@ -185,6 +213,7 @@ export const DraftProvider = ({ children }) => {
         savedDrafts,
         loadingSaved,
         fetchDrafts,
+        updateDraft
       }}
     >
       {children}

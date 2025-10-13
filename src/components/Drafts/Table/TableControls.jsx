@@ -7,9 +7,7 @@ const TableControls = ({ onCreateDraft, onRefresh, loading, count }) => {
             <button className={styles.btnCreate} onClick={onCreateDraft} type="button">
                 Criar Rascunho
             </button>
-            <button className={styles.btnRefresh} onClick={onRefresh} type="button">
-                {loading ? "Carregando..." : "Atualizar lista"}
-            </button>
+           
             <div className={styles.meta}>{count} rascunho(s) encontrados</div>
         </div>
     );

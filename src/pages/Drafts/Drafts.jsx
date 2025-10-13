@@ -9,64 +9,83 @@ import formatLocalDate from "../../utils/formatDate";
 import { useDraft } from "../../contexts/DraftContext";
 
 const Drafts = () => {
-  const {
-    isDraftModalOpen,
-    isUnitCompareModalOpen,
-    openUnitCompareModal,
-  } = useModal();
+    const {
+        isDraftModalOpen,
+        isUnitCompareModalOpen,
+        openUnitCompareModal,
+    } = useModal();
 
-  const {
-    draftItems = [],
-    savedDrafts,
-    loadingSaved,
-    fetchDrafts,
-  } = useDraft();
+    const {
+        draftItems = [],
+        savedDrafts,
+        loadingSaved,
+        fetchDrafts,
+    } = useDraft();
 
-  const handleUnitCompareClick = () => {
-    openUnitCompareModal();
-  };
+    useEffect(() => {
+        fetchDrafts();
+    }, []);
 
-  const hasSavedDrafts = savedDrafts && savedDrafts.length > 0;
-  const hasDraftItems = draftItems && draftItems.length > 0;
+    const handleUnitCompareClick = () => {
+        openUnitCompareModal();
+    };
 
-  return (
-    <main>
-      <header className={styles.headerSection} role="banner">
-        <div className={styles.headerContent}>
-          <h1 className={styles.title}>Rascunho de Compras</h1>
-          <h2 className={styles.subtitle}>
-            Organize suas compras em tempo real enquanto está no mercado
-          </h2>
-        </div>
+    const hasSavedDrafts = savedDrafts && savedDrafts.length > 0;
+    const hasDraftItems = draftItems && draftItems.length > 0;
 
-        <div className={styles.buttonGroup}>
-          <button
-            className={styles.btnUnitCompare}
-            onClick={handleUnitCompareClick}
-            type="button"
-          >
-            Comparação unitária
-          </button>
-        </div>
-      </header>
+    return (
+        <main>
+            <header className={styles.headerSection} role="banner">
+                <div className={styles.headerContent}>
+                    <h1 className={styles.title}>Rascunho de Compras</h1>
+                    <h2 className={styles.subtitle}>
+                        Organize suas compras em tempo real enquanto está no mercado
+                    </h2>
+                </div>
 
-      <DraftItem hasSavedRascunhos={hasSavedDrafts} />
+                <div className={styles.buttonGroup}>
+                    <button
+                        className={styles.btnUnitCompare}
+                        onClick={handleUnitCompareClick}
+                        type="button"
+                    >
+                        Comparação unitária
+                    </button>
+                </div>
+            </header>
 
-      {hasSavedDrafts && !hasDraftItems && (
-        <section style={{ padding: "1.5rem 0" }}>
-          <DraftsTable
-            savedRascunhos={savedDrafts}
-            refresh={fetchDrafts}
-            formatDate={formatLocalDate}
-            loading={loadingSaved}
-          />
-        </section>
-      )}
+            <DraftItem hasSavedRascunhos={hasSavedDrafts} />
 
-      {isUnitCompareModalOpen && <UnitPriceComparatorModal />}
-      {isDraftModalOpen && <DraftModal />}
-    </main>
-  );
+            {loadingSaved && (
+                <section className={styles.loadingContainer}>
+                   
+                    <p>
+                        <i className={`fas fa-spinner ${styles.spinner}`}></i> 
+                        Carregando rascunhos...
+                    </p>
+                </section>
+            )}
+
+            {!loadingSaved && hasSavedDrafts && !hasDraftItems && (
+                <section style={{ padding: "1.5rem 0" }}>
+                    <DraftsTable
+                        savedRascunhos={savedDrafts}
+                        formatDate={formatLocalDate}
+                        loading={loadingSaved}
+                    />
+                </section>
+            )}
+
+            {!loadingSaved && !hasSavedDrafts && (
+                <section style={{ padding: "1.5rem 0", textAlign: "center" }}>
+                    <p>Nenhum rascunho salvo.</p>
+                </section>
+            )}
+
+            {isUnitCompareModalOpen && <UnitPriceComparatorModal />}
+            {isDraftModalOpen && <DraftModal />}
+        </main>
+    );
 };
 
 export default Drafts;

@@ -215,7 +215,8 @@
 }
 
 .btnView,
-.btnDelete {
+.btnDelete,
+.btnEdit {
     flex: 1;
     padding: 12px 16px;
     border: none;
@@ -232,7 +233,8 @@
 }
 
 .btnView:hover,
-.btnDelete:hover {
+.btnDelete:hover,
+.btnEdit:hover {
     transform: translateY(-1px);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
@@ -244,6 +246,15 @@
 
 .btnView:hover {
     background: #138496;
+}
+
+.btnEdit {
+    background: #ffc107;
+    color: white;
+}
+
+.btnEdit:hover {
+    background: #e0a800;
 }
 
 .btnDelete {
@@ -349,6 +360,7 @@
 }
 
 .desktopActions .btnView,
+.desktopActions .btnEdit,
 .desktopActions .btnDelete {
     width: 40px;
     height: 40px;
@@ -371,6 +383,18 @@
 .desktopActions .btnView:hover {
     background: #138496;
     transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.desktopActions .btnEdit {
+    background: #ffc107;
+    color: white;
+}
+
+.desktopActions .btnEdit:hover {
+    background: #e0a800;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
 .desktopActions .btnDelete {
@@ -381,6 +405,7 @@
 .desktopActions .btnDelete:hover {
     background: #c82333;
     transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
 @media (min-width: 769px) {
@@ -575,7 +600,8 @@
     }
 
     .btnView,
-    .btnDelete {
+    .btnDelete,
+    .btnEdit {
         padding: 14px 12px;
         font-size: 13px;
     }
@@ -624,6 +650,7 @@
     }
 
     .desktopActions .btnView,
+    .desktopActions .btnEdit,
     .desktopActions .btnDelete {
         width: 36px;
         height: 36px;
@@ -639,7 +666,6 @@
     0% {
         transform: rotate(0deg);
     }
-
     100% {
         transform: rotate(360deg);
     }
@@ -662,9 +688,8 @@
 .btnExpand:focus,
 .btnView:focus,
 .btnDelete:focus,
-.modalClose:focus,
-.desktopActions .btnView:focus,
-.desktopActions .btnDelete:focus {
+.btnEdit:focus,
+.modalClose:focus {
     outline: 2px solid #007bff;
     outline-offset: 2px;
 }
