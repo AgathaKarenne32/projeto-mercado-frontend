@@ -27,9 +27,9 @@ const DesktopDraftTable = ({
 
       console.log('parsed dentor do edit', parsed)
       const items = parsed.map((item) => ({
-        produto: item.product || "",
-        quantidade: item.quantity || 1,
-        preco: item.price || 0,
+        product: item.product || "",
+        quantity: item.quantity || 1,
+        price: item.price || 0,
       }));
 
       // Define o estado que será passado para o modal
@@ -61,9 +61,9 @@ const DesktopDraftTable = ({
               const parsed = typeof rascunho.conteudo === "string" ? JSON.parse(rascunho.conteudo) : rascunho.conteudo;
               items = Array.isArray(parsed)
                 ? parsed.map((item) => ({
-                    produto: item.product || "",
-                    quantidade: item.quantity || 1,
-                    preco: item.price || 0,
+                    product: item.product || "",
+                    quantity: item.quantity || 1,
+                    price: item.price || 0,
                   }))
                   
                 : [];
@@ -85,7 +85,7 @@ const DesktopDraftTable = ({
                   <div className={styles.desktopProductList}>
                     {items.slice(0, 3).map((item, index) => (
                       <span key={index} className={styles.desktopProductChip}>
-                        {item.produto}
+                        {item.product}
                       </span>
                     ))}
                     {items.length > 3 && (

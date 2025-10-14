@@ -8,10 +8,8 @@ const EditDraftModal = ({ draft, onClose }) => {
   const [mercado, setMercado] = useState("");
   const [items, setItems] = useState([]);
 
-  
   useEffect(() => {
     if (draft) {
-      console.log('EU SOU O RASCUNHO QUE ESTA CHEGANDO', draft)
       setMercado(draft.mercado || "");
 
       try {
@@ -21,10 +19,9 @@ const EditDraftModal = ({ draft, onClose }) => {
             : Array.isArray(draft.conteudo)
             ? draft.conteudo
             : [];
-console.log('como esta dentro do modal', parsedItems)
+
         const normalizedItems = parsedItems.map((item) => {
-          console.log('ITEM A SER ESTUDADO', item)
-          let priceValue = item.preco || "0,00";
+          let priceValue = item.price || "0,00";
           if (typeof priceValue === "number") {
             priceValue = priceValue.toFixed(2).replace(".", ",");
           } else if (typeof priceValue === "string") {
@@ -34,14 +31,13 @@ console.log('como esta dentro do modal', parsedItems)
           }
 
           return {
-            produto: item.produto || "",
-            quantidade: item.quantidade || 1,
-            preco: priceValue,
+            product: item.product || "",
+            quantity: item.quantity || 1,
+            price: priceValue,
           };
         });
 
         setItems(normalizedItems);
-        console.log('FINAL', normalizedItems)
       } catch (error) {
         console.error("Erro ao parsear conteúdo do rascunho:", error);
         setItems([]);
@@ -49,7 +45,6 @@ console.log('como esta dentro do modal', parsedItems)
     }
   }, [draft]);
 
-  
   const formatPriceInput = (value, index) => {
     const numeric = value.replace(/\D/g, "");
     const formatted = (parseFloat(numeric) / 100).toFixed(2).replace(".", ",");
@@ -58,32 +53,27 @@ console.log('como esta dentro do modal', parsedItems)
     setItems(newItems);
   };
 
-  
   const handleItemChange = (index, field, value) => {
     const newItems = [...items];
     newItems[index][field] = value;
     setItems(newItems);
   };
 
-  
   const handleQuantityChange = (index, increment) => {
     const newItems = [...items];
-    const currentValue = parseInt(newItems[index].quantidade) || 0;
-    newItems[index].quantidade = Math.max(1, currentValue + increment);
+    const currentValue = parseInt(newItems[index].quantity) || 0;
+    newItems[index].quantity = Math.max(1, currentValue + increment);
     setItems(newItems);
   };
 
- 
   const handleAddItem = () => {
-    setItems([...items, { produto: "", quantidade: 1, price: "0,00" }]);
+    setItems([...items, { product: "", quantity: 1, price: "0,00" }]);
   };
 
-  
   const handleRemoveItem = (index) => {
     setItems(items.filter((_, i) => i !== index));
   };
 
-  
   const handleSave = async () => {
     if (!draft?.id) {
       toast.error("ID do rascunho não encontrado.");
@@ -121,8 +111,10 @@ console.log('como esta dentro do modal', parsedItems)
               <input
                 type="text"
                 placeholder="Produto"
-                value={item.produto}
-                onChange={(e) => handleItemChange(index, "produto", e.target.value)}
+                value={item.product}
+                onChange={(e) =>
+                  handleItemChange(index, "product", e.target.value)
+                }
               />
 
               <div className={styles.quantityContainer}>
@@ -137,9 +129,13 @@ console.log('como esta dentro do modal', parsedItems)
                 <input
                   type="number"
                   placeholder="Qtd."
-                  value={item.quantidade}
+                  value={item.quantity}
                   onChange={(e) =>
-                    handleItemChange(index, "quantidade", Math.max(1, Number(e.target.value)))
+                    handleItemChange(
+                      index,
+                      "quantity",
+                      Math.max(1, Number(e.target.value))
+                    )
                   }
                 />
                 <button
@@ -155,7 +151,7 @@ console.log('como esta dentro do modal', parsedItems)
               <input
                 type="text"
                 placeholder="R$ 0,00"
-                value={item.preco}
+                value={item.price}
                 onChange={(e) => formatPriceInput(e.target.value, index)}
               />
 
