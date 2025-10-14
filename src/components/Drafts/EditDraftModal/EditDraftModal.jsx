@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./EditDraftModal.module.css";
-import { useDraft } from "../../contexts/DraftContext";
+import { useDraft } from "../../../contexts/DraftContext";
 import { toast } from "react-toastify";
 
 const EditDraftModal = ({ draft, onClose }) => {

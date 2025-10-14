@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./DraftsTable.module.css";
-import EditDraftModal from "../../EditDraftModal/EditDraftModal";
+import EditDraftModal from "../EditDraftModal/EditDraftModal";
 
 const DesktopDraftTable = ({
   rascunhos,
@@ -17,7 +17,7 @@ const DesktopDraftTable = ({
   const handleEdit = (rascunho) => {
     console.log('Rascunho dentor do edit', rascunho)
     try {
-      // Garante que o conteúdo está em formato de array
+     
       const parsed =
         typeof rascunho.conteudo === "string"
           ? JSON.parse(rascunho.conteudo)
@@ -32,8 +32,7 @@ const DesktopDraftTable = ({
         price: item.price || 0,
       }));
 
-      // Define o estado que será passado para o modal
-      setEditingDraft({ ...rascunho, conteudo: items });
+     setEditingDraft({ ...rascunho, conteudo: items });
     } catch (err) {
       console.error("Erro ao abrir rascunho:", err);
       setEditingDraft({ ...rascunho, conteudo: [] });

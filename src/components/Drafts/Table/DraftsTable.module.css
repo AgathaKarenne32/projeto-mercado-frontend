@@ -56,12 +56,12 @@
 }
 
 .btnCreate {
-    background: #007bff;
+    background: #0a9784;
     color: white;
 }
 
 .btnCreate:hover {
-    background: #0056b3;
+    background: #088171;
 }
 
 .btnRefresh {

@@ -138,63 +138,23 @@ export const DraftProvider = ({ children }) => {
   };
 
  
-  const deleteDraft = async (id) => {
-    if (!hasToken()) {
-      toast.error("Você precisa estar logado para excluir rascunhos.");
-      return false;
-    }
+ const deleteDraft = async (id) => {
+  if (!hasToken()) {
+    toast.error("Você precisa estar logado para excluir rascunhos.");
+    return false;
+  }
 
-    return new Promise((resolve) => {
-      const toastId = toast.info(
-        <div>
-          <p>Tem certeza de que deseja excluir este rascunho?</p>
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem" }}>
-            <button
-              onClick={async () => {
-                toast.dismiss(toastId);
-                try {
-                  await api.delete(`/api/rascunhos/${id}`);
-                  toast.success("Rascunho excluído com sucesso!");
-                  await fetchDrafts();
-                  resolve(true);
-                } catch (err) {
-                  console.error("Erro ao excluir rascunho:", err);
-                  toast.error("Falha ao excluir o rascunho.");
-                  resolve(false);
-                }
-              }}
-              style={{
-                backgroundColor: "#d9534f",
-                color: "#fff",
-                border: "none",
-                borderRadius: "5px",
-                padding: "5px 10px",
-                cursor: "pointer",
-              }}
-            >
-              Excluir
-            </button>
-            <button
-              onClick={() => {
-                toast.dismiss(toastId);
-                resolve(false);
-              }}
-              style={{
-                backgroundColor: "#ccc",
-                border: "none",
-                borderRadius: "5px",
-                padding: "5px 10px",
-                cursor: "pointer",
-              }}
-            >
-              Cancelar
-            </button>
-          </div>
-        </div>,
-        { autoClose: false }
-      );
-    });
-  };
+  try {
+    await api.delete(`/api/rascunhos/${id}`);
+    toast.success("Rascunho excluído com sucesso!");
+    await fetchDrafts();
+    return true;
+  } catch (err) {
+    console.error("Erro ao excluir rascunho:", err);
+    toast.error("Falha ao excluir o rascunho.");
+    return false;
+  }
+};
 
   return (
     <DraftContext.Provider

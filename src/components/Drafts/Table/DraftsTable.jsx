@@ -7,7 +7,7 @@ import DesktopDraftTable from "./DesktopDraftTable";
 import PreviewModal from "./PreviewModal";
 import { useTableUtils } from "./useTableUtils";
 import styles from "./DraftsTable.module.css";
-import EditDraftModal from "../../EditDraftModal/EditDraftModal";
+import EditDraftModal from "../EditDraftModal/EditDraftModal";
 
 const DraftsTable = ({
   savedRascunhos = [],

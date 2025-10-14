@@ -67,7 +67,7 @@ export const DraftItem = ({ hasSavedRascunhos = false }) => {
                                 type="button"
                                 aria-label={`Remover ${item.product}`}
                             >
-                                Excluir
+                                <i className="fa-solid fa-trash"></i>
                             </button>
                         </article>
                     ))}
