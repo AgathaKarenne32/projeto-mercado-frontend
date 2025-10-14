@@ -11,7 +11,6 @@ const EditDraftModal = ({ draft, onClose }) => {
   useEffect(() => {
     if (draft) {
       setMercado(draft.mercado || "");
-
       try {
         const parsedItems =
           typeof draft.conteudo === "string"
@@ -19,7 +18,6 @@ const EditDraftModal = ({ draft, onClose }) => {
             : Array.isArray(draft.conteudo)
             ? draft.conteudo
             : [];
-
         const normalizedItems = parsedItems.map((item) => {
           let priceValue = item.price || "0,00";
           if (typeof priceValue === "number") {
@@ -29,17 +27,14 @@ const EditDraftModal = ({ draft, onClose }) => {
               priceValue = priceValue.replace(".", ",");
             }
           }
-
           return {
             product: item.product || "",
             quantity: item.quantity || 1,
             price: priceValue,
           };
         });
-
         setItems(normalizedItems);
-      } catch (error) {
-        console.error("Erro ao parsear conteúdo do rascunho:", error);
+      } catch {
         setItems([]);
       }
     }
@@ -71,7 +66,11 @@ const EditDraftModal = ({ draft, onClose }) => {
   };
 
   const handleRemoveItem = (index) => {
-    setItems(items.filter((_, i) => i !== index));
+    if (items.length > 1) {
+      setItems(items.filter((_, i) => i !== index));
+    } else {
+      toast.warn("O rascunho deve ter pelo menos um item.");
+    }
   };
 
   const handleSave = async () => {
@@ -79,12 +78,10 @@ const EditDraftModal = ({ draft, onClose }) => {
       toast.error("ID do rascunho não encontrado.");
       return;
     }
-
     try {
       const success = await updateDraft(draft.id, { mercado, conteudo: items });
       if (success) onClose();
-    } catch (error) {
-      console.error("Erro ao salvar edição:", error);
+    } catch {
       toast.error("Erro ao salvar o rascunho.");
     }
   };
@@ -95,7 +92,6 @@ const EditDraftModal = ({ draft, onClose }) => {
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <h2>Editar Rascunho</h2>
-
         <label>Mercado:</label>
         <input
           type="text"
@@ -103,79 +99,65 @@ const EditDraftModal = ({ draft, onClose }) => {
           onChange={(e) => setMercado(e.target.value)}
           placeholder="Nome do mercado"
         />
-
         <div className={styles.items}>
           <h3>Itens</h3>
-          {items.map((item, index) => (
-            <div key={index} className={styles.itemRow}>
-              <input
-                type="text"
-                placeholder="Produto"
-                value={item.product}
-                onChange={(e) =>
-                  handleItemChange(index, "product", e.target.value)
-                }
-              />
-
-              <div className={styles.quantityContainer}>
-                <button
-                  type="button"
-                  className={styles.quantityButton}
-                  onClick={() => handleQuantityChange(index, -1)}
-                  aria-label="Diminuir quantidade"
-                >
-                  -
-                </button>
+          <div className={styles.itemsContainer}>
+            {items.map((item, index) => (
+              <div key={index} className={styles.itemRow}>
                 <input
-                  type="number"
-                  placeholder="Qtd."
-                  value={item.quantity}
+                  type="text"
+                  placeholder="Produto"
+                  value={item.product}
                   onChange={(e) =>
-                    handleItemChange(
-                      index,
-                      "quantity",
-                      Math.max(1, Number(e.target.value))
-                    )
+                    handleItemChange(index, "product", e.target.value)
                   }
+                  className={styles.productInput}
+                />
+                <div className={styles.quantityControl}>
+                  <button
+                    type="button"
+                    className={styles.quantityBtn}
+                    onClick={() => handleQuantityChange(index, -1)}
+                  >
+                    −
+                  </button>
+                  <span className={styles.quantityValue}>
+                    {item.quantity}
+                  </span>
+                  <button
+                    type="button"
+                    className={styles.quantityBtn}
+                    onClick={() => handleQuantityChange(index, 1)}
+                  >
+                    +
+                  </button>
+                </div>
+                <input
+                  type="text"
+                  placeholder="R$ 0,00"
+                  value={item.price}
+                  onChange={(e) => formatPriceInput(e.target.value, index)}
+                  className={styles.priceInput}
                 />
                 <button
-                  type="button"
-                  className={styles.quantityButton}
-                  onClick={() => handleQuantityChange(index, 1)}
-                  aria-label="Aumentar quantidade"
+                  onClick={() => handleRemoveItem(index)}
+                  className={styles.btnRemove}
                 >
-                  +
+                  <i className="fa-solid fa-trash"></i>
                 </button>
               </div>
-
-              <input
-                type="text"
-                placeholder="R$ 0,00"
-                value={item.price}
-                onChange={(e) => formatPriceInput(e.target.value, index)}
-              />
-
-              <button
-                onClick={() => handleRemoveItem(index)}
-                className={styles.btnRemove}
-                title="Remover item"
-              >
-                <i className="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          ))}
-
+            ))}
+          </div>
           <button onClick={handleAddItem} className={styles.btnAdd}>
             + Adicionar Item
           </button>
         </div>
-
         <div className={styles.buttons}>
-          <button onClick={handleSave} className={styles.btnSave}>
-            Salvar
-          </button>
           <button onClick={onClose} className={styles.btnCancel}>
             Cancelar
+          </button>
+          <button onClick={handleSave} className={styles.btnSave}>
+            Salvar Alterações
           </button>
         </div>
       </div>
