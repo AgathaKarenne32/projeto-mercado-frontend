@@ -20,12 +20,10 @@ export const DraftProvider = ({ children }) => {
     return Boolean(token);
   };
 
-
   useEffect(() => {
     localStorage.setItem("draftItems", JSON.stringify(draftItems));
     if (draftItems.length === 0) localStorage.removeItem("currentMarket");
   }, [draftItems]);
-
 
   useEffect(() => {
     if (market && draftItems.length > 0) {
@@ -42,10 +40,7 @@ export const DraftProvider = ({ children }) => {
 
     try {
       const res = await api.get("/api/rascunhos");
-      console.log(res)
       setSavedDrafts(Array.isArray(res.data) ? res.data : []);
-
-
     } catch (err) {
       console.error("Erro ao buscar rascunhos:", err);
       toast.error("Falha ao carregar rascunhos.");
@@ -54,50 +49,52 @@ export const DraftProvider = ({ children }) => {
     }
   };
 
+
   const addItem = (item) => {
     const newItem = { ...item, id: Date.now(), timestamp: new Date().toISOString() };
     setDraftItems((prev) => [...prev, newItem]);
   };
 
-
-const updateDraft = async (id, updatedData) => {
-  if (!hasToken()) {
-    toast.error("Você precisa estar logado para editar rascunhos.");
-    return false;
-  }
-
-  try {
-    const res = await api.put(`/api/rascunhos/${id}`, {
-      mercado: updatedData.mercado,
-      conteudo: JSON.stringify(updatedData.conteudo),
-    });
-
-    if (res.status >= 200 && res.status < 300) {
-      toast.success("Rascunho atualizado com sucesso!");
-      await fetchDrafts();
-      return true;
-    } else {
-      toast.error("Erro ao atualizar o rascunho.");
+  
+  const updateDraft = async (id, updatedData) => {
+    if (!hasToken()) {
+      toast.error("Você precisa estar logado para editar rascunhos.");
       return false;
     }
-  } catch (err) {
-    console.error("Erro ao atualizar rascunho:", err);
-    toast.error("Falha ao atualizar o rascunho.");
-    return false;
-  }
-};
 
+    try {
+      const res = await api.put(`/api/rascunhos/${id}`, {
+        mercado: updatedData.mercado,
+        conteudo: JSON.stringify(updatedData.conteudo),
+      });
 
+      if (res.status >= 200 && res.status < 300) {
+        toast.success("Rascunho atualizado com sucesso!");
+        await fetchDrafts();
+        return true;
+      } else {
+        toast.error("Erro ao atualizar o rascunho.");
+        return false;
+      }
+    } catch (err) {
+      console.error("Erro ao atualizar rascunho:", err);
+      toast.error("Falha ao atualizar o rascunho.");
+      return false;
+    }
+  };
+
+  // 🔹 Remover item local
   const removeItem = (id) => {
     setDraftItems((prev) => prev.filter((item) => item.id !== id));
   };
 
+  
   const clearDraft = () => {
     setDraftItems([]);
     setMarket("");
   };
 
-  
+ 
   const saveDrafts = async () => {
     if (!hasToken()) {
       toast.error("Você precisa estar logado para salvar rascunhos.");
@@ -139,7 +136,7 @@ const updateDraft = async (id, updatedData) => {
     }
   };
 
-  
+ 
   const deleteDraft = async (id) => {
     if (!hasToken()) {
       toast.error("Você precisa estar logado para excluir rascunhos.");
@@ -213,7 +210,7 @@ const updateDraft = async (id, updatedData) => {
         savedDrafts,
         loadingSaved,
         fetchDrafts,
-        updateDraft
+        updateDraft, 
       }}
     >
       {children}

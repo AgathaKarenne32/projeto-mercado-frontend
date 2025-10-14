@@ -1,5 +1,4 @@
 import React from "react";
-import { useDraft } from "../../../contexts/DraftContext";
 import styles from "./DraftsTable.module.css";
 
 const MobileDraftList = ({
@@ -7,98 +6,142 @@ const MobileDraftList = ({
   expanded,
   onExpand,
   onPreview,
-  onDelete,
   onEdit,
+  onDelete,
+  parseItems,
   currencyFormatter,
   extractQty,
   extractNumber
 }) => {
   return (
     <div className={styles.mobileList}>
-      {rascunhos.map((rascunho) => (
-        <MobileDraftCard
-          key={rascunho.id}
-          rascunho={rascunho}
-          isExpanded={expanded === rascunho.id}
-          onToggle={() => onExpand(expanded === rascunho.id ? null : rascunho.id)}
-          onPreview={onPreview}
-          onDelete={onDelete}
-          onEdit={onEdit}
-          currencyFormatter={currencyFormatter}
-          extractQty={extractQty}
-          extractNumber={extractNumber}
-        />
-      ))}
+      {rascunhos.map((rascunho) => {
+        const items = parseItems(rascunho.conteudo);
+        const totalQty = items.reduce((acc, it) => acc + extractQty(it), 0);
+        const totalPrice = items.reduce(
+          (acc, it) => acc + extractNumber(it.price) * extractQty(it),
+          0
+        );
+        const isOpen = expanded === rascunho.id;
+
+        return (
+          <MobileDraftCard
+            key={rascunho.id}
+            rascunho={rascunho}
+            items={items}
+            totalQty={totalQty}
+            totalPrice={totalPrice}
+            isOpen={isOpen}
+            onExpand={onExpand}
+            onPreview={onPreview}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            currencyFormatter={currencyFormatter}
+            extractQty={extractQty}
+            extractNumber={extractNumber}
+          />
+        );
+      })}
     </div>
   );
 };
 
 const MobileDraftCard = ({
   rascunho,
-  isExpanded,
-  onToggle,
+  items,
+  totalQty,
+  totalPrice,
+  isOpen,
+  onExpand,
   onPreview,
-  onDelete,
   onEdit,
+  onDelete,
   currencyFormatter,
   extractQty,
   extractNumber
 }) => {
-  const { normalizeDraftContent } = useDraft();
-  
-  // Usa a função do contexto para normalizar o conteúdo
-  const items = normalizeDraftContent(rascunho.conteudo);
-
-  const totalQty = items.reduce((acc, it) => acc + extractQty(it), 0);
-  const totalPrice = items.reduce((acc, it) => acc + extractNumber(it.price) * extractQty(it), 0);
-
-  const handleEdit = () => {
-    onEdit({
-      id: rascunho.id,
-      mercado: rascunho.mercado,
-      conteudo: items, // envia os itens já normalizados
-      createdAt: rascunho.createdAt
-    });
-  };
-
   return (
     <div className={styles.mobileCard}>
-      <div className={styles.mobileCardHeader} onClick={onToggle}>
-        <div>
-          <div className={styles.mobileCardTitle}>{rascunho.mercado}</div>
-          <div className={styles.mobileCardSubtitle}>
+      <div className={styles.mobileHeader}>
+        <div className={styles.mobileHeaderContent}>
+          <strong>{rascunho.mercado}</strong>
+          <div className={styles.mobileMeta}>
             {totalQty} itens • {currencyFormatter.format(totalPrice)}
           </div>
         </div>
-        <i className={`fa-solid fa-chevron-${isExpanded ? "up" : "down"}`}></i>
+        <button
+          className={styles.btnExpand}
+          onClick={() => onExpand(isOpen ? null : rascunho.id)}
+          aria-label={isOpen ? "Fechar detalhes" : "Expandir detalhes"}
+        >
+          {isOpen ? (
+            <>
+              <i className="fa-solid fa-chevron-up"></i>
+              Fechar
+            </>
+          ) : (
+            <>
+              <i className="fa-solid fa-chevron-down"></i>
+              Expandir
+            </>
+          )}
+        </button>
       </div>
 
-      {isExpanded && (
-        <div className={styles.mobileCardBody}>
-          <div className={styles.mobileProductList}>
+      {isOpen && (
+        <div className={styles.mobileBody}>
+          <div className={styles.productList}>
             {items.map((item, index) => (
-              <div key={index} className={styles.mobileProductItem}>
-                <span>{item.produto}</span>
-                <span>
-                  {extractQty(item)}x • {currencyFormatter.format(extractNumber(item.price))}
-                </span>
-              </div>
+              <ProductChip
+                key={index}
+                item={item}
+                extractQty={extractQty}
+                extractNumber={extractNumber}
+                currencyFormatter={currencyFormatter}
+              />
             ))}
           </div>
 
-          <div className={styles.mobileCardActions}>
-            <button className={styles.btnView} onClick={() => onPreview({ ...rascunho, items })}>
-              <i className="fa-solid fa-eye"></i> Visualizar
+          <div className={styles.actions}>
+            <button
+              className={styles.btnView}
+              onClick={() => onPreview({ ...rascunho, items })}
+            >
+              <i className="fa-solid fa-eye"></i>
+              Visualizar
             </button>
-            <button className={styles.btnEdit} onClick={handleEdit}>
-              <i className="fa-solid fa-pen"></i> Editar
+            <button
+              className={styles.btnEdit}
+              onClick={() => onEdit(rascunho)}
+            >
+              <i className="fa-solid fa-pen"></i>
+              Editar
             </button>
-            <button className={styles.btnDelete} onClick={() => onDelete(rascunho.id)}>
-              <i className="fa-solid fa-trash"></i> Excluir
+            <button
+              className={styles.btnDelete}
+              onClick={() => onDelete(rascunho.id)}
+            >
+              <i className="fa-solid fa-trash"></i>
+              Excluir
             </button>
           </div>
         </div>
       )}
+    </div>
+  );
+};
+
+const ProductChip = ({ item, extractQty, extractNumber, currencyFormatter }) => {
+  const productName = item.product || item.name || item.produto || "item";
+  const quantity = extractQty(item);
+  const price = currencyFormatter.format(extractNumber(item.price));
+
+  return (
+    <div className={styles.productChip}>
+      <i className="fa-solid fa-tag"></i>
+      <span className={styles.productText}>
+        {productName} • {quantity} un. • {price}
+      </span>
     </div>
   );
 };

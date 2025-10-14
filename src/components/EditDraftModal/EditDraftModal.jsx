@@ -8,53 +8,94 @@ const EditDraftModal = ({ draft, onClose }) => {
   const [mercado, setMercado] = useState("");
   const [items, setItems] = useState([]);
 
+  
   useEffect(() => {
     if (draft) {
+      console.log('EU SOU O RASCUNHO QUE ESTA CHEGANDO', draft)
       setMercado(draft.mercado || "");
+
       try {
-        let parsedItems = [];
-        if (typeof draft.conteudo === "string") {
-          parsedItems = JSON.parse(draft.conteudo);
-        } else if (Array.isArray(draft.conteudo)) {
-          parsedItems = draft.conteudo;
-        }
-        // Garante que cada item tenha os campos corretos
-        parsedItems = parsedItems.map((item) => ({
-          produto: item.produto || item.name || "",
-          quantidade: item.quantidade || 1,
-          price: item.price || 0,
-        }));
-        setItems(parsedItems);
-      } catch {
+        const parsedItems =
+          typeof draft.conteudo === "string"
+            ? JSON.parse(draft.conteudo)
+            : Array.isArray(draft.conteudo)
+            ? draft.conteudo
+            : [];
+console.log('como esta dentro do modal', parsedItems)
+        const normalizedItems = parsedItems.map((item) => {
+          console.log('ITEM A SER ESTUDADO', item)
+          let priceValue = item.preco || "0,00";
+          if (typeof priceValue === "number") {
+            priceValue = priceValue.toFixed(2).replace(".", ",");
+          } else if (typeof priceValue === "string") {
+            if (!priceValue.includes(",") && priceValue.includes(".")) {
+              priceValue = priceValue.replace(".", ",");
+            }
+          }
+
+          return {
+            produto: item.produto || "",
+            quantidade: item.quantidade || 1,
+            preco: priceValue,
+          };
+        });
+
+        setItems(normalizedItems);
+        console.log('FINAL', normalizedItems)
+      } catch (error) {
+        console.error("Erro ao parsear conteúdo do rascunho:", error);
         setItems([]);
       }
     }
   }, [draft]);
 
+  
+  const formatPriceInput = (value, index) => {
+    const numeric = value.replace(/\D/g, "");
+    const formatted = (parseFloat(numeric) / 100).toFixed(2).replace(".", ",");
+    const newItems = [...items];
+    newItems[index].price = formatted;
+    setItems(newItems);
+  };
+
+  
   const handleItemChange = (index, field, value) => {
     const newItems = [...items];
     newItems[index][field] = value;
     setItems(newItems);
   };
 
-  const handleAddItem = () => {
-    setItems([...items, { produto: "", quantidade: 1, price: 0 }]);
+  
+  const handleQuantityChange = (index, increment) => {
+    const newItems = [...items];
+    const currentValue = parseInt(newItems[index].quantidade) || 0;
+    newItems[index].quantidade = Math.max(1, currentValue + increment);
+    setItems(newItems);
   };
 
+ 
+  const handleAddItem = () => {
+    setItems([...items, { produto: "", quantidade: 1, price: "0,00" }]);
+  };
+
+  
   const handleRemoveItem = (index) => {
     setItems(items.filter((_, i) => i !== index));
   };
 
+  
   const handleSave = async () => {
+    if (!draft?.id) {
+      toast.error("ID do rascunho não encontrado.");
+      return;
+    }
+
     try {
-      const conteudoJSON = JSON.stringify(items);
       const success = await updateDraft(draft.id, { mercado, conteudo: items });
-      if (success) {
-        toast.success("Rascunho salvo com sucesso!");
-        onClose();
-      }
-    } catch {
-      toast.error("Erro ao salvar rascunho.");
+      if (success) onClose();
+    } catch (error) {
+      console.error("Erro ao salvar edição:", error);
+      toast.error("Erro ao salvar o rascunho.");
     }
   };
 
@@ -83,19 +124,41 @@ const EditDraftModal = ({ draft, onClose }) => {
                 value={item.produto}
                 onChange={(e) => handleItemChange(index, "produto", e.target.value)}
               />
+
+              <div className={styles.quantityContainer}>
+                <button
+                  type="button"
+                  className={styles.quantityButton}
+                  onClick={() => handleQuantityChange(index, -1)}
+                  aria-label="Diminuir quantidade"
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  placeholder="Qtd."
+                  value={item.quantidade}
+                  onChange={(e) =>
+                    handleItemChange(index, "quantidade", Math.max(1, Number(e.target.value)))
+                  }
+                />
+                <button
+                  type="button"
+                  className={styles.quantityButton}
+                  onClick={() => handleQuantityChange(index, 1)}
+                  aria-label="Aumentar quantidade"
+                >
+                  +
+                </button>
+              </div>
+
               <input
-                type="number"
-                placeholder="Quantidade"
-                value={item.quantidade}
-                onChange={(e) => handleItemChange(index, "quantidade", Number(e.target.value))}
+                type="text"
+                placeholder="R$ 0,00"
+                value={item.preco}
+                onChange={(e) => formatPriceInput(e.target.value, index)}
               />
-              <input
-                type="number"
-                placeholder="Preço"
-                step="0.01"
-                value={item.price}
-                onChange={(e) => handleItemChange(index, "price", Number(e.target.value))}
-              />
+
               <button
                 onClick={() => handleRemoveItem(index)}
                 className={styles.btnRemove}
@@ -105,6 +168,7 @@ const EditDraftModal = ({ draft, onClose }) => {
               </button>
             </div>
           ))}
+
           <button onClick={handleAddItem} className={styles.btnAdd}>
             + Adicionar Item
           </button>
