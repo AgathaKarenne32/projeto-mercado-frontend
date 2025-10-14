@@ -21,9 +21,10 @@ export const DraftProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    localStorage.setItem("draftItems", JSON.stringify(draftItems));
-    if (draftItems.length === 0) localStorage.removeItem("currentMarket");
-  }, [draftItems]);
+  localStorage.setItem("draftItems", JSON.stringify(draftItems));
+  if (draftItems.length === 0) localStorage.removeItem("currentMarket");
+}, [draftItems]);
+
 
   useEffect(() => {
     if (market && draftItems.length > 0) {

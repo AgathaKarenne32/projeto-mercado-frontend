@@ -64,32 +64,31 @@ const DraftModal = () => {
     };
 
 
-    const saveDraftItem = (data) => {
-        const itemData = {
-            product: data.product.trim(),
-            quantity: data.quantity,
-            price: data.price,
-            id: Date.now(),
-            timestamp: new Date().toISOString()
-        };
+const saveDraftItem = (data) => {
+  const itemData = {
+    product: data.product.trim(),
+    quantity: data.quantity,
+    price: data.price,
+    id: Date.now(),
+    timestamp: new Date().toISOString(),
+  };
 
-        addItem(itemData);
+  // Adiciona via contexto
+  addItem(itemData);
+
+  // Reset form
+  reset({
+    market: selectedMarket,
+    product: "",
+    quantity: 1,
+    price: "",
+  });
+
+  // Fecha modal
+  if (typeof closeDraftModal === "function") closeDraftModal();
+};
 
 
-        const currentDraftItems = JSON.parse(localStorage.getItem("draftItems") || "[]");
-        const updatedDraftItems = [...currentDraftItems, itemData];
-        localStorage.setItem("draftItems", JSON.stringify(updatedDraftItems));
-
-
-        reset({
-            market: selectedMarket,
-            product: "",
-            quantity: 1,
-            price: "",
-        });
-
-        if (typeof closeDraftModal === "function") closeDraftModal();
-    };
 
     const changeMarket = () => {
 

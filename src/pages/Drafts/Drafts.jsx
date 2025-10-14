@@ -76,12 +76,7 @@ const Drafts = () => {
                 </section>
             )}
 
-            {!loadingSaved && !hasSavedDrafts && (
-                <section style={{ padding: "1.5rem 0", textAlign: "center" }}>
-                    <p>Nenhum rascunho salvo.</p>
-                </section>
-            )}
-
+           
             {isUnitCompareModalOpen && <UnitPriceComparatorModal />}
             {isDraftModalOpen && <DraftModal />}
         </main>
