@@ -5,9 +5,8 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
-
     const [authData, setAuthData] = useState(null);
-
+    const [loading, setLoading] = useState(true); // NOVO: Estado de carregamento
 
     useEffect(() => {
         const accessToken = localStorage.getItem("accessToken");
@@ -21,9 +20,10 @@ export const AuthProvider = ({ children }) => {
                 user: user ? JSON.parse(user) : null,
             });
         }
+        setLoading(false); // NOVO: Define loading como false após a verificação
     }, []);
 
-    const login = (data) => {
+    const login = (data, redirect = true) => {
         let accessToken, refreshToken, user;
 
         if (data.accessToken && data.refreshToken) {
@@ -45,7 +45,10 @@ export const AuthProvider = ({ children }) => {
         else localStorage.removeItem("user");
 
         setAuthData({ accessToken, refreshToken, user });
-        navigate("/dashboard", { replace: true });
+
+        if (redirect) {
+            navigate("/dashboard", { replace: true });
+        }
     };
 
     const logout = () => {
@@ -57,7 +60,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ authData, login, logout }}>
+        <AuthContext.Provider value={{ authData, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );

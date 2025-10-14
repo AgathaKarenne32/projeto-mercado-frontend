@@ -6,30 +6,24 @@ import styles from "./DraftItem.module.css";
 export const DraftItem = ({ hasSavedRascunhos = false }) => {
     const { draftItems, market, removeItem, clearDraft, saveDrafts, isSaving } = useDraft();
     const { openDraftModal } = useModal();
-    const [showSavedMessage, setShowSavedMessage] = useState(false);
-
-    const isEmpty = !draftItems || draftItems.length === 0;
 
     const handleCreateDraft = () => openDraftModal();
-
     const handleRemoveItem = (id) => removeItem(id);
 
     const handleSaveDraft = async () => {
-        const success = await saveDrafts();
-        if (success) {
-            setShowSavedMessage(true);
-        }
+        await saveDrafts();
     };
 
     const handleCreateNewDraft = () => {
         clearDraft();
-        setShowSavedMessage(false);
         openDraftModal();
     };
 
+    const hasItems = draftItems.length > 0;
+
     return (
         <section className={styles.draftList}>
-            {isEmpty && !hasSavedRascunhos ? (
+            {!hasItems && !hasSavedRascunhos ? (
                 <section className={styles.emptySection}>
                     <i className={`fa-solid fa-basket-shopping ${styles.icon}`}></i>
                     <h3 className={styles.emptyTitle}>Nenhum rascunho encontrado</h3>
@@ -41,7 +35,7 @@ export const DraftItem = ({ hasSavedRascunhos = false }) => {
                 </section>
             ) : (
                 <section className={styles.itensContainer}>
-                    {!isEmpty && !showSavedMessage && (
+                    {hasItems && (
                         <div className={styles.actions}>
                             <button className={styles.btnAddItem} onClick={handleCreateDraft} type="button">
                                 + Adicionar item
@@ -57,7 +51,7 @@ export const DraftItem = ({ hasSavedRascunhos = false }) => {
                         </div>
                     )}
 
-                    {!isEmpty && draftItems.map((item) => (
+                    {hasItems && draftItems.map((item) => (
                         <article key={item.id} className={styles.itemCard}>
                             <div className={styles.itemProduct}>
                                 <h3 className={styles.titleProduct}>{item.product}</h3>
@@ -67,16 +61,14 @@ export const DraftItem = ({ hasSavedRascunhos = false }) => {
                                 </div>
                             </div>
 
-                            {!showSavedMessage && (
-                                <button
-                                    className={styles.btnTrash}
-                                    onClick={() => handleRemoveItem(item.id)}
-                                    type="button"
-                                    aria-label={`Remover ${item.product}`}
-                                >
-                                    Excluir
-                                </button>
-                            )}
+                            <button
+                                className={styles.btnTrash}
+                                onClick={() => handleRemoveItem(item.id)}
+                                type="button"
+                                aria-label={`Remover ${item.product}`}
+                            >
+                                <i className="fa-solid fa-trash"></i>
+                            </button>
                         </article>
                     ))}
                 </section>

@@ -94,6 +94,25 @@ main {
     color: #7f8c8d;
 }
 
+.loadingContainer {
+    padding: 3rem 0;
+    text-align: center;
+    color: #6c757d; 
+    font-size: 1.2rem;
+}
+
+.spinner {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+    margin-right: 0.5rem;
+    font-size: 1.5rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 @media screen and (max-width: 768px) {
     .title {
         text-align: center;

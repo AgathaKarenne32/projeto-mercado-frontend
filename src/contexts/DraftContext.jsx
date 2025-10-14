@@ -20,13 +20,12 @@ export const DraftProvider = ({ children }) => {
     return Boolean(token);
   };
 
-  // Sincroniza os rascunhos com o localStorage
   useEffect(() => {
-    localStorage.setItem("draftItems", JSON.stringify(draftItems));
-    if (draftItems.length === 0) localStorage.removeItem("currentMarket");
-  }, [draftItems]);
+  localStorage.setItem("draftItems", JSON.stringify(draftItems));
+  if (draftItems.length === 0) localStorage.removeItem("currentMarket");
+}, [draftItems]);
 
-  // Sincroniza o mercado atual com o localStorage
+
   useEffect(() => {
     if (market && draftItems.length > 0) {
       localStorage.setItem("currentMarket", market);
@@ -35,7 +34,7 @@ export const DraftProvider = ({ children }) => {
     }
   }, [market, draftItems]);
 
-  // Buscar rascunhos salvos do banco
+  
   const fetchDrafts = async () => {
     if (!hasToken()) return;
     setLoadingSaved(true);
@@ -51,25 +50,52 @@ export const DraftProvider = ({ children }) => {
     }
   };
 
-  // ✅ O useEffect automático foi removido
-  // Agora quem quiser carregar os rascunhos chama fetchDrafts() manualmente
 
-  // Funções locais
   const addItem = (item) => {
     const newItem = { ...item, id: Date.now(), timestamp: new Date().toISOString() };
     setDraftItems((prev) => [...prev, newItem]);
   };
 
+  
+  const updateDraft = async (id, updatedData) => {
+    if (!hasToken()) {
+      toast.error("Você precisa estar logado para editar rascunhos.");
+      return false;
+    }
+
+    try {
+      const res = await api.put(`/api/rascunhos/${id}`, {
+        mercado: updatedData.mercado,
+        conteudo: JSON.stringify(updatedData.conteudo),
+      });
+
+      if (res.status >= 200 && res.status < 300) {
+        toast.success("Rascunho atualizado com sucesso!");
+        await fetchDrafts();
+        return true;
+      } else {
+        toast.error("Erro ao atualizar o rascunho.");
+        return false;
+      }
+    } catch (err) {
+      console.error("Erro ao atualizar rascunho:", err);
+      toast.error("Falha ao atualizar o rascunho.");
+      return false;
+    }
+  };
+
+  // 🔹 Remover item local
   const removeItem = (id) => {
     setDraftItems((prev) => prev.filter((item) => item.id !== id));
   };
 
+  
   const clearDraft = () => {
     setDraftItems([]);
     setMarket("");
   };
 
-  // Salvar rascunhos
+ 
   const saveDrafts = async () => {
     if (!hasToken()) {
       toast.error("Você precisa estar logado para salvar rascunhos.");
@@ -111,64 +137,24 @@ export const DraftProvider = ({ children }) => {
     }
   };
 
-  // Excluir rascunho com confirmação via toast
-  const deleteDraft = async (id) => {
-    if (!hasToken()) {
-      toast.error("Você precisa estar logado para excluir rascunhos.");
-      return false;
-    }
+ 
+ const deleteDraft = async (id) => {
+  if (!hasToken()) {
+    toast.error("Você precisa estar logado para excluir rascunhos.");
+    return false;
+  }
 
-    return new Promise((resolve) => {
-      const toastId = toast.info(
-        <div>
-          <p>Tem certeza de que deseja excluir este rascunho?</p>
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem" }}>
-            <button
-              onClick={async () => {
-                toast.dismiss(toastId);
-                try {
-                  await api.delete(`/api/rascunhos/${id}`);
-                  toast.success("Rascunho excluído com sucesso!");
-                  await fetchDrafts();
-                  resolve(true);
-                } catch (err) {
-                  console.error("Erro ao excluir rascunho:", err);
-                  toast.error("Falha ao excluir o rascunho.");
-                  resolve(false);
-                }
-              }}
-              style={{
-                backgroundColor: "#d9534f",
-                color: "#fff",
-                border: "none",
-                borderRadius: "5px",
-                padding: "5px 10px",
-                cursor: "pointer",
-              }}
-            >
-              Excluir
-            </button>
-            <button
-              onClick={() => {
-                toast.dismiss(toastId);
-                resolve(false);
-              }}
-              style={{
-                backgroundColor: "#ccc",
-                border: "none",
-                borderRadius: "5px",
-                padding: "5px 10px",
-                cursor: "pointer",
-              }}
-            >
-              Cancelar
-            </button>
-          </div>
-        </div>,
-        { autoClose: false }
-      );
-    });
-  };
+  try {
+    await api.delete(`/api/rascunhos/${id}`);
+    toast.success("Rascunho excluído com sucesso!");
+    await fetchDrafts();
+    return true;
+  } catch (err) {
+    console.error("Erro ao excluir rascunho:", err);
+    toast.error("Falha ao excluir o rascunho.");
+    return false;
+  }
+};
 
   return (
     <DraftContext.Provider
@@ -185,6 +171,7 @@ export const DraftProvider = ({ children }) => {
         savedDrafts,
         loadingSaved,
         fetchDrafts,
+        updateDraft, 
       }}
     >
       {children}
