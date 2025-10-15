@@ -35,6 +35,7 @@ body {
   background-color: #f0f4f8;
   min-height: 100vh;
   margin: 0;
+  font-size: 16px; /* Garantindo tamanho padrão */
 }
 
 .phone-mockup {
@@ -57,7 +58,6 @@ body {
   flex-direction: column;
   padding: 1.5rem;
   gap: 0.5rem;
-
 }
 
 .screen.active {
@@ -89,6 +89,7 @@ body {
   font-weight: 700;
   flex-grow: 1;
   text-align: center;
+  font-size: 1.125rem;
 }
 
 .header-spacer {
@@ -131,6 +132,254 @@ body {
   color: #6b7280;
 }
 
+/* STYLES APENAS PARA LOGIN E SIGNUP */
+#login-screen .form-container,
+#signup-screen .form-container {
+  margin-top: 0.2rem;
+  width: 100%;
+  margin-bottom: 0.6rem;
+}
+
+#login-screen .form-label,
+#signup-screen .form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.3rem;
+}
+
+#login-screen .form-input,
+#signup-screen .form-input {
+  padding: 0.6rem 0.8rem;
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 0.4rem;
+  outline: none;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+#login-screen .form-input:focus,
+#signup-screen .form-input:focus {
+  border-color: #ff7f27;
+  box-shadow: 0 0 0 2px rgba(255, 127, 39, 0.1);
+}
+
+#login-screen .form-input::placeholder,
+#signup-screen .form-input::placeholder {
+  color: #9ca3af;
+  font-size: 0.8rem;
+}
+
+#login-screen .form-error,
+#signup-screen .form-error {
+  display: block;
+  font-size: 0.7rem;
+  color: #ef4444;
+  margin-top: 0.2rem;
+  font-weight: 500;
+}
+
+#login-screen .form-link-right {
+  font-size: 0.7rem;
+  color: #ff7f27;
+  float: right;
+  margin-top: 0.3rem;
+  text-decoration: none;
+}
+
+#login-screen .form-link-right:hover {
+  color: #ff6b00;
+  text-decoration: underline;
+}
+
+#login-screen .main-button,
+#signup-screen .main-button {
+  background-color: #ff7f27;
+  color: white;
+  padding: 0.7rem;
+  width: 100%;
+  border-radius: 0.4rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+#login-screen .main-button:hover,
+#signup-screen .main-button:hover {
+  background-color: #e66f1e;
+}
+
+#login-screen .divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.8rem 0;
+}
+
+#login-screen .divider-line {
+  flex-grow: 1;
+  border-color: #d1d5db;
+  border-width: 1px;
+}
+
+#login-screen .divider-text {
+  margin: 0 0.8rem;
+  color: #6b7280;
+  font-size: 0.75rem;
+}
+
+#login-screen .google-button {
+  background-color: white;
+  color: #4b5563;
+  padding: 0.7rem;
+  width: 100%;
+  border-radius: 0.4rem;
+  border: 1px solid #d1d5db;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+#login-screen .google-button:hover {
+  background-color: #f9fafb;
+}
+
+#login-screen .google-button i {
+  color: #db4437;
+  font-size: 0.9rem;
+}
+
+#login-screen .signup-text,
+#signup-screen .signup-text {
+  text-align: center;
+  margin: 0.8rem 0;
+  padding: 0.8rem 0;
+  border-top: 1px solid #f0f0f0;
+}
+
+#login-screen .signup-label,
+#signup-screen .signup-label {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+#login-screen .signup-link,
+#signup-screen .signup-link {
+  color: #ff7f27;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 0.2rem;
+  text-decoration: none;
+}
+
+#login-screen .signup-link:hover,
+#signup-screen .signup-link:hover {
+  color: #ff6b00;
+  text-decoration: underline;
+}
+
+#login-screen .features-list,
+#signup-screen .features-list {
+  margin-top: 0.8rem;
+}
+
+#login-screen .features-list ul,
+#signup-screen .features-list ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+}
+
+#login-screen .feature-item,
+#signup-screen .feature-item {
+  list-style-type: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+#login-screen .feature-item i,
+#signup-screen .feature-item i {
+  color: #22c55e;
+  font-size: 0.8rem;
+  margin-top: 0.1rem;
+  flex-shrink: 0;
+}
+
+#login-screen .feature-text,
+#signup-screen .feature-text {
+  font-size: 0.75rem;
+  color: #4b5563;
+  line-height: 1.2;
+}
+
+/* HEADERS COMPACTOS APENAS PARA LOGIN/SIGNUP */
+#login-screen .login-header,
+#signup-screen .login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+#login-screen .login-logo,
+#signup-screen .login-logo {
+  width: 2.8rem;
+  height: 2.8rem;
+  background-color: #ff7f27;
+  border-radius: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+#login-screen .login-logo i,
+#signup-screen .login-logo i {
+  color: white;
+  font-size: 1.4rem;
+}
+
+#login-screen .login-title,
+#signup-screen .login-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+#login-screen .login-subtitle,
+#signup-screen .login-subtitle {
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+/* STYLES GLOBAIS (não afetados pelas alterações acima) */
 .form-container {
   margin-top: 0.2rem;
   width: 100%;
@@ -747,4 +996,47 @@ body {
 .form-error {
   font-size: small;
   color: #c21f1f;
+}
+
+/* Responsive apenas para login/signup */
+@media (max-width: 480px) {
+  #login-screen .login-logo,
+  #signup-screen .login-logo {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  #login-screen .login-logo i,
+  #signup-screen .login-logo i {
+    font-size: 1.2rem;
+  }
+  
+  #login-screen .login-title,
+  #signup-screen .login-title {
+    font-size: 1.2rem;
+  }
+  
+  #login-screen .form-input,
+  #signup-screen .form-input {
+    padding: 0.5rem 0.7rem;
+  }
+  
+  #login-screen .main-button,
+  #signup-screen .main-button {
+    padding: 0.6rem;
+  }
+  
+  #login-screen .google-button {
+    padding: 0.6rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .phone-mockup {
+    width: 300px;
+  }
+  
+  .main-content {
+    padding: 0.8rem 1rem;
+  }
 }

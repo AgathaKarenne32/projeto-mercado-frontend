@@ -52,7 +52,7 @@ input {
   padding: 0.75rem;
   margin-bottom: 1rem;
   font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+
 }
 
 input:focus {
@@ -83,7 +83,7 @@ input:focus {
   padding: 0.75rem;
   background: #f8f9fa;
   border-radius: 8px;
-  transition: background-color 0.2s;
+
 }
 
 .itemRow:hover {
@@ -120,7 +120,7 @@ input:focus {
   font-size: 1.2rem;
   font-weight: 500;
   color: #495057;
-  transition: all 0.2s;
+
 }
 
 .quantityBtn:hover {
@@ -165,7 +165,7 @@ input:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+
 }
 
 .btnRemove:hover {
@@ -177,12 +177,11 @@ input:focus {
   background: #17a2b8;
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem .75rem;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   font-size: 1rem;
-  transition: all 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -192,8 +191,6 @@ input:focus {
 
 .btnAdd:hover {
   background: #138496;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .buttons {
@@ -208,14 +205,13 @@ input:focus {
 }
 
 .btnSave, .btnCancel {
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem .75rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   font-size: 1rem;
   height: 44px;
-  transition: all 0.2s;
   min-width: 140px;
 }
 
@@ -225,20 +221,18 @@ input:focus {
 }
 
 .btnCancel { 
-  background-color: #6c757d; 
-  color: white; 
+  background: #f8f9fa;
+  color: #6b7280;
+  border: 2px solid #e5e7eb; 
 }
 
 .btnSave:hover { 
   background-color: #218838; 
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
 }
 
 .btnCancel:hover { 
-  background-color: #5a6268; 
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+  background: #e5e7eb;
+  color: #374151; 
 }
 
 @media (max-width: 480px) {

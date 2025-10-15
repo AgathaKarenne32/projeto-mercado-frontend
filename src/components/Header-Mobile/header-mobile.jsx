@@ -25,7 +25,7 @@ export default function Header() {
         <div className="logo">
           <i className="fas fa-file-invoice-dollar"></i>
         </div>
-        <h1 className="logo-text">Nome Projeto</h1>
+        <h1 className="logo-text">Compras Fácil</h1>
       </div>
 
       <button className="menu-toggle" onClick={handleMenuToggle}>

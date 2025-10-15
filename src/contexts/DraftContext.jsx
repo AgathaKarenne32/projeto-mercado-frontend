@@ -44,7 +44,7 @@ export const DraftProvider = ({ children }) => {
       setSavedDrafts(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error("Erro ao buscar rascunhos:", err);
-      toast.error("Falha ao carregar rascunhos.");
+      
     } finally {
       setLoadingSaved(false);
     }

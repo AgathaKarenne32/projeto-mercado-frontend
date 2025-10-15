@@ -119,10 +119,7 @@ const SignUp = () => {
                             <i className="fas fa-check-circle"></i>
                             <span className="feature-text">Organize suas compras automaticamente</span>
                         </li>
-                        <li className="feature-item">
-                            <i className="fas fa-check-circle"></i>
-                            <span className="feature-text">Relatórios detalhados e personalizados</span>
-                        </li>
+                      
                     </ul>
                 </div>
             </form>

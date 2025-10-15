@@ -31,10 +31,10 @@ const Drafts = () => {
     };
 
     const hasSavedDrafts = savedDrafts && savedDrafts.length > 0;
-    const hasDraftItems = draftItems && draftItems.length > 0;
+    const hasLocalDraftItems = draftItems && draftItems.length > 0;
 
     return (
-        <main>
+        <main className={styles.main}>
             <header className={styles.headerSection} role="banner">
                 <div className={styles.headerContent}>
                     <h1 className={styles.title}>Rascunho de Compras</h1>
@@ -49,16 +49,19 @@ const Drafts = () => {
                         onClick={handleUnitCompareClick}
                         type="button"
                     >
-                        Comparação unitária
+                        <i className="fa-solid fa-chart-line"></i>
+                        Comparação Unitária
                     </button>
                 </div>
             </header>
 
-            <DraftItem hasSavedRascunhos={hasSavedDrafts} />
+        
+            {(hasLocalDraftItems || !hasSavedDrafts && !loadingSaved) && (
+                <DraftItem hasSavedRascunhos={hasSavedDrafts} />
+            )}
 
             {loadingSaved && (
                 <section className={styles.loadingContainer}>
-                   
                     <p>
                         <i className={`fas fa-spinner ${styles.spinner}`}></i> 
                         Carregando rascunhos...
@@ -66,17 +69,21 @@ const Drafts = () => {
                 </section>
             )}
 
-            {!loadingSaved && hasSavedDrafts && !hasDraftItems && (
-                <section style={{ padding: "1.5rem 0" }}>
+            {/* MOSTRAR TABELA APENAS SE: 
+                - Não está carregando
+                - Tem rascunhos salvos
+                - E NÃO tem itens no localStorage */}
+            {!loadingSaved && hasSavedDrafts && !hasLocalDraftItems && (
+                <section className={styles.tableSection}>
                     <DraftsTable
                         savedRascunhos={savedDrafts}
                         formatDate={formatLocalDate}
                         loading={loadingSaved}
+                        refresh={fetchDrafts}
                     />
                 </section>
             )}
 
-           
             {isUnitCompareModalOpen && <UnitPriceComparatorModal />}
             {isDraftModalOpen && <DraftModal />}
         </main>
