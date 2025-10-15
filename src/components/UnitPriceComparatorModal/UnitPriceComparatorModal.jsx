@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./UnitPriceComparatorModal.module.css";
-
 import { useModal } from "../../contexts/ModalContext";
 
 const UnitPriceComparatorModal = () => {
@@ -74,7 +73,6 @@ const UnitPriceComparatorModal = () => {
                     type="button"
                     className={styles.closeButton}
                     onClick={() => {
-                        // prefer the compare-specific alias, fallback to generic
                         if (typeof closeUnitCompareModal === "function") {
                             closeUnitCompareModal();
                         } else if (typeof closeUnitModal === "function") {
@@ -113,7 +111,7 @@ const UnitPriceComparatorModal = () => {
                 </fieldset>
 
                 <div className={styles.productSection}>
-                    <fieldset className={styles.fieldset}>
+                    <fieldset className={styles.productFieldset}>
                         <legend>Produto A</legend>
                         <div className={styles.inputGroup}>
                             <label htmlFor="quantityA">Quantidade ({unit})</label>
@@ -121,6 +119,8 @@ const UnitPriceComparatorModal = () => {
                                 id="quantityA"
                                 type="number"
                                 placeholder="500"
+                                step="0.01"
+                                min="0.01"
                                 className={styles.textInput}
                                 {...register("quantityA", {
                                     required: "campo obrigatório *",
@@ -149,7 +149,7 @@ const UnitPriceComparatorModal = () => {
                         </div>
                     </fieldset>
 
-                    <fieldset className={styles.fieldset}>
+                    <fieldset className={styles.productFieldset}>
                         <legend>Produto B</legend>
                         <div className={styles.inputGroup}>
                             <label htmlFor="quantityB">Quantidade ({unit})</label>
@@ -157,6 +157,8 @@ const UnitPriceComparatorModal = () => {
                                 id="quantityB"
                                 type="number"
                                 placeholder="300"
+                                step="0.01"
+                                min="0.01"
                                 className={styles.textInput}
                                 {...register("quantityB", {
                                     required: "campo obrigatório *",
@@ -188,15 +190,11 @@ const UnitPriceComparatorModal = () => {
 
                 {result && (
                     <section aria-live="polite" className={styles.resultBox}>
-                        <h2>Resultado</h2>
-                        <p>Melhor opção: <strong>{result.better}</strong></p>
-                        <p>
-                            Economiza R$ {result.diff.replace(".", ",")} por {unit} (
-                            {result.percent}% mais barato)
-                        </p>
-                        <p>
-                            Referência: R$ {result.reference.replace(".", ",")} por 100 {unit}
-                        </p>
+                        <h2>📊 Resultado da Comparação</h2>
+                        <p>🎯 <strong>Melhor opção:</strong> {result.better}</p>
+                        <p>💰 <strong>Economia:</strong> R$ {result.diff.replace(".", ",")} por {unit}</p>
+                        <p>📈 <strong>Percentual:</strong> {result.percent}% mais barato</p>
+                        <p>⚖️ <strong>Referência:</strong> R$ {result.reference.replace(".", ",")} por 100 {unit}</p>
                     </section>
                 )}
 
@@ -206,12 +204,14 @@ const UnitPriceComparatorModal = () => {
                         className={`${styles.button} ${styles.clearButton}`}
                         onClick={onClear}
                     >
+                        <i className="fa-solid fa-eraser"></i>
                         Limpar
                     </button>
                     <button
                         type="submit"
                         className={`${styles.button} ${styles.compareButton}`}
                     >
+                        <i className="fa-solid fa-calculator"></i>
                         Comparar
                     </button>
                 </footer>

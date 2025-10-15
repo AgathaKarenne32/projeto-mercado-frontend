@@ -1,197 +1,268 @@
 .modalOverlay {
-    position: fixed;
-    inset: 0;
-    background-color: var(--overlay);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 10px;
 }
 
 .modalBox {
-    background-color: var(--bg);
-    width: 100%;
-    max-width: 600px;
-    border-radius: var(--radius);
-    padding: 2rem;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-height: 90vh;
-    position: relative;
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  position: relative;
 }
 
 .closeButton {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: var(--muted);
-    cursor: pointer;
-    transition: color var(--transition);
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #f8f9fa;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s ease;
 }
 
 .closeButton:hover {
-    color: var(--text);
+  background: #e9ecef;
+  color: #333;
 }
 
 .modalHeader {
-    text-align: center;
+  margin-bottom: 12px;
+  padding-right: 25px;
 }
 
 .modalTitle {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #1a1a1a;
 }
 
 .modalDescription {
-    font-size: 1rem;
-    color: var(--muted);
+  font-size: 0.75rem;
+  color: #666;
+  line-height: 1.3;
 }
 
 .fieldset {
-    border: none;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.fieldset legend {
-    font-size: 1.2rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    color: var(--text);
-}
-
-.productSection {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
+  margin-bottom: 12px;
+  border: none;
+  padding: 0;
 }
 
 .inputGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.inputGroup label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
 }
 
 .textInput,
 .selectInput {
-    padding: 0.75rem;
-    border-radius: 0.45rem;
-    border: 1px solid var(--border);
-    font-size: 1rem;
-    color: var(--text);
-    background-color: #f9fafb;
-    transition: border-color var(--transition);
+  padding: 6px 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  outline: none;
+  transition: all 0.2s ease;
+  background: #fff;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .textInput:focus,
 .selectInput:focus {
-    border-color: var(--primary);
-    outline: none;
-    background-color: #fff;
+  border-color: #f97316;
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.1);
 }
 
 .selectInput {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b7280'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    background-size: 0.65rem;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b7280'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 0.5rem;
+  cursor: pointer;
+}
+
+.productSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.productFieldset {
+  border: 1px solid #f8f9fa;
+  border-radius: 6px;
+  padding: 8px;
+  background: #fafbfc;
+  transition: all 0.2s ease;
+}
+
+.productFieldset:hover {
+  border-color: #e5e7eb;
+}
+
+.productFieldset legend {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  padding: 0 4px;
+  margin-bottom: 6px;
 }
 
 .resultBox {
-    background-color: #d7f7e0;
-    border-left: 4px solid var(--primary);
-    padding: 0.5rem;
-    border-radius: var(--radius);
-    color: var(--text);
-    box-shadow: 0 3px 4px rgb(178, 223, 188);
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  border: 1px solid #f59e0b;
+  border-radius: 6px;
+  padding: 8px;
+  margin: 8px 0;
+  color: #92400e;
 }
 
 .resultBox h2 {
-    font-size: 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #92400e;
 }
 
 .resultBox p {
-    margin: 0.25rem 0;
-    font-size: 0.95rem;
+  margin: 3px 0;
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+.resultBox strong {
+  color: #d97706;
 }
 
 .buttonGroup {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .button {
-    padding: 0.75rem 1.25rem;
-    border-radius: var(--radius);
-    font-size: 1rem;
-    font-weight: 500;
-    border: none;
-    cursor: pointer;
-    transition: background-color var(--transition);
-}
-
-.compareButton {
-    background-color: var(--btn-success);
-    color: #fff;
-}
-
-.compareButton:hover {
-    background-color: var(--btn-success-hover);
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  flex: 1;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
 .clearButton {
-    background-color: var(--color-primary);
-    color: #fff;
+  background: #f8f9fa;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
 }
 
 .clearButton:hover {
-    background-color: var(--color-primary-hover);
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.compareButton {
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  color: white;
+}
+
+.compareButton:hover {
+  background: linear-gradient(135deg, #ea580c, #f97316);
 }
 
 .error {
-    color: var(--btn-danger);
-    font-size: 0.8rem;
-    font-weight: 400;
-    margin-top: -0.2rem;
+  font-size: 0.7rem;
+  color: #ef4444;
+  margin-top: 2px;
+  font-weight: 500;
 }
 
-@media screen and (max-width: 480px) {
-    .modalBox {
-        padding: 1rem;
-    }
+/* Mobile */
+@media (max-width: 480px) {
+  .modalBox {
+    max-width: 320px;
+    padding: 14px;
+  }
+  
+  .productSection {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .productFieldset {
+    padding: 6px;
+  }
+  
+  .buttonGroup {
+    flex-direction: row;
+    gap: 6px;
+  }
+  
+  .button {
+    padding: 5px 8px;
+    font-size: 0.75rem;
+    min-height: 28px;
+  }
+  
+  .closeButton {
+    top: 6px;
+    right: 6px;
+    width: 20px;
+    height: 20px;
+    font-size: 0.8rem;
+  }
+  
+  .modalHeader {
+    margin-bottom: 10px;
+  }
+  
+  .modalTitle {
+    font-size: 1rem;
+  }
+  
+  .modalDescription {
+    font-size: 0.7rem;
+  }
+}
 
-    .modalTitle {
-        font-size: 1.25rem;
-    }
-
-    .modalDescription {
-        font-size: 0.95rem;
-    }
-
-    .textInput,
-    .selectInput {
-        font-size: 0.9rem;
-    }
-
-    .button {
-        font-size: 0.9rem;
-        padding: 0.6rem 1rem;
-    }
-
-    .resultBox h2 {
-        font-size: 1.1rem;
-    }
-
-    .resultBox p {
-        font-size: 0.9rem;
-    }
+@media (max-width: 320px) {
+  .modalBox {
+    max-width: 300px;
+    padding: 12px;
+  }
 }

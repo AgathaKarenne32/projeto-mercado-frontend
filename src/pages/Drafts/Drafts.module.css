@@ -1,61 +1,91 @@
 main {
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+}
 
+.tableSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
 }
 
 .headerSection {
-    --page-horizontal-padding: 6rem;
-    padding: 2rem var(--page-horizontal-padding);
+    --page-horizontal-padding: 4rem;
+    padding: 2rem var(--page-horizontal-padding) 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2rem;
 }
 
 .headerContent {
     max-width: 600px;
+    flex: 1;
 }
 
 .title {
-
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    color: #2c3e50;
+    color: #1f2937;
     margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #1f2937, #4b5563);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .subtitle {
-    color: #5b6472;
-    text-align: center;
-    font-size: 1rem;
+    color: #6b7280;
+    font-size: 1.1rem;
     font-weight: 400;
-    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.buttonGroup {
+    display: flex;
+    align-items: center;
 }
 
 .btnUnitCompare {
-    background-color: var(--color-primary);
-    padding: .8rem .5rem;
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    padding: 12px 24px;
     font-size: 1rem;
+    font-weight: 600;
     color: white;
     border: none;
-    border-radius: .4rem;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-
+    gap: 10px;
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+    position: relative;
+    overflow: hidden;
 }
 
 .btnUnitCompare:hover {
-    background-color: var(--color-primary-hover);
-    transform: scale(1.03);
-
+    box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+    background: linear-gradient(135deg, #ea580c, #f97316);
 }
 
-.button:hover {
-    background-color: #2980b9;
+.btnUnitCompare:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(10, 151, 132, 0.3);
+}
+
+.btnUnitCompare i {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.btnUnitCompare:hover i {
+    transform: scale(1.1);
 }
 
 .emptySection {
@@ -69,19 +99,11 @@ main {
     margin-top: 2rem;
 }
 
-.headerSection {
-    margin-bottom: 1.5rem;
-
-
-
-}
-
 .icon {
     font-size: 2rem;
     color: #34495e;
     margin-bottom: 1rem;
 }
-
 
 .emptyTitle {
     font-size: 1.1rem;
@@ -97,8 +119,12 @@ main {
 .loadingContainer {
     padding: 3rem 0;
     text-align: center;
-    color: #6c757d; 
+    color: #6c757d;
     font-size: 1.2rem;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .spinner {
@@ -116,11 +142,49 @@ main {
 @media screen and (max-width: 768px) {
     .title {
         text-align: center;
+        font-size: 1.8rem;
     }
 
     .headerSection {
         justify-content: center;
-        padding: .7rem 0;
-        margin: 1rem;
+        padding: 1.5rem 1rem 1rem;
+        margin: 0;
+        text-align: center;
+        gap: 1.5rem;
+    }
+
+    .btnUnitCompare {
+        padding: 14px 20px;
+        font-size: 1rem;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .buttonGroup {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .tableSection {
+        padding: 0 8px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .title {
+        font-size: 1.6rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .btnUnitCompare {
+        padding: 12px 16px;
+        font-size: 0.95rem;
+    }
+
+    .headerSection {
+        padding: 1rem 0.5rem 0.5rem;
     }
 }
