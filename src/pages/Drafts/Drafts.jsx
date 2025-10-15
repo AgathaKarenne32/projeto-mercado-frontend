@@ -55,9 +55,7 @@ const Drafts = () => {
                 </div>
             </header>
 
-            {/* MOSTRAR DraftItem SE: 
-                - Não tem rascunhos salvos E não está carregando
-                - OU tem itens no localStorage (draftItems) */}
+        
             {(hasLocalDraftItems || !hasSavedDrafts && !loadingSaved) && (
                 <DraftItem hasSavedRascunhos={hasSavedDrafts} />
             )}

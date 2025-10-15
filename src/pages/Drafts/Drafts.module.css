@@ -64,14 +64,12 @@ main {
     display: flex;
     align-items: center;
     gap: 10px;
-    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
     position: relative;
     overflow: hidden;
 }
 
 .btnUnitCompare:hover {
-    box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
-    background: linear-gradient(135deg, #ea580c, #f97316);
+     background: linear-gradient(135deg, #ea580c, #f97316);
 }
 
 .btnUnitCompare:active {

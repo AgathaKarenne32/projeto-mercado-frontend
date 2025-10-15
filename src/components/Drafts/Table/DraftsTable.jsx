@@ -19,7 +19,12 @@ const DraftsTable = ({
   const [expanded, setExpanded] = useState(null);
   const [editingDraft, setEditingDraft] = useState(null);
   const [filtroNome, setFiltroNome] = useState("");
-  const [filtroData, setFiltroData] = useState("");
+  
+  // Inicializar com a data de hoje formatada
+  const [filtroData, setFiltroData] = useState(() => {
+    const today = new Date();
+    return today.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+  });
 
   const { openDraftModal } = useModal();
   const { deleteDraft } = useDraft();

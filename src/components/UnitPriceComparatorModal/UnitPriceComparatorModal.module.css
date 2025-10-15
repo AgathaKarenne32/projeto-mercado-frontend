@@ -9,35 +9,50 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 10px;
+  padding: 20px;
 }
 
 .modalBox {
   background: #fff;
-  border-radius: 8px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 24px;
   width: 100%;
-  max-width: 360px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  max-width: 500px;
+  max-height: 580px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
   position: relative;
+  animation: modalSlideIn 0.3s ease-out;
+  overflow-y: auto;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .closeButton {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 16px;
+  right: 16px;
   background: #f8f9fa;
   border: none;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   cursor: pointer;
   color: #666;
   transition: all 0.2s ease;
+  font-weight: 300;
 }
 
 .closeButton:hover {
@@ -46,25 +61,25 @@
 }
 
 .modalHeader {
-  margin-bottom: 12px;
-  padding-right: 25px;
+  margin-bottom: 20px;
+  padding-right: 40px;
 }
 
 .modalTitle {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   color: #1a1a1a;
 }
 
 .modalDescription {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: #666;
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
 .fieldset {
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   border: none;
   padding: 0;
 }
@@ -72,22 +87,22 @@
 .inputGroup {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-bottom: 10px;
+  gap: 6px;
+  margin-bottom: 14px;
 }
 
 .inputGroup label {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: #374151;
 }
 
 .textInput,
 .selectInput {
-  padding: 6px 8px;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  font-size: 0.85rem;
+  padding: 12px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.9rem;
   outline: none;
   transition: all 0.2s ease;
   background: #fff;
@@ -98,97 +113,140 @@
 .textInput:focus,
 .selectInput:focus {
   border-color: #f97316;
-  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.1);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
 }
 
 .selectInput {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b7280'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2l6 6 6-6' stroke='%236b7280' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 0.5rem;
+  background-position: right 14px center;
+  background-size: 0.9rem;
   cursor: pointer;
+  font-weight: 500;
 }
 
 .productSection {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
 .productFieldset {
-  border: 1px solid #f8f9fa;
-  border-radius: 6px;
-  padding: 8px;
+  border: 2px solid #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
   background: #fafbfc;
   transition: all 0.2s ease;
+  position: relative;
 }
 
 .productFieldset:hover {
   border-color: #e5e7eb;
 }
 
+.productFieldset:first-child::after {
+  content: 'A';
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  background: #f97316;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.productFieldset:last-child::after {
+  content: 'B';
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
 .productFieldset legend {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: #1a1a1a;
-  padding: 0 4px;
-  margin-bottom: 6px;
+  padding: 0 6px;
+  margin-bottom: 10px;
 }
 
 .resultBox {
   background: linear-gradient(135deg, #fffbeb, #fef3c7);
-  border: 1px solid #f59e0b;
-  border-radius: 6px;
-  padding: 8px;
-  margin: 8px 0;
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
   color: #92400e;
 }
 
 .resultBox h2 {
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
   color: #92400e;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .resultBox p {
-  margin: 3px 0;
-  font-size: 0.75rem;
-  line-height: 1.3;
+  margin: 6px 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .resultBox strong {
   color: #d97706;
+  font-weight: 700;
 }
 
 .buttonGroup {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   margin-top: 8px;
 }
 
 .button {
-  padding: 6px 10px;
-  font-size: 0.8rem;
-  border-radius: 6px;
+  padding: 12px 18px;
+  font-size: 0.9rem;
+  border-radius: 10px;
   cursor: pointer;
   border: none;
   transition: all 0.2s ease;
   font-weight: 600;
   flex: 1;
-  min-height: 30px;
+  min-height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .clearButton {
   background: #f8f9fa;
   color: #6b7280;
-  border: 1px solid #e5e7eb;
+  border: 2px solid #e5e7eb;
 }
 
 .clearButton:hover {
@@ -197,72 +255,86 @@
 }
 
 .compareButton {
-  background: linear-gradient(135deg, #f97316, #fb923c);
+  background: #f97316;
   color: white;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
 }
 
 .compareButton:hover {
-  background: linear-gradient(135deg, #ea580c, #f97316);
+  background: #ea580c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
 }
 
 .error {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: #ef4444;
-  margin-top: 2px;
+  margin-top: 4px;
   font-weight: 500;
 }
 
-/* Mobile */
+/* Mobile Responsive */
 @media (max-width: 480px) {
+  .modalOverlay {
+    padding: 16px;
+  }
+  
   .modalBox {
-    max-width: 320px;
-    padding: 14px;
+    padding: 20px;
+    max-width: 380px;
+    max-height: 520px;
   }
   
   .productSection {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 12px;
   }
   
   .productFieldset {
-    padding: 6px;
+    padding: 14px;
   }
   
   .buttonGroup {
-    flex-direction: row;
-    gap: 6px;
+    flex-direction: column;
+    gap: 8px;
   }
   
   .button {
-    padding: 5px 8px;
-    font-size: 0.75rem;
-    min-height: 28px;
+    flex: none;
+    min-height: 40px;
+    padding: 10px 16px;
   }
   
   .closeButton {
-    top: 6px;
-    right: 6px;
-    width: 20px;
-    height: 20px;
-    font-size: 0.8rem;
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    font-size: 1.1rem;
   }
   
   .modalHeader {
-    margin-bottom: 10px;
+    margin-bottom: 16px;
   }
   
   .modalTitle {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
   
-  .modalDescription {
-    font-size: 0.7rem;
+  .resultBox {
+    padding: 14px;
   }
 }
 
 @media (max-width: 320px) {
   .modalBox {
-    max-width: 300px;
-    padding: 12px;
+    padding: 16px;
+    max-width: 280px;
+    max-height: 500px;
+  }
+  
+  .textInput,
+  .selectInput {
+    padding: 10px 12px;
   }
 }
