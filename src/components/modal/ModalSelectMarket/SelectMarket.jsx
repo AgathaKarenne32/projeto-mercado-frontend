@@ -11,7 +11,7 @@ export const SelectMarket = ({ options, onChange, disabled }) => {
     {
         label: "",
         options: [
-            { value: null, label: "Adicionar novo item", },
+            { value: null, label: "Adicionar novo mercado", },
         ]
     }
 
@@ -49,7 +49,7 @@ export const SelectMarket = ({ options, onChange, disabled }) => {
             {isToShowSelect() ? (<Select className={"market-select"} classNamePrefix={"select"}
                 options={[eventOptions,
                     {
-                        label: "itens",
+                        label: "mercados",
                         options: [
                             ...options
                         ]

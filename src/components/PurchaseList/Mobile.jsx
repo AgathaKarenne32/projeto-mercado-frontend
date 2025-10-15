@@ -9,7 +9,6 @@ function PurchaseList() {
 
   return (
     <section className={styles.container}>
-      {console.log(state)}
       {state.map((purchase) => (
         <PurchaseItem
           key={purchase.accessKey}

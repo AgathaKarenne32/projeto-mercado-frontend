@@ -32,7 +32,7 @@ function PurchaseList() {
                 key={purchase.accessKey}
                 id={purchase.accessKey}
                 date={purchase.date}
-                market={purchase.store}
+                market={purchase.supermarket}
                 items={purchase.products}
                 total={purchase.totalPrice}
               />

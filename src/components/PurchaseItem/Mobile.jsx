@@ -10,7 +10,7 @@ import styles from "./Mobile.module.css";
 import { usePurchase } from "../../context/PurchaseContext/PurchaseContext";
 
 function PurchaseItem({ id, date, market, items, total }) {
-  const { dispatch } = usePurchase();
+  const { dispatch, deleteItem } = usePurchase();
 
   const formattedDate = formatLocalDate(date, "short");
   const formattedMoney = formatMoney(total);

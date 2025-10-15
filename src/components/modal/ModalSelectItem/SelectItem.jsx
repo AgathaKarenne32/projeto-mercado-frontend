@@ -11,28 +11,23 @@ export const SelectItem = ({ name, marketId, disabled, onChangeData, catalogList
     const [value, setValue] = useState(null);
     const [customInputName, setCustomInputName] = useState("");
     const [showCustomInput, setShowCustomInput] = useState(false);
-    const [finalValue, setFinalValue] = useState({ type: "item-name", code: "", value: "", name: name })
+    const [finalValue, setFinalValue] = useState({ type: "item-name", code: "", value: "", preDefinedUnit: false, unit: "",  me: name })
     const [catalogListOld, setCatalogListOld] = useState(catalogList)
 
     const eventOptions =
     {
         label: "",
         options: [
-            { value: -2, label: "Adicionar novo item", },
+            { value: -2, label: "Adicionar novo item", preDefinedUnit: false },
         ]
     }
 
     useEffect(() => {
         if (JSON.stringify(catalogListOld) != JSON.stringify(catalogList)) {
-            console.log(catalogListOld)
-            console.log(catalogList)
-            console.log("eh igual", catalogListOld == catalogList)
             changeValue(null)
         }
 
        setCatalogListOld(catalogList) 
-        console.log("catalogList")
-        console.log(catalogList)
     }, [catalogList])
 
 
@@ -56,13 +51,12 @@ export const SelectItem = ({ name, marketId, disabled, onChangeData, catalogList
     }, [marketId])
 
     useEffect(() => {
-        console.log("uE CIN")
-        setFinalValue({ type: "item-name", code: null, "value": customInputName, name: name })
+        setFinalValue({ type: "item-name", code: null, "value": customInputName, name: name, preDefinedUnit: false })
     }, [customInputName])
 
     useEffect(() => {
         if (value != null && value.value != -2)
-            setFinalValue({ type: "item-name", code: value ? value.value : "", value: value ? value.label : "", name: name })
+            setFinalValue({ type: "item-name", code: value ? value.value : "", value: value ? value.label : "", name: name, preDefinedUnit: true, unit: value.unit })
     }, [value])
 
     useEffect(() => {
@@ -71,8 +65,6 @@ export const SelectItem = ({ name, marketId, disabled, onChangeData, catalogList
     }, [showCustomInput])
 
     useEffect(() => {
-        console.log('uE FV')
-        console.log(finalValue)
         onChangeData(finalValue)
     }, [finalValue])
 
@@ -81,7 +73,7 @@ export const SelectItem = ({ name, marketId, disabled, onChangeData, catalogList
         setValue(null)
         setShowCustomInput(false)
         setCustomInputName("")
-        setFinalValue({ type: "item-name", code: "", value: "" })
+        setFinalValue({ type: "item-name", code: "", value: "", preDefinedUnit: false })
     }
 
     function changeValue(value) {
@@ -110,7 +102,7 @@ export const SelectItem = ({ name, marketId, disabled, onChangeData, catalogList
                         {
                             label: "itens",
                             options: [
-                                ...catalogList ? catalogList.map(cat => ({ value: cat.CODE, label: cat.name })) : []
+                                ...catalogList ? catalogList.map(cat => ({ value: cat.CODE, label: cat.name, preDefinedUnit: true, unit: cat.unit })) : []
                             ]
                         }
                     ]}

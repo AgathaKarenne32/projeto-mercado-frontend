@@ -29,32 +29,20 @@ const exampleData = {
 };
 
 export async function registerManualPurchase(data) {
-  return api.post("/api/nfce/register-manual", data);
+  return api.post("/api/nfces/", data);
 }
 
 export async function deletePurchase(accessKey) {
-  console.log(accessKey)
-  const reqData = {
-    accessKey: accessKey
-  }
-  console.log(reqData)
-  return api.delete(`/api/nfce/delete`, 
-    {
-      data: reqData,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
+  return api.delete(`/api/nfces/${accessKey}`, 
   )
 }
 
 export async function getAll() {
-  return api.get("/api/nfce/all")
+  return api.get("/api/nfces/")
 }
 
 export async function getAllMarkets() {
-  console.log("veioaqui")
-  return api.get("/api/mercado");
+  return api.get("/api/supermarkets/");
 }
 
 export async function getAllCatalogByMarketId(marketId) {

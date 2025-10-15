@@ -11,24 +11,13 @@ export const SelectItem = ({ marketId, onNoneBelow }) => {
 
     let marketIdOld;
     useEffect(() => {
-        console.log("opa")
         if (marketId == -1) {
             onNoneBelow()
             return;
         }
-
-        console.log("passow")
-        console.log(marketId);
-        console.log(marketIdOld)
-
         if (marketIdOld == marketId) return;
-
-        console.log("passow2")
-
-
         getAllCatalogByMarketId(marketId).then(
             resp => {
-                console.log(resp.data.data);
                 setCatalogList(resp.data.data);
             }
         )
@@ -36,9 +25,8 @@ export const SelectItem = ({ marketId, onNoneBelow }) => {
         marketIdOld = marketId;
     }, [marketId])
 
-    function alow(ll) {
+    function selectOption(ll) {
         setSelectedOption(ll)
-        console.log(ll)
     }
 
     return (<Select className="market-select" classNamePrefix={"select"}
@@ -46,7 +34,7 @@ export const SelectItem = ({ marketId, onNoneBelow }) => {
             { id: -1, label: "Adicionar novo mercado" }, ...
             catalogList.map(cat => ({ value: cat.CODE, label: cat.name }))
         ]}
-        onChange={alow}
+        onChange={selectOption}
         defaultValue={selectedOption}
 
     />)

@@ -18,6 +18,7 @@ function PurchaseItem({ id, date, market, items, total }) {
   const formattedDate = formatLocalDate(date);
   const formattedMoney = formatMoney(total);
 
+
   return (
     <tr className={styles.row}>
       <td className={styles.date}>
@@ -30,7 +31,7 @@ function PurchaseItem({ id, date, market, items, total }) {
       <td className={styles.market}>
         <div className={styles.cell}>
           <AddCircleIcon sx={{ fontSize: 16 }} />
-          <p>{market.name}</p>
+          <p>{market.store}</p>
         </div>
       </td>
 
