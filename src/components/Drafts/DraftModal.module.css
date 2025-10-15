@@ -81,13 +81,12 @@
   border: 1px solid #10b981;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+ 
 }
 
 .changeMarketButton:hover {
   background: #10b981;
   color: white;
-  transform: translateY(-1px);
 }
 
 .closeButton {
@@ -105,7 +104,7 @@
   font-size: 1.2rem;
   cursor: pointer;
   color: #666;
-  transition: all 0.2s ease;
+ 
 }
 
 .closeButton:hover {
@@ -149,7 +148,6 @@
   border-radius: 12px;
   font-size: 1rem;
   outline: none;
-  transition: all 0.2s ease;
   background: #fff;
 }
 
@@ -181,7 +179,7 @@
   font-size: 1.2rem;
   font-weight: 500;
   color: #374151;
-  transition: all 0.2s ease;
+
 }
 
 .quantityButton:hover {
@@ -211,12 +209,11 @@
 }
 
 .button {
-  padding: 14px 24px;
+  padding: 10px 10px;
   font-size: 0.95rem;
   border-radius: 12px;
   cursor: pointer;
   border: none;
-  transition: all 0.2s ease;
   font-weight: 600;
   flex: 1;
   height: 48px;
@@ -231,20 +228,17 @@
 .cancelButton:hover {
   background: #e5e7eb;
   color: #374151;
-  transform: translateY(-1px);
+  
 }
 
 .primaryButton {
   background: #10b981;
   color: white;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-}
+  }
 
 .primaryButton:hover {
   background: #059669;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
-}
+ }
 
 .error {
   font-size: 0.8rem;

@@ -393,8 +393,8 @@
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 11px;
-    color: #374151;
-    border: 1px solid #e8ecef;
+    color: #08b6ad;
+    border: 1px solid #08b6ad;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -438,7 +438,7 @@
     color: white;
 }
 
-/* PreviewModal Styles */
+
 .modalOverlay {
     position: fixed;
     top: 0;
@@ -511,7 +511,7 @@
 .modalClose:hover {
     background: #e9ecef;
     color: #333;
-    transform: rotate(90deg);
+    
 }
 
 .modalBody {
@@ -531,13 +531,7 @@
     border: 2px solid #f0f0f0;
     border-radius: 12px;
     padding: 16px;
-    transition: all 0.2s ease;
-}
-
-.productCard:hover {
-    border-color: #0a9784;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    
 }
 
 .productName {

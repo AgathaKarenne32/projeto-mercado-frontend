@@ -45,7 +45,7 @@ export const DraftItem = ({ hasSavedRascunhos = false }) => {
                 </section>
             ) : (
                 <section className={styles.itensContainer}>
-                    {/* Header com informações do mercado */}
+               
                     {market && (
                         <div className={styles.draftHeader}>
                             <div className={styles.marketInfo}>
