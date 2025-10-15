@@ -17,10 +17,10 @@ import PrivateRoute from "../components/PrivateRoute";
 import { useAuth } from "../contexts/AuthContext";
 
 const LoginRedirect = () => {
-    const { authData, loading } = useAuth(); // NOVO: Pega o loading
+    const { authData, loading } = useAuth(); 
 
     if (loading) {
-        return <div>Carregando...</div>; // Renderiza um placeholder
+        return <div>Carregando...</div>; 
     }
 
     if (authData && authData.accessToken) {
