@@ -4,6 +4,7 @@
     --btn-danger: #ef4444;
     --btn-danger-hover: #b91c1c;
     --color-border: #d1d5db;
+    --color-border-2: #d1d2db80;
     --color-text: #1f2937;
     --color-text-secondary: #6b7280;
     --color-background: #fff;
@@ -89,6 +90,11 @@
     width: 100%;
 }
 
+
+button[disabled] {
+    filter: saturate(60%);
+}
+
 label {
     font-size: 0.875rem;
     font-weight: 500;
@@ -141,6 +147,43 @@ input:focus {
     background: transparent;
     min-width: 5rem;
 }
+
+.form-group>select.select-unidade-medida {
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    border: 1px solid var(--color-border);
+    background-color: white;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+}
+
+/* cromium browsers */
+.item-total input::-webkit-outer-spin-button,
+.item-total input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+.item-total input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+.item-total {
+    border: 1px solid var(--color-border-2);
+    background-color: #aaaaaa20;
+}
+
+.modal-subtotal-actions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+}
+
 
 .item-price:focus-within {
     border-color: var(--btn-success);
@@ -211,6 +254,20 @@ input:focus {
     gap: 1rem;
 }
 
+.progress-item-separator {
+    border: none;
+}
+
+.progress-item-separator {
+    appearance: none;
+    background-color: #aaaaaa60;
+    width: 100%;
+    height: 8px;
+    border-radius: 20px;
+    box-shadow: 0;
+
+}
+
 .form-actions {
     display: flex;
     justify-content: flex-end;
@@ -255,6 +312,7 @@ input:focus {
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
+        justify-content: space-between;
     }
 
     .modal-fieldset-itens .form-group:nth-child(1) {
@@ -273,6 +331,23 @@ input:focus {
         width: 20%;
     }
 
+    .modal-fieldset-itens .form-group:has(select.select-unidade-medida) {
+        width: 20%;
+    }
+
+    .modal-fieldset-itens .form-group:has(div.item-total) {
+        width: 30%;
+        right: 0;
+    }
+
+    .modal-subtotal-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: end;
+        justify-content: center;
+        gap: 0.55rem;
+    }
+
     .btn-remove-item {
         margin-top: 2rem;
         align-self: flex-start;
@@ -282,4 +357,5 @@ input:focus {
     .modal-fieldset-total {
         width: 38%;
     }
+
 }

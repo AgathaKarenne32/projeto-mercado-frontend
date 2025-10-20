@@ -29,12 +29,12 @@ function PurchaseList() {
           <tbody>
             {state.map((purchase) => (
               <PurchaseItem
-                key={purchase.id}
-                id={purchase.id}
+                key={purchase.accessKey}
+                id={purchase.accessKey}
                 date={purchase.date}
-                market={purchase.market}
-                items={purchase.items}
-                total={purchase.total}
+                market={purchase.supermarket}
+                items={purchase.products}
+                total={purchase.totalPrice}
               />
             ))}
           </tbody>
