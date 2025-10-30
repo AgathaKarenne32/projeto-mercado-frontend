@@ -1,85 +1,97 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import styles from "./EditDraftModal.module.css";
 import { useDraft } from "../../../contexts/DraftContext";
 import { toast } from "react-toastify";
+import { useForm, useFieldArray } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const itemSchema = z.object({
+  product: z.string().min(1, "O nome do produto é obrigatório"),
+  quantity: z
+    .number({ invalid_type_error: "Quantidade deve ser um número" })
+    .min(1, "Quantidade deve ser maior que zero"),
+  price: z
+    .string()
+    .regex(/^[0-9]+(,[0-9]{2})?$/, "Preço inválido (ex: 12,50)")
+    .refine((val) => val !== "0,00" && val !== "0", {
+      message: "O preço não pode ser 0,00",
+    }),
+});
+
+const draftSchema = z.object({
+  mercado: z.string().min(1, "O nome do mercado é obrigatório"),
+  items: z.array(itemSchema).min(1, "Adicione pelo menos um item"),
+});
 
 const EditDraftModal = ({ draft, onClose }) => {
   const { updateDraft } = useDraft();
-  const [mercado, setMercado] = useState("");
-  const [items, setItems] = useState([]);
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+  } = useForm({
+    resolver: zodResolver(draftSchema),
+    defaultValues: {
+      mercado: "",
+      items: [{ product: "", quantity: 1, price: "0,00" }],
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "items",
+  });
+
+  const items = watch("items");
 
   useEffect(() => {
     if (draft) {
-      setMercado(draft.mercado || "");
+      setValue("mercado", draft.mercado || "");
       try {
-        const parsedItems =
+        const parsed =
           typeof draft.conteudo === "string"
             ? JSON.parse(draft.conteudo)
-            : Array.isArray(draft.conteudo)
-            ? draft.conteudo
-            : [];
-        const normalizedItems = parsedItems.map((item) => {
-          let priceValue = item.price || "0,00";
-          if (typeof priceValue === "number") {
-            priceValue = priceValue.toFixed(2).replace(".", ",");
-          } else if (typeof priceValue === "string") {
-            if (!priceValue.includes(",") && priceValue.includes(".")) {
-              priceValue = priceValue.replace(".", ",");
-            }
-          }
-          return {
-            product: item.product || "",
-            quantity: item.quantity || 1,
-            price: priceValue,
-          };
-        });
-        setItems(normalizedItems);
+            : draft.conteudo || [];
+        const normalized = parsed.map((item) => ({
+          product: item.product || "",
+          quantity: Number(item.quantity) || 1,
+          price:
+            typeof item.price === "number"
+              ? item.price.toFixed(2).replace(".", ",")
+              : item.price || "0,00",
+        }));
+        setValue("items", normalized);
       } catch {
-        setItems([]);
+        setValue("items", []);
       }
     }
-  }, [draft]);
+  }, [draft, setValue]);
 
   const formatPriceInput = (value, index) => {
     const numeric = value.replace(/\D/g, "");
-    const formatted = (parseFloat(numeric) / 100).toFixed(2).replace(".", ",");
-    const newItems = [...items];
-    newItems[index].price = formatted;
-    setItems(newItems);
-  };
-
-  const handleItemChange = (index, field, value) => {
-    const newItems = [...items];
-    newItems[index][field] = value;
-    setItems(newItems);
+    const formatted = (parseFloat(numeric || 0) / 100)
+      .toFixed(2)
+      .replace(".", ",");
+    setValue(`items.${index}.price`, formatted);
   };
 
   const handleQuantityChange = (index, increment) => {
-    const newItems = [...items];
-    const currentValue = parseInt(newItems[index].quantity) || 0;
-    newItems[index].quantity = Math.max(1, currentValue + increment);
-    setItems(newItems);
+    const currentQuantity = items[index]?.quantity || 1;
+    const newQuantity = Math.max(1, currentQuantity + increment);
+    setValue(`items.${index}.quantity`, newQuantity);
   };
 
-  const handleAddItem = () => {
-    setItems([...items, { product: "", quantity: 1, price: "0,00" }]);
-  };
-
-  const handleRemoveItem = (index) => {
-    if (items.length > 1) {
-      setItems(items.filter((_, i) => i !== index));
-    } else {
-      toast.warn("O rascunho deve ter pelo menos um item.");
-    }
-  };
-
-  const handleSave = async () => {
-    if (!draft?.id) {
-      toast.error("ID do rascunho não encontrado.");
-      return;
-    }
+  const onSubmit = async (data) => {
     try {
-      const success = await updateDraft(draft.id, { mercado, conteudo: items });
+      const success = await updateDraft(draft.id, {
+        mercado: data.mercado,
+        conteudo: data.items,
+      });
       if (success) onClose();
     } catch {
       toast.error("Erro ao salvar o rascunho.");
@@ -92,74 +104,130 @@ const EditDraftModal = ({ draft, onClose }) => {
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <h2>Editar Rascunho</h2>
-        <label>Mercado:</label>
-        <input
-          type="text"
-          value={mercado}
-          onChange={(e) => setMercado(e.target.value)}
-          placeholder="Nome do mercado"
-        />
-        <div className={styles.items}>
-          <h3>Itens</h3>
-          <div className={styles.itemsContainer}>
-            {items.map((item, index) => (
-              <div key={index} className={styles.itemRow}>
-                <input
-                  type="text"
-                  placeholder="Produto"
-                  value={item.product}
-                  onChange={(e) =>
-                    handleItemChange(index, "product", e.target.value)
-                  }
-                  className={styles.productInput}
-                />
-                <div className={styles.quantityControl}>
-                  <button
-                    type="button"
-                    className={styles.quantityBtn}
-                    onClick={() => handleQuantityChange(index, -1)}
-                  >
-                    −
-                  </button>
-                  <span className={styles.quantityValue}>
-                    {item.quantity}
-                  </span>
-                  <button
-                    type="button"
-                    className={styles.quantityBtn}
-                    onClick={() => handleQuantityChange(index, 1)}
-                  >
-                    +
-                  </button>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>Nome do mercado</h3>
+            <div className={styles.inputGroup}>
+              <input
+                {...register("mercado")}
+                placeholder="Digite o nome do mercado"
+                className={errors.mercado ? styles.errorInput : ""}
+              />
+              {errors.mercado && (
+                <p className={styles.error}>{errors.mercado.message}</p>
+              )}
+            </div>
+          </div>
+
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>Itens</h3>
+
+            {fields.map((item, index) => (
+              <div key={item.id} className={styles.itemRow}>
+                <div className={`${styles.inputGroup} ${styles.productInput}`}>
+                  <label htmlFor={`product-${index}`}>Produto</label>
+                  <input
+                    id={`product-${index}`}
+                    {...register(`items.${index}.product`)}
+                    placeholder="Nome do produto"
+                    className={
+                      errors.items?.[index]?.product ? styles.errorInput : ""
+                    }
+                  />
+                  {errors.items?.[index]?.product && (
+                    <p className={styles.error}>
+                      {errors.items[index].product.message}
+                    </p>
+                  )}
                 </div>
-                <input
-                  type="text"
-                  placeholder="R$ 0,00"
-                  value={item.price}
-                  onChange={(e) => formatPriceInput(e.target.value, index)}
-                  className={styles.priceInput}
-                />
-                <button
-                  onClick={() => handleRemoveItem(index)}
-                  className={styles.btnRemove}
-                >
-                  <i className="fa-solid fa-trash"></i>
-                </button>
+
+                <div className={`${styles.inputGroup} ${styles.quantityGroup}`}>
+                  <label>Quantidade</label>
+                  <div className={styles.quantityControl}>
+                    <button
+                      type="button"
+                      className={styles.quantityButton}
+                      onClick={() => handleQuantityChange(index, -1)}
+                      aria-label="Diminuir quantidade"
+                    >
+                      −
+                    </button>
+                    <span className={styles.quantityValue}>
+                      {items[index]?.quantity || 1}
+                    </span>
+                    <button
+                      type="button"
+                      className={styles.quantityButton}
+                      onClick={() => handleQuantityChange(index, 1)}
+                      aria-label="Aumentar quantidade"
+                    >
+                      +
+                    </button>
+                  </div>
+                  {errors.items?.[index]?.quantity && (
+                    <p className={styles.error}>
+                      {errors.items[index].quantity.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className={`${styles.inputGroup} ${styles.priceGroup}`}>
+                  <label htmlFor={`price-${index}`}>Preço (R$)</label>
+                  <input
+                    id={`price-${index}`}
+                    {...register(`items.${index}.price`)}
+                    placeholder="R$ 0,00"
+                    value={items[index]?.price || ""}
+                    onChange={(e) => formatPriceInput(e.target.value, index)}
+                    className={
+                      errors.items?.[index]?.price ? styles.errorInput : ""
+                    }
+                  />
+                  {errors.items?.[index]?.price && (
+                    <p className={styles.error}>
+                      {errors.items[index].price.message}
+                    </p>
+                  )}
+                </div>
+
+                {fields.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => remove(index)}
+                    className={styles.btnRemove}
+                    aria-label="Remover item"
+                  >
+                    <i className="fa-solid fa-trash"></i>
+                  </button>
+                )}
               </div>
             ))}
+
+            <button
+              type="button"
+              onClick={() =>
+                append({ product: "", quantity: 1, price: "0,00" })
+              }
+              className={styles.btnAdd}
+            >
+              + Adicionar Item
+            </button>
           </div>
-          <button onClick={handleAddItem} className={styles.btnAdd}>
-            + Adicionar Item
-          </button>
-        </div>
-        <div className={styles.buttons}>
-          <button onClick={onClose} className={styles.btnCancel}>
-            Cancelar
-          </button>
-          <button onClick={handleSave} className={styles.btnSave}>
-            Salvar Alterações
-          </button>
-        </div>
+
+          {/* Botões de Ação */}
+          <div className={styles.buttons}>
+            <button
+              type="button"
+              onClick={onClose}
+              className={styles.btnCancel}
+            >
+              Cancelar
+            </button>
+            <button type="submit" className={styles.btnSave}>
+              Salvar Alterações
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

@@ -9,85 +9,75 @@ import formatLocalDate from "../../utils/formatDate";
 import { useDraft } from "../../contexts/DraftContext";
 
 const Drafts = () => {
-    const {
-        isDraftModalOpen,
-        isUnitCompareModalOpen,
-        openUnitCompareModal,
-    } = useModal();
+  const { isDraftModalOpen, isUnitCompareModalOpen, openUnitCompareModal } =
+    useModal();
 
-    const {
-        draftItems = [],
-        savedDrafts,
-        loadingSaved,
-        fetchDrafts,
-    } = useDraft();
+  const {
+    draftItems = [],
+    savedDrafts,
+    loadingSaved,
+    fetchDrafts,
+  } = useDraft();
 
-    useEffect(() => {
-        fetchDrafts();
-    }, []);
+  useEffect(() => {
+    fetchDrafts();
+  }, []);
 
-    const handleUnitCompareClick = () => {
-        openUnitCompareModal();
-    };
+  const handleUnitCompareClick = () => {
+    openUnitCompareModal();
+  };
 
-    const hasSavedDrafts = savedDrafts && savedDrafts.length > 0;
-    const hasLocalDraftItems = draftItems && draftItems.length > 0;
+  const hasSavedDrafts = savedDrafts && savedDrafts.length > 0;
+  const hasLocalDraftItems = draftItems && draftItems.length > 0;
 
-    return (
-        <main className={styles.main}>
-            <header className={styles.headerSection} role="banner">
-                <div className={styles.headerContent}>
-                    <h1 className={styles.title}>Rascunho de Compras</h1>
-                    <h2 className={styles.subtitle}>
-                        Organize suas compras em tempo real enquanto está no mercado
-                    </h2>
-                </div>
+  return (
+    <main className={styles.main}>
+      <header className={styles.headerSection} role="banner">
+        <div className={styles.headerContent}>
+          <h1 className={styles.title}>Rascunho de Compras</h1>
+          <h2 className={styles.subtitle}>
+            Organize suas compras em tempo real enquanto está no mercado
+          </h2>
+        </div>
 
-                <div className={styles.buttonGroup}>
-                    <button
-                        className={styles.btnUnitCompare}
-                        onClick={handleUnitCompareClick}
-                        type="button"
-                    >
-                        <i className="fa-solid fa-chart-line"></i>
-                        Comparação Unitária
-                    </button>
-                </div>
-            </header>
+        <div className={styles.buttonGroup}>
+          <button
+            className={styles.btnUnitCompare}
+            onClick={handleUnitCompareClick}
+            type="button"
+          >
+            <i className="fa-solid fa-chart-line"></i>
+            Comparação Unitária
+          </button>
+        </div>
+      </header>
 
-        
-            {(hasLocalDraftItems || !hasSavedDrafts && !loadingSaved) && (
-                <DraftItem hasSavedRascunhos={hasSavedDrafts} />
-            )}
+      {(hasLocalDraftItems || (!hasSavedDrafts && !loadingSaved)) && (
+        <DraftItem hasSavedRascunhos={hasSavedDrafts} />
+      )}
 
-            {loadingSaved && (
-                <section className={styles.loadingContainer}>
-                    <p>
-                        <i className={`fas fa-spinner ${styles.spinner}`}></i> 
-                        Carregando rascunhos...
-                    </p>
-                </section>
-            )}
+      {loadingSaved && (
+        <section className={styles.loadingContainer}>
+          <p>
+            <i className={`fas fa-spinner ${styles.spinner}`}></i>
+            Carregando rascunhos...
+          </p>
+        </section>
+      )}
 
-            {/* MOSTRAR TABELA APENAS SE: 
-                - Não está carregando
-                - Tem rascunhos salvos
-                - E NÃO tem itens no localStorage */}
-            {!loadingSaved && hasSavedDrafts && !hasLocalDraftItems && (
-                <section className={styles.tableSection}>
-                    <DraftsTable
-                        savedRascunhos={savedDrafts}
-                        formatDate={formatLocalDate}
-                        loading={loadingSaved}
-                        refresh={fetchDrafts}
-                    />
-                </section>
-            )}
+      {!loadingSaved && hasSavedDrafts && !hasLocalDraftItems && (
+        <DraftsTable
+          savedRascunhos={savedDrafts}
+          formatDate={formatLocalDate}
+          loading={loadingSaved}
+          refresh={fetchDrafts}
+        />
+      )}
 
-            {isUnitCompareModalOpen && <UnitPriceComparatorModal />}
-            {isDraftModalOpen && <DraftModal />}
-        </main>
-    );
+      {isUnitCompareModalOpen && <UnitPriceComparatorModal />}
+      {isDraftModalOpen && <DraftModal />}
+    </main>
+  );
 };
 
 export default Drafts;

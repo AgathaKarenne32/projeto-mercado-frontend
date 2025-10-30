@@ -1,8 +1,28 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import styles from "./DraftModal.module.css";
 import { useDraft } from "../../contexts/DraftContext";
 import { useModal } from "../../contexts/ModalContext";
+
+const formSchema = z.object({
+  market: z.string().min(1, "campo obrigatório *"),
+  product: z.string().min(1, "campo obrigatório *"),
+  quantity: z
+    .number({ invalid_type_error: "campo obrigatório *" })
+    .min(1, "mínimo 1"),
+  price: z
+    .string()
+    .min(1, "campo obrigatório *")
+    .refine(
+      (val) => {
+        const num = parseFloat(val.replace(",", "."));
+        return num > 0;
+      },
+      { message: "O preço deve ser maior que 0,00" }
+    ),
+});
 
 const DraftModal = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -17,6 +37,7 @@ const DraftModal = () => {
     watch,
     formState: { errors },
   } = useForm({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       market: "",
       product: "",
@@ -134,7 +155,7 @@ const DraftModal = () => {
                   id="market"
                   type="text"
                   placeholder="Ex: Carrefour, Pão de Açúcar, Extra"
-                  {...register("market", { required: "campo obrigatório *" })}
+                  {...register("market")}
                   className={styles.textInput}
                   autoFocus
                 />
@@ -187,7 +208,7 @@ const DraftModal = () => {
                   id="product"
                   type="text"
                   placeholder="Ex: Arroz, Leite, Tomate"
-                  {...register("product", { required: "campo obrigatório *" })}
+                  {...register("product")}
                   className={styles.textInput}
                   autoFocus
                 />
@@ -209,9 +230,7 @@ const DraftModal = () => {
                   >
                     −
                   </button>
-                  <span className={styles.quantityValue}>
-                    {quantityValue}
-                  </span>
+                  <span className={styles.quantityValue}>{quantityValue}</span>
                   <button
                     type="button"
                     className={styles.quantityButton}
@@ -222,7 +241,9 @@ const DraftModal = () => {
                   </button>
                 </div>
                 {errors.quantity && (
-                  <span className={styles.error}>{errors.quantity.message}</span>
+                  <span className={styles.error}>
+                    {errors.quantity.message}
+                  </span>
                 )}
               </div>
 
@@ -233,7 +254,7 @@ const DraftModal = () => {
                   type="text"
                   placeholder="R$ 0,00"
                   className={styles.priceInput}
-                  {...register("price", { required: "campo obrigatório *" })}
+                  {...register("price")}
                   onChange={(e) => formatPriceInput(e.target.value, "price")}
                 />
                 {errors.price && (

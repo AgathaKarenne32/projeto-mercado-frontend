@@ -67,7 +67,7 @@ export default function Header() {
               Rascunhos
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink
               to="/meus-relatorios"
               className={({ isActive }) =>
@@ -88,7 +88,7 @@ export default function Header() {
               <i className="fa-solid fa-users"></i>
               Relatórios Gerais
             </NavLink>
-          </li>
+          </li> */}
           <li className="hidden">
             <NavLink
               to="/perfil"

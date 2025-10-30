@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useModal } from "../../../contexts/ModalContext";
 import { useDraft } from "../../../contexts/DraftContext";
 import MobileDraftList from "./MobileDraftList";
@@ -19,21 +19,23 @@ const DraftsTable = ({
   const [expanded, setExpanded] = useState(null);
   const [editingDraft, setEditingDraft] = useState(null);
   const [filtroNome, setFiltroNome] = useState("");
-  
-  // Inicializar com a data de hoje formatada
+
   const [filtroData, setFiltroData] = useState(() => {
     const today = new Date();
-    return today.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+    return today.toISOString().split("T")[0];
   });
 
   const { openDraftModal } = useModal();
   const { deleteDraft } = useDraft();
-  const { currencyFormatter, parseItems, extractQty, extractNumber } = useTableUtils();
+  const { currencyFormatter, parseItems, extractQty, extractNumber } =
+    useTableUtils();
 
   const rascunhos = Array.isArray(savedRascunhos) ? savedRascunhos : [];
 
   const rascunhosFiltrados = rascunhos.filter((r) => {
-    const nomeMatch = r.mercado?.toLowerCase().includes(filtroNome.toLowerCase());
+    const nomeMatch = r.mercado
+      ?.toLowerCase()
+      .includes(filtroNome.toLowerCase());
     const dataMatch = filtroData ? r.createdAt?.startsWith(filtroData) : true;
     return nomeMatch && dataMatch;
   });
@@ -61,10 +63,7 @@ const DraftsTable = ({
               </div>
             </div>
             <div className={styles.controlsRight}>
-              <button 
-                className={styles.btnCreate} 
-                onClick={openDraftModal}
-              >
+              <button className={styles.btnCreate} onClick={openDraftModal}>
                 <i className="fa-solid fa-plus"></i>
                 Novo Rascunho
               </button>
@@ -72,7 +71,10 @@ const DraftsTable = ({
           </div>
         </div>
         <div className={styles.empty}>
-          <i className="fa-solid fa-inbox" style={{fontSize: '32px', marginBottom: '12px', color: '#9ca3af'}}></i>
+          <i
+            className="fa-solid fa-inbox"
+            style={{ fontSize: "32px", marginBottom: "12px", color: "#9ca3af" }}
+          ></i>
           <div>Nenhum rascunho salvo encontrado.</div>
         </div>
       </div>
@@ -86,10 +88,12 @@ const DraftsTable = ({
           <div className={styles.controlsLeft}>
             <div className={styles.meta}>
               <span>Total de rascunhos:</span>
-              <span className={styles.metaCount}>{rascunhosFiltrados.length}</span>
+              <span className={styles.metaCount}>
+                {rascunhosFiltrados.length}
+              </span>
             </div>
           </div>
-          
+
           <div className={styles.controlsRight}>
             <div className={styles.filtersContainer}>
               <div className={styles.filterGroup}>
@@ -102,7 +106,7 @@ const DraftsTable = ({
                   className={styles.filterInput}
                 />
               </div>
-              
+
               <div className={styles.filterGroup}>
                 <label className={styles.filterLabel}>Data</label>
                 <input
@@ -112,11 +116,8 @@ const DraftsTable = ({
                   className={styles.filterInput}
                 />
               </div>
-              
-              <button 
-                className={styles.btnCreate} 
-                onClick={openDraftModal}
-              >
+
+              <button className={styles.btnCreate} onClick={openDraftModal}>
                 <i className="fa-solid fa-plus"></i>
                 Novo Rascunho
               </button>

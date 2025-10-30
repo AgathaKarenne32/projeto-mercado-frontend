@@ -1,23 +1,19 @@
-import React, { useState } from "react";
 import styles from "./DraftsTable.module.css";
-import EditDraftModal from "../EditDraftModal/EditDraftModal";
 
 const DesktopDraftTable = ({
   rascunhos,
   onPreview,
   onDelete,
+  onEdit,
   formatDate,
   parseItems,
   currencyFormatter,
   extractQty,
   extractNumber,
 }) => {
-  const [editingDraft, setEditingDraft] = useState(null);
-
   const handleEdit = (rascunho) => {
-    console.log('Rascunho dentor do edit', rascunho)
+    console.log("Rascunho dentor do edit", rascunho);
     try {
-     
       const parsed =
         typeof rascunho.conteudo === "string"
           ? JSON.parse(rascunho.conteudo)
@@ -25,17 +21,18 @@ const DesktopDraftTable = ({
           ? rascunho.conteudo
           : [];
 
-      console.log('parsed dentor do edit', parsed)
+      console.log("parsed dentor do edit", parsed);
       const items = parsed.map((item) => ({
         product: item.product || "",
         quantity: item.quantity || 1,
         price: item.price || 0,
       }));
 
-     setEditingDraft({ ...rascunho, conteudo: items });
+      // Agora chama a função onEdit passada como prop
+      onEdit({ ...rascunho, conteudo: items });
     } catch (err) {
       console.error("Erro ao abrir rascunho:", err);
-      setEditingDraft({ ...rascunho, conteudo: [] });
+      onEdit({ ...rascunho, conteudo: [] });
     }
   };
 
@@ -54,19 +51,24 @@ const DesktopDraftTable = ({
         </thead>
         <tbody>
           {rascunhos.map((rascunho) => {
-            console.log('Ola,sou o rascunho para saber de fato como vem do back', rascunho)
+            console.log(
+              "Ola,sou o rascunho para saber de fato como vem do back",
+              rascunho
+            );
             let items = [];
             try {
-              const parsed = typeof rascunho.conteudo === "string" ? JSON.parse(rascunho.conteudo) : rascunho.conteudo;
+              const parsed =
+                typeof rascunho.conteudo === "string"
+                  ? JSON.parse(rascunho.conteudo)
+                  : rascunho.conteudo;
               items = Array.isArray(parsed)
                 ? parsed.map((item) => ({
                     product: item.product || "",
                     quantity: item.quantity || 1,
                     price: item.price || 0,
                   }))
-                  
                 : [];
-                console.log('items', items)
+              console.log("items", items);
             } catch {
               items = [];
             }
@@ -124,13 +126,6 @@ const DesktopDraftTable = ({
           })}
         </tbody>
       </table>
-
-      {editingDraft && (
-        <EditDraftModal
-          draft={editingDraft}
-          onClose={() => setEditingDraft(null)}
-        />
-      )}
     </>
   );
 };
