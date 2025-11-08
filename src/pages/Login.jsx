@@ -12,6 +12,7 @@ const Login = () => {
     reset,
     formState: { errors },
   } = useForm();
+
   const { login } = useAuth();
 
   const handleLoginGoogle = () => {
