@@ -7,8 +7,6 @@ import Purchase from "../pages/Purchase/Purchase";
 import Drafts from "../pages/Drafts/Drafts";
 import Reports from "../pages/Reports";
 import ForgotPassword from "../pages/ForgotPassword";
-import VerifyCode from "../pages/VerifyCode";
-import NewPassword from "../pages/NewPassword";
 import Dashboard from "../pages/Dashboard/dashboard";
 import MyReports from "../pages/MyReport";
 import GoogleAuth from "../pages/GoogleAuth";
