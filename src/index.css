@@ -32,10 +32,20 @@
 
 body {
   font-family: "Inter", sans-serif;
-  background-color: #f0f4f8;
+  background: radial-gradient(
+      circle at 20% 80%,
+      rgba(72, 187, 120, 0.89) 42%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(8, 145, 65, 0.705) 42%,
+      transparent 60%
+    ),
+    radial-gradient(circle at 50% 50%, rgb(5, 150, 82) 42%, transparent 50%);
   min-height: 100vh;
   margin: 0;
-  font-size: 16px; /* Garantindo tamanho padrão */
+  font-size: 16px;
 }
 
 .phone-mockup {
@@ -43,7 +53,8 @@ body {
   margin: 0 auto;
   position: relative;
   background-color: white;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -198,12 +209,12 @@ body {
 #signup-screen .main-button {
   background-color: #ff7f27;
   color: white;
-  padding: 0.7rem;
+  padding: 1rem;
   width: 100%;
-  border-radius: 0.4rem;
-  font-weight: 600;
+  border-radius: 0.6rem;
+  font-weight: 700;
   font-size: 0.85rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
   border: none;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -424,7 +435,8 @@ body {
   width: 100%;
   border-radius: 0.5rem;
   font-weight: 700;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border: none;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -547,7 +559,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .login-logo i {
@@ -572,7 +585,8 @@ body {
   padding: 1.5rem;
   border-bottom-left-radius: 1.5rem;
   border-bottom-right-radius: 1.5rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .cadastro-header .cadastro-logo {
@@ -583,7 +597,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
   margin-left: auto;
   margin-right: auto;
 }
@@ -623,7 +638,8 @@ body {
   width: 100%;
   border-radius: 0.5rem;
   font-weight: 700;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border: none;
   cursor: pointer;
   display: flex;
@@ -648,7 +664,8 @@ body {
   width: 100%;
   border-radius: 0.5rem;
   font-weight: 700;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border: none;
   cursor: pointer;
   display: flex;
@@ -688,7 +705,8 @@ body {
   width: 100%;
   border-radius: 0.5rem;
   font-weight: 700;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border: none;
   cursor: pointer;
   display: flex;
@@ -718,7 +736,8 @@ body {
   border-radius: 0.5rem;
   text-align: center;
   color: white;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .stat-total-purchases {
@@ -803,7 +822,8 @@ body {
   background-color: white;
   padding: 1rem;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .purchase-info {
@@ -894,7 +914,8 @@ body {
   background-color: white;
   border-radius: 0.5rem;
   padding: 0.25rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   margin: 0 -1.5rem;
   width: calc(100% + 3rem);
 }
@@ -928,7 +949,8 @@ body {
   background-color: white;
   padding: 1rem;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .report-summary-title {
@@ -1005,27 +1027,27 @@ body {
     width: 2.5rem;
     height: 2.5rem;
   }
-  
+
   #login-screen .login-logo i,
   #signup-screen .login-logo i {
     font-size: 1.2rem;
   }
-  
+
   #login-screen .login-title,
   #signup-screen .login-title {
     font-size: 1.2rem;
   }
-  
+
   #login-screen .form-input,
   #signup-screen .form-input {
     padding: 0.5rem 0.7rem;
   }
-  
+
   #login-screen .main-button,
   #signup-screen .main-button {
     padding: 0.6rem;
   }
-  
+
   #login-screen .google-button {
     padding: 0.6rem;
   }
@@ -1035,7 +1057,7 @@ body {
   .phone-mockup {
     width: 300px;
   }
-  
+
   .main-content {
     padding: 0.8rem 1rem;
   }

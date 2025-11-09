@@ -1,12 +1,12 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import App from "../App";
-import Login from "../pages/Login";
-import SignUp from "../pages/Signup";
+import Login from "../pages/Login/Login";
+import SignUp from "../Signup/Signup";
 import Profile from "../pages/Profile/Profile";
 import Purchase from "../pages/Purchase/Purchase";
 import Drafts from "../pages/Drafts/Drafts";
 import Reports from "../pages/Reports";
-import ForgotPassword from "../pages/ForgotPassword";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import Dashboard from "../pages/Dashboard/dashboard";
 import MyReports from "../pages/MyReport";
 import GoogleAuth from "../pages/GoogleAuth";
