@@ -449,6 +449,19 @@
 }
 
 @media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .signupContainer {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    display: block;
+    padding: 1rem 0.5rem;
+  }
+
   .phoneMockup {
     flex-direction: column;
     width: 100%;
