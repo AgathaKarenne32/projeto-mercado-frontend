@@ -460,7 +460,7 @@
 
   .illustrationSide {
     padding: 1.2rem;
-    min-height: 180px;
+    min-height: 245px;
     order: 2;
   }
 
@@ -509,104 +509,5 @@
 
   .featuresList ul {
     gap: 0.4rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .signupContainer {
-    padding: 0.5rem;
-  }
-
-  .illustrationSide {
-    padding: 1rem;
-    min-height: 160px;
-  }
-
-  .illustrationIcon {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .illustrationTitle {
-    font-size: 0.95rem;
-    margin-bottom: 0.3rem;
-  }
-
-  .illustrationText {
-    font-size: 0.7rem;
-    margin-bottom: 0.6rem;
-  }
-
-  .formSide {
-    padding: 1.2rem 1rem;
-  }
-
-  .loginLogo {
-    width: 2.8rem;
-    height: 2.8rem;
-  }
-
-  .loginLogoIcon {
-    font-size: 1.1rem;
-  }
-
-  .loginTitle {
-    font-size: 1rem;
-  }
-
-  .loginSubtitle {
-    font-size: 0.7rem;
-  }
-
-  .formInput {
-    padding: 0.65rem 0.8rem;
-    font-size: 0.78rem;
-  }
-
-  .mainButton {
-    padding: 0.7rem;
-    font-size: 0.78rem;
-  }
-
-  .signupText {
-    margin: 0.6rem 0;
-    padding: 0.6rem 0 0 0;
-  }
-
-  .featuresList {
-    margin-top: 0.6rem;
-    padding: 0.6rem;
-  }
-
-  .featureText {
-    font-size: 0.7rem;
-  }
-}
-
-@media (max-width: 320px) {
-  .signupContainer {
-    padding: 0.3rem;
-  }
-
-  .illustrationSide {
-    padding: 0.8rem;
-    min-height: 140px;
-  }
-
-  .formSide {
-    padding: 1rem 0.8rem;
-  }
-
-  .loginLogo {
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-
-  .loginLogoIcon {
-    font-size: 1rem;
-  }
-
-  .loginTitle {
-    font-size: 0.9rem;
   }
 }
