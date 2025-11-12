@@ -1,0 +1,111 @@
+:root {
+    --bg-surface: #ffffff;
+    --bg-secundary: #5c7280;
+    --text-primary: #1f2937;
+    --text-secundary: #ffffff;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --radius: 12px;
+    --spacing: 1rem;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    color: var(--text-primary);
+    padding: calc(var(--spacing) + 0.25rem);
+    display: grid;
+    gap: 0.6rem;
+    animation: appear 0.15s ease-out;
+}
+
+@keyframes appear {
+    from {
+        transform: translateY(4px);
+        opacity: 0.96;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.card p {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    line-height: 1.45;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.75rem;
+}
+
+.btnPrimary {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: calc(var(--spacing) - 0.25rem);
+    margin-top: calc(var(--spacing) - 0.25rem);
+    display: grid;
+    animation: appear 0.15s ease-out;
+}
+
+.btnPrimary:hover {
+    background: var(--bg-secundary);
+    color: var(--text-secundary);
+}
+
+
+.itemsSection {
+  margin-top: 1.5rem;
+}
+
+.itemsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.itemsTable th,
+.itemsTable td {
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.itemsTable th {
+  text-align: left;
+}
+
+.emptyItems {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}

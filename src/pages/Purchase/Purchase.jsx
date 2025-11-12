@@ -3,6 +3,8 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import LocalActivityOutlinedIcon from "@mui/icons-material/LocalActivityOutlined";
 import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
+import ViewPurchaseModal from "../../components/Purchase/ViewPurchaseModal/ViewPurchaseModal";
+import EditPurchaseModal from "../../components/Purchase/EditPurchaseModal/EditPurchaseModal";
 
 import Modal from "../../components/ModalPurchase/Modal";
 import PurchaseListDesktop from "../../components/PurchaseList/Desktop";
@@ -12,69 +14,121 @@ import StatCard from "../../components/StatCard";
 
 import styles from "./Purchase.module.css";
 import { PurchaseProvider } from "../../context/PurchaseContext/PurchaseContext";
+// import { PurchaseProvider } from "@/context/PurchaseContext/PurchaseContext";
 
 const Purchase = () => {
-  const [modal, setModal] = useState(false);
+    const [modal, setModal] = useState(false);
 
-  const toggleModal = () => {
-    setModal(!modal);
-  };
-
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 769);
+    const toggleModal = () => {
+        setModal(!modal);
     };
 
-    window.addEventListener("resize", handleResize);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 769);
+        };
 
-  return (
-    <main className={styles.container}>
-      <PurchaseProvider>
-        <section className={styles.intro}>
-          <header className={styles.header}>
-            <h1 className={styles.title}>Gestão de Compras</h1>
-            <p className={styles.subtitle}>Controle todas as suas compras e gastos em um só lugar</p>
-          </header>
+        window.addEventListener("resize", handleResize);
 
-          <button className={styles.btnAddPurchase} onClick={toggleModal}>
-            Adicionar Compra
-          </button>
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
-          {modal && <Modal toggleModal={toggleModal} />}
-        </section>
+    return (
+        <main className={styles.container}>
+            <PurchaseProvider>
+                <section className={styles.intro}>
+                    <header className={styles.header}>
+                        <h1 className={styles.title}>Gestão de Compras</h1>
+                        <p className={styles.subtitle}>
+                            Controle todas as suas compras e gastos em um só
+                            lugar
+                        </p>
+                    </header>
 
-        <section className={styles.cards}>
-          <div className={styles.statCardWrapper} style={{ backgroundColor: "#6B7280" }}>
-            <StatCard label="Total de Compras" value="1" className={styles.statCard} />
-            {!isMobile && <ShoppingCartOutlinedIcon className={styles.statCardIcon} />}
-          </div>
+                    <button
+                        className={styles.btnAddPurchase}
+                        onClick={toggleModal}
+                    >
+                        Adicionar Compra
+                    </button>
 
-          <div className={styles.statCardWrapper} style={{ backgroundColor: "#A239FE" }}>
-            <StatCard label="Valor Total" value="R$ 49,40" className={styles.statCard} />
-            {!isMobile && <PaymentsOutlinedIcon className={styles.statCardIcon} />}
-          </div>
+                    {modal && <Modal toggleModal={toggleModal} />}
+                </section>
 
-          <div className={styles.statCardWrapper} style={{ backgroundColor: "#2196F3" }}>
-            <StatCard label="Ticket Médio" value="R$ 49,40" className={styles.statCard} />
-            {!isMobile && <LocalActivityOutlinedIcon className={styles.statCardIcon} />}
-          </div>
+                <section className={styles.cards}>
+                    <div
+                        className={styles.statCardWrapper}
+                        style={{ backgroundColor: "#6B7280" }}
+                    >
+                        <StatCard
+                            label="Total de Compras"
+                            value="1"
+                            className={styles.statCard}
+                        />
+                        {!isMobile && (
+                            <ShoppingCartOutlinedIcon
+                                className={styles.statCardIcon}
+                            />
+                        )}
+                    </div>
 
-          <div className={`${styles.statCardWrapper} ${styles.lastStatCard}`} style={{ backgroundColor: "#E74C3C" }}>
-            <StatCard label="Produto mais comprado" value="Arroz 5kg" className={styles.statCard} />
-            {!isMobile && <ShoppingBasketOutlinedIcon className={styles.statCardIcon} />}
-          </div>
-        </section>
+                    <div
+                        className={styles.statCardWrapper}
+                        style={{ backgroundColor: "#A239FE" }}
+                    >
+                        <StatCard
+                            label="Valor Total"
+                            value="R$ 49,40"
+                            className={styles.statCard}
+                        />
+                        {!isMobile && (
+                            <PaymentsOutlinedIcon
+                                className={styles.statCardIcon}
+                            />
+                        )}
+                    </div>
 
-        {isMobile ? <PurchaseListMobile /> : <PurchaseListDesktop />}
-      </PurchaseProvider>
+                    <div
+                        className={styles.statCardWrapper}
+                        style={{ backgroundColor: "#2196F3" }}
+                    >
+                        <StatCard
+                            label="Ticket Médio"
+                            value="R$ 49,40"
+                            className={styles.statCard}
+                        />
+                        {!isMobile && (
+                            <LocalActivityOutlinedIcon
+                                className={styles.statCardIcon}
+                            />
+                        )}
+                    </div>
 
-    </main>
-  );
+                    <div
+                        className={`${styles.statCardWrapper} ${styles.lastStatCard}`}
+                        style={{ backgroundColor: "#E74C3C" }}
+                    >
+                        <StatCard
+                            label="Produto mais comprado"
+                            value="Arroz 5kg"
+                            className={styles.statCard}
+                        />
+                        {!isMobile && (
+                            <ShoppingBasketOutlinedIcon
+                                className={styles.statCardIcon}
+                            />
+                        )}
+                    </div>
+                </section>
+
+                {isMobile ? <PurchaseListMobile /> : <PurchaseListDesktop />}
+                <ViewPurchaseModal />
+                <EditPurchaseModal />
+            </PurchaseProvider>
+        </main>
+    );
 };
 
 export default Purchase;
