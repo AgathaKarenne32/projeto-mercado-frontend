@@ -41,7 +41,7 @@ export const DraftProvider = ({ children }) => {
 
     try {
       const res = await api.get("/api/rascunhos");
-      setSavedDrafts(Array.isArray(res.data) ? res.data : []);
+      setSavedDrafts(Array.isArray(res.data.data) ? res.data.data : []);
     } catch (err) {
       console.error("Erro ao buscar rascunhos:", err);
       
