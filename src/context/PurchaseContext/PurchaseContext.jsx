@@ -6,7 +6,11 @@ import {
   useState,
 } from "react";
 import { initialState, purchaseReducer } from "./purchaseReducer";
-import { deletePurchase, getAll } from "../../services/nfceService";
+import {
+  deletePurchase,
+  getAll,
+  updatePurchase,
+} from "../../services/nfceService";
 import { toast } from "react-toastify";
 
 const PurchaseContext = createContext();
@@ -71,11 +75,14 @@ export function PurchaseProvider({ children }) {
 
   const updateItem = async (accessKey, payload) => {
     try {
+      await updatePurchase(accessKey, payload);
+
       dispatch({ type: "UPDATE_ITEM", accessKey, payload });
+
       toast.success("Compra Atualizada");
     } catch (err) {
       toast.error("Erro ao atualizar a compra");
-      console.error(err.message);
+      console.error("Erro ao atualizar a compra:", err);
     }
   };
 

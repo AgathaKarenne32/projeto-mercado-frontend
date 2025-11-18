@@ -23,7 +23,7 @@ const exampleData = {
       code: "74",
       quantity: 1.006,
       unit: "kg",
-      price: 21.99
+      price: 21.99,
     },
   ],
 };
@@ -33,18 +33,16 @@ export async function registerManualPurchase(data) {
 }
 
 export async function deletePurchase(accessKey) {
-  return api.delete(`/api/nfces/${accessKey}`,
-  )
+  return api.delete(`/api/nfces/${accessKey}`);
 }
 
 export async function getAll(page = 0, size = 1000) {
   return api.get("/api/nfces", {
     params: {
-
       page: page,
-      size: size
-    }
-  })
+      size: size,
+    },
+  });
 }
 
 export async function getAllMarkets() {
@@ -52,6 +50,9 @@ export async function getAllMarkets() {
 }
 
 export async function getAllCatalogByMarketId(marketId) {
-  return api.get(`/api/catalogo/${marketId}`)
+  return api.get(`/api/catalogo/${marketId}`);
 }
 
+export async function updatePurchase(accessKey, payload) {
+  return api.put(`/api/nfces/${accessKey}`, payload);
+}
