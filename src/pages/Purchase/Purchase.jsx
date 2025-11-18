@@ -65,7 +65,7 @@ const InnerPurchasePage = () => {
           className={styles.btnAddPurchase}
           onClick={toggleQRCodeAddModal}
         >
-          Adicionar Compra
+          Adicionar Compra via QRCode
         </button>
 
         <button
