@@ -5,19 +5,27 @@ import LocalActivityOutlinedIcon from "@mui/icons-material/LocalActivityOutlined
 import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
 
 import Modal from "../../components/ModalPurchase/Modal";
+import QRCodeAddModal from "../../components/ModalPurchase/QRCodeAddModal";
 import PurchaseListDesktop from "../../components/PurchaseList/Desktop";
 import PurchaseListMobile from "../../components/PurchaseList/Mobile";
 
 import StatCard from "../../components/StatCard";
 
 import styles from "./Purchase.module.css";
-import { PurchaseProvider } from "../../context/PurchaseContext/PurchaseContext";
+import { PurchaseProvider, usePurchase } from "../../context/PurchaseContext/PurchaseContext";
+import PurchaseCards from "./PurchaseCards";
 
 const Purchase = () => {
-  const [modal, setModal] = useState(false);
+  const [manualAddModal, setManualAddModal] = useState(false);
+  const [qrCodeAddModal, setQrCodeAddModal] = useState(false);
 
-  const toggleModal = () => {
-    setModal(!modal);
+
+  const toggleManualAddModal = () => {
+    setManualAddModal(!manualAddModal);
+  };
+
+  const toggleQRCodeAddModal = () => {
+    setQrCodeAddModal(!qrCodeAddModal);
   };
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
@@ -41,16 +49,24 @@ const Purchase = () => {
             <p className={styles.subtitle}>Controle todas as suas compras e gastos em um só lugar</p>
           </header>
 
-          <button className={styles.btnAddPurchase} onClick={toggleModal}>
+
+          <button className={styles.btnAddPurchase} onClick={toggleQRCodeAddModal}>
+            Adicionar Compra via QRCode
+          </button>
+
+          <button className={styles.btnAddPurchase} onClick={toggleManualAddModal}>
             Adicionar Compra
           </button>
 
-          {modal && <Modal toggleModal={toggleModal} />}
+          {manualAddModal && <Modal toggleModal={toggleManualAddModal} />}
+          {qrCodeAddModal && <QRCodeAddModal toggleModal={toggleQRCodeAddModal} />}
         </section>
 
-        <section className={styles.cards}>
+        <PurchaseCards/>
+        {/* <section className={styles.cards}>
           <div className={styles.statCardWrapper} style={{ backgroundColor: "#6B7280" }}>
-            <StatCard label="Total de Compras" value="1" className={styles.statCard} />
+            <StatCard label="Total de Compras" value={totalItems} className={styles.statCard} />
+            
             {!isMobile && <ShoppingCartOutlinedIcon className={styles.statCardIcon} />}
           </div>
 
@@ -68,7 +84,7 @@ const Purchase = () => {
             <StatCard label="Produto mais comprado" value="Arroz 5kg" className={styles.statCard} />
             {!isMobile && <ShoppingBasketOutlinedIcon className={styles.statCardIcon} />}
           </div>
-        </section>
+        </section> */}
 
         {isMobile ? <PurchaseListMobile /> : <PurchaseListDesktop />}
       </PurchaseProvider>

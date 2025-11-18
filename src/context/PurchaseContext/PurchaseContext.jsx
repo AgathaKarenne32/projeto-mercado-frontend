@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
+import { createContext, useContext, useReducer, useEffect, useState } from "react";
 import { initialState, purchaseReducer } from "./purchaseReducer";
 import { deletePurchase, getAll } from "../../services/nfceService";
 import { toast } from "react-toastify";
@@ -8,10 +8,19 @@ const PurchaseContext = createContext();
 export function PurchaseProvider({ children }) {
   const [state, dispatch] = useReducer(purchaseReducer, initialState);
 
+  const [totalItems, setTotalItems] = useState(0);
+
+  const [valorTotal, setValorTotal] = useState(0)
+  const [ticketMedio, setTicketMedio] = useState(0)
+
   const fetchData = async () => {
     try {
       getAll().then(res => {
         const result = res.data.data;
+        const totalItems = res.data.page.totalElements
+
+        setTotalItems(totalItems)
+
         dispatch({ type: "GET_ALL", payload: (result != null ? result : []) })
       })
     } catch (err) {
@@ -34,13 +43,23 @@ export function PurchaseProvider({ children }) {
 
   useEffect(() => {
     localStorage.setItem("purchases", JSON.stringify(state));
+    if (state != null && state.length > 0) {
+      const total = state.reduce((acc, item) => acc + Number(item.totalPrice || 0), 0);
+      const ticket = total / state.length;
+
+      setValorTotal(total.toFixed(2));
+      setTicketMedio(ticket.toFixed(2));
+    } else {
+      setValorTotal("0.00");
+      setTicketMedio("0.00");
+    }
   }, [state]);
 
   useEffect(() => {
     fetchData()
   }, [])
 
-  return <PurchaseContext.Provider value={{ state, dispatch, deleteItem }}>{children}</PurchaseContext.Provider>;
+  return <PurchaseContext.Provider value={{ state, dispatch, deleteItem, totalItems, valorTotal, ticketMedio }}>{children}</PurchaseContext.Provider>;
 }
 
 export function usePurchase() {

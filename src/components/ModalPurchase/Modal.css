@@ -71,6 +71,7 @@
 
 .modal-fieldset,
 .modal-fieldset-itens,
+.modal-fieldset-item-qrcode,
 .modal-fieldset-total {
     display: flex;
     flex-direction: column;
@@ -315,6 +316,17 @@ input:focus {
         justify-content: space-between;
     }
 
+    .modal-fieldset-item-qrcode {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+
+    .modal-fieldset-item-qrcode > .form-group{
+        width: 100%;
+    }
     .modal-fieldset-itens .form-group:nth-child(1) {
         width: 38%;
     }

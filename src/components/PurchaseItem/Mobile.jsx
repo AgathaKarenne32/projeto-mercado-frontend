@@ -20,7 +20,7 @@ function PurchaseItem({ id, date, market, items, total }) {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <p>{market}</p>
+        <p>{market.store}</p>
         <p>{formattedMoney}</p>
       </header>
 
