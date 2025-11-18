@@ -15,10 +15,33 @@ export function PurchaseProvider({ children }) {
   const [state, dispatch] = useReducer(purchaseReducer, initialState);
 
   const [totalItems, setTotalItems] = useState(0);
-
   const [valorTotal, setValorTotal] = useState(0);
   const [ticketMedio, setTicketMedio] = useState(0);
 
+  // ============================
+  // 🔥 SISTEMA DE MODAIS (COMPATÍVEL COM OS SEUS MODAIS)
+  // ============================
+  const [modal, setModal] = useState({
+    open: false,
+    mode: null, // "view" | "edit"
+    id: null,
+  });
+
+  function openModal(mode, id) {
+    setModal({ open: true, mode, id });
+  }
+
+  function closeModal() {
+    setModal({ open: false, mode: null, id: null });
+  }
+
+  function getById(id) {
+    return state.find((p) => p.accessKey === id);
+  }
+
+  // ============================
+  // 🔥 FUNÇÕES EXISTENTES
+  // ============================
   const fetchData = async () => {
     try {
       getAll().then((res) => {
@@ -56,6 +79,9 @@ export function PurchaseProvider({ children }) {
     }
   };
 
+  // ============================
+  // 🔥 CÁLCULOS AUXILIARES
+  // ============================
   useEffect(() => {
     localStorage.setItem("purchases", JSON.stringify(state));
     if (state != null && state.length > 0) {
@@ -87,6 +113,12 @@ export function PurchaseProvider({ children }) {
         totalItems,
         valorTotal,
         ticketMedio,
+
+        // 🔥 EXPOSTO PARA OS MODAIS
+        modal,
+        openModal,
+        closeModal,
+        getById,
       }}
     >
       {children}
@@ -94,7 +126,6 @@ export function PurchaseProvider({ children }) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export function usePurchase() {
   return useContext(PurchaseContext);
 }

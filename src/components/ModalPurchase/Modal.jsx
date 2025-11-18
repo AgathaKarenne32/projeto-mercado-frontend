@@ -3,7 +3,11 @@ import { v4 as uuidv4 } from "uuid";
 
 import { usePurchase } from "../../context/PurchaseContext/PurchaseContext";
 
-import { getAllCatalogByMarketId, getAllMarkets, registerManualPurchase } from "../../services/nfceService";
+import {
+  getAllCatalogByMarketId,
+  getAllMarkets,
+  registerManualPurchase,
+} from "../../services/nfceService";
 import { SelectItem } from "../modal/ModalSelectItem/SelectItem";
 import { toast } from "react-toastify";
 
@@ -14,10 +18,16 @@ const Modal = ({ toggleModal }) => {
   const { dispatch } = usePurchase();
 
   const today = new Date();
-  const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().split("T")[0];
+  const localDate = new Date(
+    today.getTime() - today.getTimezoneOffset() * 60000,
+  )
+    .toISOString()
+    .split("T")[0];
 
   const [date, setDate] = useState(localDate);
-  const [items, setItems] = useState([{ name: "", quantity: 1, price: "", total: "" }]);
+  const [items, setItems] = useState([
+    { name: "", quantity: 1, price: "", total: "" },
+  ]);
   const [market, setMarket] = useState("");
   const [purchaseTotal, setCompraTotal] = useState(0);
   const [isSendingRequest, setIsSendingRequest] = useState(false);
@@ -33,10 +43,13 @@ const Modal = ({ toggleModal }) => {
   };
 
   const verificaValor = (index, event) => {
-    let name, value, code , unit= null;
+    let name,
+      value,
+      code,
+      unit = null;
     if (event.type != null && event.type == "item-name") {
       if (event.preDefinedUnit == true) {
-          unit = event.unit
+        unit = event.unit;
       }
       name = event.name;
       value = event.value;
@@ -58,7 +71,8 @@ const Modal = ({ toggleModal }) => {
       newItems[index]["unit"] = unit;
     }
 
-    newItems[index]["preDefinedUnit"] = event.preDefinedUnit == true ? true : false
+    newItems[index]["preDefinedUnit"] =
+      event.preDefinedUnit == true ? true : false;
 
     const quantity = parseFloat(newItems[index].quantity);
     const price = parseFloat(newItems[index].price);
@@ -68,7 +82,6 @@ const Modal = ({ toggleModal }) => {
     } else {
       newItems[index].total = "";
     }
-
 
     setItems(newItems);
     calculaValorTotal(newItems);
@@ -96,26 +109,28 @@ const Modal = ({ toggleModal }) => {
       accessKey: "", //TODO adicionar chave de acesso aqui quando for consultar. Chave de acesso é o ID da compra,
       date: date,
       totalPrice: purchaseTotal,
-      products: items.map(i => {
+      products: items.map((i) => {
         if (i.unit == null) {
-          return {...i, unit: 'UN'}
+          return { ...i, unit: "UN" };
         }
 
         return i;
-      })
+      }),
     };
 
-
-    setIsSendingRequest(true)
-    registerManualPurchase(purchase).then(resp => {
-      toast.success("Compra registrada!!")
-      dispatch({ type: "ADD_PURCHASE", payload: resp.data.data});
-      toggleModal()
-    }).catch(err => {
-      toast.error("Não foi possível salvar a compra")
-    }).finally(() => {
-      setIsSendingRequest(false)
-    })
+    setIsSendingRequest(true);
+    registerManualPurchase(purchase)
+      .then((resp) => {
+        toast.success("Compra registrada!!");
+        dispatch({ type: "ADD_PURCHASE", payload: resp.data.data });
+        toggleModal();
+      })
+      .catch((err) => {
+        toast.error("Não foi possível salvar a compra");
+      })
+      .finally(() => {
+        setIsSendingRequest(false);
+      });
   };
 
   const [marketRequest, setMarketRequest] = useState([]);
@@ -124,74 +139,95 @@ const Modal = ({ toggleModal }) => {
 
   useEffect(() => {
     const marketsRequest = getAllMarkets()
-      .then(
-        resp => {
-          let listaMercadosFormatado =
-            resp.data.data.map(market => ({
-              id: market.id,
-              name: market.store,
-              cnpj: market.cnpj,
-              isManual: market.isManual,
-            }));
+      .then((resp) => {
+        let listaMercadosFormatado = resp.data.data.map((market) => ({
+          id: market.id,
+          name: market.store,
+          cnpj: market.cnpj,
+          isManual: market.isManual,
+        }));
 
-          setMarketRequest(
-            listaMercadosFormatado
-          )
-        }
-      ).catch(e => {
-        toast.error("Não foi possível pegar a lista de mercados cadastrados")
+        setMarketRequest(listaMercadosFormatado);
+      })
+      .catch((e) => {
+        toast.error("Não foi possível pegar a lista de mercados cadastrados");
       });
-
   }, []);
 
   useEffect(() => {
     if (selectedMarket != null && selectedMarket.id != null) {
-      getAllCatalogByMarketId(selectedMarket.id).then(
-        resp => {
+      getAllCatalogByMarketId(selectedMarket.id)
+        .then((resp) => {
           setCatalogList(resp.data.data);
-        }
-      ).catch(e => {
-        toast.error("Não foi possível pegar a lista de items do mercado cadastrado?")
-      })
+        })
+        .catch((e) => {
+          toast.error(
+            "Não foi possível pegar a lista de items do mercado cadastrado?",
+          );
+        });
     } else {
-      setCatalogList(null)
+      setCatalogList(null);
     }
-  }, [selectedMarket])
-
+  }, [selectedMarket]);
 
   return (
     <section className="modal-container" role="dialog" aria-modal="true">
       <form className="modal-form">
-        <button type="button" className="modal-close" onClick={toggleModal} aria-label="Fechar modal">
+        <button
+          type="button"
+          className="modal-close"
+          onClick={toggleModal}
+          aria-label="Fechar modal"
+        >
           ×
         </button>
 
         <header className="modal-header">
           <h2 className="modal-title">Adicionar Nova Compra</h2>
-          <p className="modal-description">Registre os detalhes da sua compra incluindo local, itens e valores</p>
+          <p className="modal-description">
+            Registre os detalhes da sua compra incluindo local, itens e valores
+          </p>
         </header>
 
         <fieldset className="modal-fieldset">
           <div className="form-group">
             <label htmlFor="purchase-date">Data da Compra</label>
-            <input id="purchase-date" type="date" value={date} disabled={isSendingRequest} onChange={(e) => setDate(e.target.value)} />
-            <span className="form-hint">Selecione quando a compra foi realizada</span>
+            <input
+              id="purchase-date"
+              type="date"
+              value={date}
+              disabled={isSendingRequest}
+              onChange={(e) => setDate(e.target.value)}
+            />
+            <span className="form-hint">
+              Selecione quando a compra foi realizada
+            </span>
           </div>
 
           <div className="form-group">
             <label htmlFor="market-name">Mercado</label>
-            <SelectMarket id="market-name" className="market-select" classNamePrefix={"select"} disabled={isSendingRequest}
-              options={
-                marketRequest.map(market => ({ value: market.id, label: market.name, cnpj: market.cnpj }))
-              }
+            <SelectMarket
+              id="market-name"
+              className="market-select"
+              classNamePrefix={"select"}
+              disabled={isSendingRequest}
+              options={marketRequest.map((market) => ({
+                value: market.id,
+                label: market.name,
+                cnpj: market.cnpj,
+              }))}
               onChange={setSelectedMarket}
             />
-
           </div>
         </fieldset>
 
         <div className="add-item-container">
-          <button type="button" className="btn-add-item" onClick={addItem} disabled={isSendingRequest}>
+          <button
+            type="button"
+            className="btn-add-item"
+            onClick={addItem}
+            disabled={isSendingRequest}
+          >
             <i className="fas fa-plus"></i> Adicionar Item
           </button>
         </div>
@@ -202,7 +238,8 @@ const Modal = ({ toggleModal }) => {
               <div className="modal-fieldset-itens">
                 <div className="form-group">
                   <label>Nome do item</label>
-                  <SelectItem name={"name"}
+                  <SelectItem
+                    name={"name"}
                     catalogList={catalogList}
                     disabled={isSendingRequest}
                     onChangeData={(e) => verificaValor(index, e)}
@@ -224,11 +261,18 @@ const Modal = ({ toggleModal }) => {
 
                 <div className="form-group">
                   <label>Medida</label>
-                  <select className="select-unidade-medida" name="unit" disabled={item.preDefinedUnit} value={item.unit} onChange={(e) => verificaValor(index, e)}>
-                    <option value={"UN"} default>Unidade</option>
+                  <select
+                    className="select-unidade-medida"
+                    name="unit"
+                    disabled={item.preDefinedUnit}
+                    value={item.unit}
+                    onChange={(e) => verificaValor(index, e)}
+                  >
+                    <option value={"UN"} default>
+                      Unidade
+                    </option>
                     <option value={"KG"}>Kg</option>
                   </select>
-
                 </div>
 
                 <div className="form-group">
@@ -252,18 +296,30 @@ const Modal = ({ toggleModal }) => {
                     <label>Total do item</label>
                     <div className="item-price item-total">
                       <span>R$</span>
-                      <input type="number" step="0.01" min="0" value={item.total} readOnly disabled />
+                      <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={item.total}
+                        readOnly
+                        disabled
+                      />
                     </div>
                   </div>
                   {items.length > 1 && (
-                    <button type="button" className="btn-remove-item" onClick={() => removeItem(index)} disabled={isSendingRequest}>
+                    <button
+                      type="button"
+                      className="btn-remove-item"
+                      onClick={() => removeItem(index)}
+                      disabled={isSendingRequest}
+                    >
                       <i className="fas fa-trash"></i>
                     </button>
                   )}
                 </div>
               </div>
               {items.length > 1 && (
-              <div className="progress-item-separator" ></div>
+                <div className="progress-item-separator"></div>
               )}
             </fieldset>
           ))}
@@ -278,18 +334,28 @@ const Modal = ({ toggleModal }) => {
         </fieldset>
 
         <footer className="form-actions">
-          <button type="button" className="btn btn-cancel" onClick={toggleModal} disabled={isSendingRequest}>
+          <button
+            type="button"
+            className="btn btn-cancel"
+            onClick={toggleModal}
+            disabled={isSendingRequest}
+          >
             Cancelar
           </button>
-          <button type="submit" className="btn btn-save" onClick={handleSubmit} disabled={isSendingRequest}>
-            {isSendingRequest ?
-              (
-                <>
-                  <i class="fa-solid fa-spinner fa-spin"></i> <span>Salvando</span>
-                </>
-              ) : ("Salvar compra")
-            }
-
+          <button
+            type="submit"
+            className="btn btn-save"
+            onClick={handleSubmit}
+            disabled={isSendingRequest}
+          >
+            {isSendingRequest ? (
+              <>
+                <i className="fa-solid fa-spinner fa-spin"></i>{" "}
+                <span>Salvando</span>
+              </>
+            ) : (
+              "Salvar compra"
+            )}
           </button>
         </footer>
       </form>

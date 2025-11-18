@@ -3,6 +3,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import LocalActivityOutlinedIcon from "@mui/icons-material/LocalActivityOutlined";
 import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
+
 import ViewPurchaseModal from "../../components/Purchase/ViewPurchaseModal/ViewPurchaseModal";
 import EditPurchaseModal from "../../components/Purchase/EditPurchaseModal/EditPurchaseModal";
 
@@ -12,137 +13,84 @@ import PurchaseListDesktop from "../../components/PurchaseList/Desktop";
 import PurchaseListMobile from "../../components/PurchaseList/Mobile";
 
 import StatCard from "../../components/StatCard";
-
 import styles from "./Purchase.module.css";
-import { PurchaseProvider, usePurchase } from "../../context/PurchaseContext/PurchaseContext";
+
+import {
+  PurchaseProvider,
+  usePurchase,
+} from "../../context/PurchaseContext/PurchaseContext";
 import PurchaseCards from "./PurchaseCards";
 
 const Purchase = () => {
+  return (
+    <main className={styles.container}>
+      <PurchaseProvider>
+        <InnerPurchasePage />
+      </PurchaseProvider>
+    </main>
+  );
+};
+
+const InnerPurchasePage = () => {
   const [manualAddModal, setManualAddModal] = useState(false);
   const [qrCodeAddModal, setQrCodeAddModal] = useState(false);
 
-
-  const toggleManualAddModal = () => {
-    setManualAddModal(!manualAddModal);
-  };
-
-  const toggleQRCodeAddModal = () => {
-    setQrCodeAddModal(!qrCodeAddModal);
-  };
+  const toggleManualAddModal = () => setManualAddModal(!manualAddModal);
+  const toggleQRCodeAddModal = () => setQrCodeAddModal(!qrCodeAddModal);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
+
+  const { modalType, modalId, closeModal } = usePurchase();
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 769);
     };
 
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 769);
-        };
+  return (
+    <>
+      <section className={styles.intro}>
+        <header className={styles.header}>
+          <h1 className={styles.title}>Gestão de Compras</h1>
+          <p className={styles.subtitle}>
+            Controle todas as suas compras e gastos em um só lugar
+          </p>
+        </header>
 
-        window.addEventListener("resize", handleResize);
+        <button
+          className={styles.btnAddPurchase}
+          onClick={toggleManualAddModal}
+        >
+          Adicionar Compra
+        </button>
 
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
+        {manualAddModal && <Modal toggleModal={toggleManualAddModal} />}
+        {qrCodeAddModal && (
+          <QRCodeAddModal toggleModal={toggleQRCodeAddModal} />
+        )}
+      </section>
 
-    return (
-        <main className={styles.container}>
-            <PurchaseProvider>
-                <section className={styles.intro}>
-                    <header className={styles.header}>
-                        <h1 className={styles.title}>Gestão de Compras</h1>
-                        <p className={styles.subtitle}>
-                            Controle todas as suas compras e gastos em um só
-                            lugar
-                        </p>
-                    </header>
+      <PurchaseCards isMobile={isMobile} />
 
-                    <button
-                        className={styles.btnAddPurchase}
-                        onClick={toggleModal}
-                    >
-                        Adicionar Compra
-                    </button>
+      {isMobile ? <PurchaseListMobile /> : <PurchaseListDesktop />}
 
-                    {modal && <Modal toggleModal={toggleModal} />}
-                </section>
+      <ViewPurchaseModal
+        open={modalType === "view"}
+        id={modalId}
+        onClose={closeModal}
+      />
 
-                <section className={styles.cards}>
-                    <div
-                        className={styles.statCardWrapper}
-                        style={{ backgroundColor: "#6B7280" }}
-                    >
-                        <StatCard
-                            label="Total de Compras"
-                            value="1"
-                            className={styles.statCard}
-                        />
-                        {!isMobile && (
-                            <ShoppingCartOutlinedIcon
-                                className={styles.statCardIcon}
-                            />
-                        )}
-                    </div>
-
-                    <div
-                        className={styles.statCardWrapper}
-                        style={{ backgroundColor: "#A239FE" }}
-                    >
-                        <StatCard
-                            label="Valor Total"
-                            value="R$ 49,40"
-                            className={styles.statCard}
-                        />
-                        {!isMobile && (
-                            <PaymentsOutlinedIcon
-                                className={styles.statCardIcon}
-                            />
-                        )}
-                    </div>
-
-                    <div
-                        className={styles.statCardWrapper}
-                        style={{ backgroundColor: "#2196F3" }}
-                    >
-                        <StatCard
-                            label="Ticket Médio"
-                            value="R$ 49,40"
-                            className={styles.statCard}
-                        />
-                        {!isMobile && (
-                            <LocalActivityOutlinedIcon
-                                className={styles.statCardIcon}
-                            />
-                        )}
-                    </div>
-
-                    <div
-                        className={`${styles.statCardWrapper} ${styles.lastStatCard}`}
-                        style={{ backgroundColor: "#E74C3C" }}
-                    >
-                        <StatCard
-                            label="Produto mais comprado"
-                            value="Arroz 5kg"
-                            className={styles.statCard}
-                        />
-                        {!isMobile && (
-                            <ShoppingBasketOutlinedIcon
-                                className={styles.statCardIcon}
-                            />
-                        )}
-                    </div>
-                </section>
-
-                {isMobile ? <PurchaseListMobile /> : <PurchaseListDesktop />}
-                <ViewPurchaseModal />
-                <EditPurchaseModal />
-            </PurchaseProvider>
-        </main>
-    );
+      <EditPurchaseModal
+        open={modalType === "edit"}
+        id={modalId}
+        onClose={closeModal}
+      />
+    </>
+  );
 };
 
 export default Purchase;

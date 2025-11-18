@@ -1,4 +1,3 @@
-
 import React from "react";
 import { usePurchase } from "../../../context/PurchaseContext/PurchaseContext";
 import Modal from "../../../modal/Modal";
@@ -57,7 +56,7 @@ export default function EditPurchaseModal() {
         }
 
         return { ...product, [field]: value };
-      })
+      }),
     );
   };
 
@@ -67,7 +66,7 @@ export default function EditPurchaseModal() {
     await updateItem(p.accessKey, {
       date: form.date,
       supermarket: { ...(p.supermarket ?? {}), store: form.supermarket },
-      totalPrice: form.totalPrice,
+      totalPrice: itemsTotal,
       products: productsForm,
     });
 
@@ -85,9 +84,7 @@ export default function EditPurchaseModal() {
           <h3>Itens da compra</h3>
 
           {productsForm.length === 0 && (
-            <p className={styles.emptyItems}>
-              Nenhum item cadastrado.
-            </p>
+            <p className={styles.emptyItems}>Nenhum item cadastrado.</p>
           )}
 
           {productsForm.length > 0 && (
@@ -104,10 +101,7 @@ export default function EditPurchaseModal() {
               <tbody>
                 {productsForm.map((product, index) => {
                   const quantity = product.quantity ?? 1;
-                  const unitPrice =
-                    product.unitPrice ??
-                    product.price ??
-                    0;
+                  const unitPrice = product.unitPrice ?? product.price ?? 0;
                   const subtotal = quantity * unitPrice;
 
                   return (
@@ -115,13 +109,10 @@ export default function EditPurchaseModal() {
                       <td>
                         <input
                           type="text"
+                          disabled={true}
                           value={product.name ?? ""}
                           onChange={(e) =>
-                            onChangeProduct(
-                              index,
-                              "name",
-                              e.target.value
-                            )
+                            onChangeProduct(index, "name", e.target.value)
                           }
                         />
                       </td>
@@ -132,11 +123,7 @@ export default function EditPurchaseModal() {
                           step="0.1"
                           value={quantity}
                           onChange={(e) =>
-                            onChangeProduct(
-                              index,
-                              "quantity",
-                              e.target.value
-                            )
+                            onChangeProduct(index, "quantity", e.target.value)
                           }
                         />
                       </td>
@@ -146,14 +133,9 @@ export default function EditPurchaseModal() {
                           disabled={true}
                           value={product.unit ?? ""}
                           onChange={(e) =>
-                            onChangeProduct(
-                              index,
-                              "medida",
-                              e.target.value
-                            )
+                            onChangeProduct(index, "medida", e.target.value)
                           }
                         />
-
                       </td>
                       <td>
                         <input
@@ -161,11 +143,7 @@ export default function EditPurchaseModal() {
                           step="0.01"
                           value={unitPrice}
                           onChange={(e) =>
-                            onChangeProduct(
-                              index,
-                              "unitPrice",
-                              e.target.value
-                            )
+                            onChangeProduct(index, "unitPrice", e.target.value)
                           }
                         />
                       </td>
@@ -178,16 +156,11 @@ export default function EditPurchaseModal() {
               {showItemsTotal && (
                 <tfoot>
                   <tr>
-                    <td
-                      colSpan={3}
-                      style={{ textAlign: "right" }}
-                    >
+                    <td colSpan={3} style={{ textAlign: "right" }}>
                       <strong>Total itens:</strong>
                     </td>
                     <td>
-                      <strong>
-                        {formatMoney(itemsTotal)}
-                      </strong>
+                      <strong>{formatMoney(itemsTotal)}</strong>
                     </td>
                   </tr>
                 </tfoot>
@@ -215,7 +188,6 @@ export default function EditPurchaseModal() {
           </button>
         </footer>
       </form>
-    </Modal >
+    </Modal>
   );
 }
-
