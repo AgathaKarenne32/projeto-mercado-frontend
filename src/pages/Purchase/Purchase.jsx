@@ -63,6 +63,13 @@ const InnerPurchasePage = () => {
 
         <button
           className={styles.btnAddPurchase}
+          onClick={toggleQRCodeAddModal}
+        >
+          Adicionar Compra
+        </button>
+
+        <button
+          className={styles.btnAddPurchase}
           onClick={toggleManualAddModal}
         >
           Adicionar Compra
