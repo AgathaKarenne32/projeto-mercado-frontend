@@ -4,6 +4,12 @@ export const initialState = [];
 
 export function purchaseReducer(state, action) {
   switch (action.type) {
+    case "UPDATE_ITEM": {
+      const { accessKey, payload } = action;
+      return state.map((p) =>
+        String(p.accessKey) === String(accessKey) ? { ...p, ...payload } : p
+      );
+    }
     case "ADD_PURCHASE":
 
       return [action.payload, ...state];
