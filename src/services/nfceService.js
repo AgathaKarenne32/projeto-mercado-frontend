@@ -29,20 +29,26 @@ const exampleData = {
 };
 
 export async function registerManualPurchase(data) {
-  return api.post("/api/nfces/", data);
+  return api.post("/api/nfces", data);
 }
 
 export async function deletePurchase(accessKey) {
-  return api.delete(`/api/nfces/${accessKey}`, 
+  return api.delete(`/api/nfces/${accessKey}`,
   )
 }
 
-export async function getAll() {
-  return api.get("/api/nfces/")
+export async function getAll(page = 0, size = 1000) {
+  return api.get("/api/nfces", {
+    params: {
+
+      page: page,
+      size: size
+    }
+  })
 }
 
 export async function getAllMarkets() {
-  return api.get("/api/supermarkets/");
+  return api.get("/api/supermarkets");
 }
 
 export async function getAllCatalogByMarketId(marketId) {

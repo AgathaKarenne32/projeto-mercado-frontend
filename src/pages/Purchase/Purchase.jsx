@@ -7,20 +7,34 @@ import ViewPurchaseModal from "../../components/Purchase/ViewPurchaseModal/ViewP
 import EditPurchaseModal from "../../components/Purchase/EditPurchaseModal/EditPurchaseModal";
 
 import Modal from "../../components/ModalPurchase/Modal";
+import QRCodeAddModal from "../../components/ModalPurchase/QRCodeAddModal";
 import PurchaseListDesktop from "../../components/PurchaseList/Desktop";
 import PurchaseListMobile from "../../components/PurchaseList/Mobile";
 
 import StatCard from "../../components/StatCard";
 
 import styles from "./Purchase.module.css";
-import { PurchaseProvider } from "../../context/PurchaseContext/PurchaseContext";
-// import { PurchaseProvider } from "@/context/PurchaseContext/PurchaseContext";
+import { PurchaseProvider, usePurchase } from "../../context/PurchaseContext/PurchaseContext";
+import PurchaseCards from "./PurchaseCards";
 
 const Purchase = () => {
-    const [modal, setModal] = useState(false);
+  const [manualAddModal, setManualAddModal] = useState(false);
+  const [qrCodeAddModal, setQrCodeAddModal] = useState(false);
 
-    const toggleModal = () => {
-        setModal(!modal);
+
+  const toggleManualAddModal = () => {
+    setManualAddModal(!manualAddModal);
+  };
+
+  const toggleQRCodeAddModal = () => {
+    setQrCodeAddModal(!qrCodeAddModal);
+  };
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 769);
     };
 
     const [isMobile, setIsMobile] = useState(window.innerWidth < 769);

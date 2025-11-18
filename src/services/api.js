@@ -1,14 +1,15 @@
 import axios from "axios";
 
 
+const host = window.location.hostname;
 export const api = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: `http://${host}:8080`,
     headers: { "Content-Type": "application/json" },
 });
 
 
 const refreshApi = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: `http://${host}:8080`,
     headers: { "Content-Type": "application/json" },
 });
 

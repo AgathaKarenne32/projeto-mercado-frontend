@@ -1,14 +1,12 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import App from "../App";
-import Login from "../pages/Login";
-import SignUp from "../pages/Signup";
+import Login from "../pages/Login/Login";
+import SignUp from "../Signup/Signup";
 import Profile from "../pages/Profile/Profile";
 import Purchase from "../pages/Purchase/Purchase";
 import Drafts from "../pages/Drafts/Drafts";
 import Reports from "../pages/Reports";
-import ForgotPassword from "../pages/ForgotPassword";
-import VerifyCode from "../pages/VerifyCode";
-import NewPassword from "../pages/NewPassword";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import Dashboard from "../pages/Dashboard/dashboard";
 import MyReports from "../pages/MyReport";
 import GoogleAuth from "../pages/GoogleAuth";
@@ -35,11 +33,11 @@ const AppRoutes = () => (
     <Route path="/login" element={<LoginRedirect />} />
     <Route path="/signup" element={<SignUp />} />
     <Route path="/forgot-password" element={<ForgotPassword />} />
-    <Route path="/verify-code" element={<VerifyCode />} />
-    <Route path="/reset-password" element={<NewPassword />} />
     <Route path="/auth/callback" element={<GoogleAuth />} />
-    <Route path="/auth/confirm-registration" element={<ConfirmRegistration />} />
-
+    <Route
+      path="/auth/confirm-registration"
+      element={<ConfirmRegistration />}
+    />
 
     <Route element={<PrivateRoute />}>
       <Route element={<App />}>
