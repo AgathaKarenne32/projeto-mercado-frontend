@@ -36,6 +36,8 @@
     display: grid;
     gap: 0.6rem;
     animation: appear 0.15s ease-out;
+    max-height: 65vh;
+    overflow-y: auto;
 }
 
 @keyframes appear {
