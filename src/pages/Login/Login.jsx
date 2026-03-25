@@ -17,11 +17,11 @@ const Login = () => {
   const { login } = useAuth();
 
   const handleLoginGoogle = () => {
+    const backendUrl = "https://projeto-mercado-backend.onrender.com/oauth2/authorize/google";
+
     const redirectUri = "https://projeto-mercado-frontend.onrender.com/auth/callback";
 
-    const googleUrl = `https://projeto-mercado-backend.onrender.com/oauth2/authorize/google?redirect_uri=${encodeURIComponent(redirectUri)}`;
-
-    window.location.href = googleUrl;
+    window.location.href = `${backendUrl}?redirect_uri=${encodeURIComponent(redirectUri)}`;
   };
 
   const handleLogin = async (userData) => {
