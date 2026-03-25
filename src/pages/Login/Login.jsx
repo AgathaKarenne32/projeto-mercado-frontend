@@ -17,13 +17,15 @@ const Login = () => {
   const { login } = useAuth();
 
   const handleLoginGoogle = () => {
-  const redirectUri = "https://projeto-mercado-frontend.onrender.com/auth/callback"; 
-  const googleUrl = `https://projeto-mercado-backend.onrender.com/oauth2/authorize/google?redirect_uri=${encodeURIComponent(
-    redirectUri
-  )}`;
-  
-  window.location.href = googleUrl;
-};
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    const redirectUri = "https://projeto-mercado-frontend.onrender.com/auth/callback";
+
+    const googleUrl = `https://projeto-mercado-backend.onrender.com/oauth2/authorize/google?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&response_type=code&scope=openid%20profile%20email`;
+
+    window.location.href = googleUrl;
+  };
 
   const handleLogin = async (userData) => {
     try {
