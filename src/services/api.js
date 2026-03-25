@@ -7,7 +7,7 @@ export const api = axios.create({
 });
 
 const refreshApi = axios.create({
-  baseURL: `http://localhost:8080`,
+  baseURL: `https://projeto-mercado-backend.onrender.com`,
   headers: { "Content-Type": "application/json" },
 });
 

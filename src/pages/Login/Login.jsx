@@ -17,12 +17,13 @@ const Login = () => {
   const { login } = useAuth();
 
   const handleLoginGoogle = () => {
-    const redirectUri = "http://localhost:5173/auth/callback"; 
-    const googleUrl = `http://localhost:8080/oauth2/authorize/google?redirect_uri=${encodeURIComponent(
-      redirectUri
-    )}`;
-    window.location.href = googleUrl;
-  };
+  const redirectUri = "https://projeto-mercado-frontend.onrender.com/auth/callback"; 
+  const googleUrl = `https://projeto-mercado-backend.onrender.com/oauth2/authorize/google?redirect_uri=${encodeURIComponent(
+    redirectUri
+  )}`;
+  
+  window.location.href = googleUrl;
+};
 
   const handleLogin = async (userData) => {
     try {
