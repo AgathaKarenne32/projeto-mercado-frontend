@@ -17,7 +17,7 @@ const Login = () => {
   const { login } = useAuth();
 
   const handleLoginGoogle = () => {
-    const redirectUri = "http://localhost:5173/auth/callback";
+    const redirectUri = "http://localhost:5173/auth/callback"; 
     const googleUrl = `http://localhost:8080/oauth2/authorize/google?redirect_uri=${encodeURIComponent(
       redirectUri
     )}`;
@@ -132,9 +132,8 @@ const Login = () => {
               <button
                 type="submit"
                 id="login-button"
-                className={`${styles.mainButton} ${
-                  isSubmitting ? styles.loading : ""
-                }`}
+                className={`${styles.mainButton} ${isSubmitting ? styles.loading : ""
+                  }`}
                 disabled={isSubmitting}
               >
                 <i className="fas fa-sign-in-alt"></i>

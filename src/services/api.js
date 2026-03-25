@@ -2,7 +2,7 @@ import axios from "axios";
 
 const host = window.location.hostname;
 export const api = axios.create({
-  baseURL: `http://localhost:8080`,
+  baseURL: `https://projeto-mercado-backend.onrender.com`,
   headers: { "Content-Type": "application/json" },
 });
 
