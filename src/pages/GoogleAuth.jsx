@@ -24,29 +24,32 @@ const GoogleAuth = () => {
       login({ accessToken, refreshToken, user: { username, email } });
       return;
     }
-    try {
+    useEffect(() => {
+      const accessToken = searchParams.get("accessToken");
+      const refreshToken = searchParams.get("refreshToken");
       const userParam = searchParams.get("user");
-      if (accessToken && refreshToken && userParam) {
-        const cleanJson = userParam
-          .replace(/^{|}$/g, "")
-          .replace(/([a-zA-Z0-9_]+)=/g, '"$1":')
-          .replace(/'/g, '"');
 
-        const userData = JSON.parse(`{${cleanJson}}`);
+      if (accessToken && refreshToken) {
+        try {
+          let userObj = null;
+          if (userParam) {
+            const cleanJson = userParam
+              .replace(/^{|}$/g, "")
+              .replace(/([a-zA-Z0-9_]+)=/g, '"$1":')
+              .replace(/'/g, '"');
+            userObj = JSON.parse(`{${cleanJson}}`);
+          }
 
-        login({
-          accessToken,
-          refreshToken,
-          user: userData
-        });
-        return;
+          login({ accessToken, refreshToken, user: userObj });
+        } catch (e) {
+          console.error("Erro no parse do usuário, logando apenas com tokens:", e);
+          login({ accessToken, refreshToken, user: null });
+        }
+      } else {
+        navigate("/login");
       }
-    } catch (e) {
-      console.error("Erro ao processar dados do Google:", e);
-      login({ accessToken, refreshToken, user: null });
-    }
-    navigate("/login");
-  }, [searchParams]);
+    }, [searchParams, login, navigate]);
+  }, [searchParams, login, navigate]);
 
   return <p>Processando login via Google...</p>;
 };
