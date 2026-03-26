@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import "./userMenu.css";
 
 function initialsFromName(name) {
-  return (name || "U")
+  if (!name || typeof name !== 'string') return "U";
+  return name
     .trim()
     .split(/\s+/)
     .slice(0, 2)
@@ -16,7 +17,7 @@ export default function UserMenu({ user, onSignOut }) {
   const btnRef = useRef(null);
   const menuRef = useRef(null);
 
-  const initials = useMemo(() => initialsFromName(user?.username), [user?.username]);
+  const initials = useMemo(() => initialsFromName(user?.username || user?.name), [user]);
 
   useEffect(() => {
     function onDocClick(e) {
@@ -58,7 +59,9 @@ export default function UserMenu({ user, onSignOut }) {
         <span className="avatar-sm" aria-hidden>
           {initials}
         </span>
-        <span className="user-short">{user?.username?.split(" ")[0]}</span>
+        <span className="user-short">
+          {(user?.username || user?.name || "Usuário").split(" ")[0]}
+        </span>
         <svg
           className={`chev ${open ? "rot" : ""}`}
           width="16"
@@ -82,7 +85,7 @@ export default function UserMenu({ user, onSignOut }) {
               {initials}
             </span>
             <div className="ud-ident">
-              <strong className="ud-name">{user?.username}</strong>
+              <strong className="ud-name">{user?.username || user?.name}</strong>
               <span className="ud-email">{user?.email}</span>
             </div>
           </div>
@@ -107,7 +110,7 @@ export default function UserMenu({ user, onSignOut }) {
               onSignOut?.();
             }}
           >
-            <span className="fas fa-sign-out" aria-hidden></span>
+            <span className="fas fa-sign-out-alt" aria-hidden></span>
             <span>Sair</span>
           </button>
         </div>

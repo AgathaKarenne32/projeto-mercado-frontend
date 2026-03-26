@@ -1,8 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from "../../contexts/AuthContext";
+import UserMenu from "../userMenu/userMenu";
 import './Header.css';
 
 const Header = () => {
+    const { authData, logout } = useAuth();
+
     return (
         <header className="header">
             <div className="logo-section">
@@ -41,10 +45,12 @@ const Header = () => {
                 </ul>
             </nav>
 
-            <button className="login-button">
-                <i className="fas fa-sign-out-alt"></i>
-                Logout
-            </button>
+            <div className="header-actions">
+                <UserMenu
+                    user={authData?.user}
+                    onSignOut={logout}
+                />
+            </div>
         </header>
     );
 };
