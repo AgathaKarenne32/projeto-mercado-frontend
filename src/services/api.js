@@ -37,18 +37,23 @@ api.interceptors.request.use(
 
 
 api.interceptors.response.use(
+
   (response) => response,
   async (error) => {
     const original = error.config;
     const status = error.response?.status;
 
-    if (
+
+    if (status === 401 && original.url.includes("/auth/login")) {
+      isRedirecting = false;
+    }
+    /*if (
       status !== 401 ||
       original.url.includes("/auth/refresh-token") ||
       original.url.includes("/auth/login")
     ) {
       return Promise.reject(error);
-    }
+    }*/
 
     if (status === 401 && !original._retry) {
       original._retry = true;
