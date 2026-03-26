@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
+const STORAGE_KEY = "@ComprasFacil:authData";
 
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
@@ -9,42 +10,32 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
-    const user = localStorage.getItem("user");
-
-    if (accessToken && refreshToken) {
-      setAuthData({
-        accessToken,
-        refreshToken,
-        user: user ? JSON.parse(user) : null,
-      });
+    // Tenta recuperar os dados consolidados
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      try {
+        setAuthData(JSON.parse(stored));
+      } catch (e) {
+        localStorage.removeItem(STORAGE_KEY);
+      }
     }
     setLoading(false);
   }, []);
 
   const login = (data, redirect = true) => {
-    let accessToken, refreshToken, user;
+    const accessToken = data.accessToken || data.token;
+    const refreshToken = data.refreshToken || data.refreshTokenId;
+    const user = data.user || null;
 
-    if (data.accessToken && data.refreshToken) {
-      accessToken = data.accessToken;
-      refreshToken = data.refreshToken;
-      user = data.user || null;
-    } else if (data.token && data.refreshTokenId) {
-      accessToken = data.token;
-      refreshToken = data.refreshTokenId;
-      user = null;
-    } else {
-      console.error("Formato de resposta inesperado no login:", data);
+    if (!accessToken) {
+      console.error("Erro: Token não encontrado na resposta do servidor.");
       return;
     }
 
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
-    if (user) localStorage.setItem("user", JSON.stringify(user));
-    else localStorage.removeItem("user");
+    const sessionData = { accessToken, refreshToken, user };
 
-    setAuthData({ accessToken, refreshToken, user });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
+    setAuthData(sessionData);
 
     if (redirect) {
       navigate("/dashboard", { replace: true });
@@ -52,16 +43,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("user");
+    localStorage.removeItem(STORAGE_KEY);
     setAuthData(null);
     navigate("/login", { replace: true });
   };
 
   return (
     <AuthContext.Provider value={{ authData, login, logout, loading }}>
-      {children}
+      {!loading && children}
     </AuthContext.Provider>
   );
 };
